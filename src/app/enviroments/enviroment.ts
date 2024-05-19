@@ -1,23 +1,7 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api.partibremen.student.28apps-software.de',
+  apiBaseUrl: 'http://localhost:3000',
   endpoints: {
-    user: {
-      login: '/user/login',
-      logout: '/user/logout',
-      findAll: '/user',
-      findById: '/user',
-      create: '/user',
-      update: '/user',
-      delete: '/user',
-    },
-    appointment: {
-      getAll: '/appointment/appointments',
-      getById: '/appointment/getById',
-      create: '/appointment/create',
-      update: '/appointment/update',
-      delete: '/appointment/delete',
-    },
     employee: {
       getAll: '/employee/employees',
       signup: '/employee/signup',
@@ -33,6 +17,14 @@ export const environment = {
       getAll: '/patient/patients',
       delete: '/patient/delete',
       update: '/patient/update',
+    },
+
+    appointment: {
+      getAll: '/appointment/appointments',
+      getById: '/appointment/getById',
+      create: '/appointment/create',
+      update: '/appointment/update',
+      delete: '/appointment/delete',
     },
     reservation: {
       getAll: '/reservation/reservations',
