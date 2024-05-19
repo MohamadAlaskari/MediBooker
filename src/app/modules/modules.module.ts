@@ -4,16 +4,14 @@ import { AuthModule } from './auth/auth.module';
 import { HomeModule } from './home/home.module';
 import { AddAppointmentModule } from './add-appointment/add-appointment.module';
 
-
-
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     AuthModule,
     HomeModule,
-    AddAppointmentModule
+    AddAppointmentModule,
+    AddAppointmentModule,
   ],
-  
 })
-export class ModulesModule { }
+export class ModulesModule {}

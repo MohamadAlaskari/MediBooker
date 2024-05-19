@@ -9,10 +9,19 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { ModulesModule } from './modules/modules.module';
 import { SharedModule } from './shared/shared.module';
+import { HomeModule } from './modules/home/home.module';
+import { AppoitmentsComponent } from './modules/appoitments/components/appoitments/appoitments.component';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, CoreModule, AppRoutingModule, ModulesModule, SharedModule],
+  imports: [
+    CoreModule,
+    AppRoutingModule,
+    ModulesModule,
+    SharedModule,
+
+    BrowserModule,
+  ],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],
 })

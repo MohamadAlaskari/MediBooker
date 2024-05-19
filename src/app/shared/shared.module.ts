@@ -4,16 +4,9 @@ import { MainHeaderComponent } from './components/main-header/main-header.compon
 import { FooterComponent } from './components/footer/footer.component';
 import { BannerComponent } from './components/banner/banner.component';
 
-
-
 @NgModule({
-  declarations: [
-    MainHeaderComponent,
-    FooterComponent,
-    BannerComponent
-  ],
-  imports: [
-    CommonModule
-  ]
+  declarations: [MainHeaderComponent, FooterComponent, BannerComponent],
+  imports: [CommonModule],
+  exports: [BannerComponent, MainHeaderComponent, FooterComponent],
 })
-export class SharedModule { }
+export class SharedModule {}
