@@ -4,18 +4,15 @@ import { HomeComponent } from './components/home/home.component';
 import { OurServicesComponent } from './components/our-services/our-services.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
-
-
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
     HomeComponent,
     OurServicesComponent,
     AboutUsComponent,
-    ContactUsComponent
+    ContactUsComponent,
   ],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule, SharedModule],
 })
-export class HomeModule { }
+export class HomeModule {}

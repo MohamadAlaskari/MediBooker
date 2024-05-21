@@ -2,13 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthModule } from './auth/auth.module';
 import { HomeModule } from './home/home.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    AuthModule,
-    HomeModule,
-  ],
+  imports: [CommonModule, AuthModule, HomeModule, SharedModule],
 })
 export class ModulesModule {}
