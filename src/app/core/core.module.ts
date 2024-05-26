@@ -7,7 +7,7 @@ import {
   provideHttpClient,
   withFetch,
 } from '@angular/common/http';
-import { AuthInterceptor } from './services/interceptors/auth.service';
+import { AuthInterceptor } from './services/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [],

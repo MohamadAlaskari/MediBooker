@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpInterceptor,
   HttpRequest,
   HttpHandler,
   HttpEvent,
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../enviroments/enviroment';
@@ -16,7 +16,6 @@ export class AuthInterceptor implements HttpInterceptor {
     this.whitelistEndpoints.patient.signup,
     this.whitelistEndpoints.employee.login,
     this.whitelistEndpoints.employee.signup,
-    
   ];
 
   intercept(
@@ -29,15 +28,18 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-    const token = localStorage.getItem('token');
+    if (typeof window !== 'undefined') {
+      // Check if window is defined
+      const token = localStorage.getItem('token');
 
-    if (token) {
-      const cloned = req.clone({
-        headers: req.headers.set('Authorization', `Bearer ${token}`),
-      });
-      return next.handle(cloned);
-    } else {
-      return next.handle(req);
+      if (token) {
+        const cloned = req.clone({
+          headers: req.headers.set('Authorization', `Bearer ${token}`),
+        });
+        return next.handle(cloned);
+      }
     }
+
+    return next.handle(req);
   }
 }

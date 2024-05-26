@@ -18,10 +18,10 @@ import { AuthService } from './modules/auth/services/auth-service/auth.service';
   imports: [
     AppRoutingModule,
     CoreModule,
+    AppointmentsModule,
     ModulesModule,
     SharedModule,
     BrowserModule,
-    AppointmentsModule,
   ],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],

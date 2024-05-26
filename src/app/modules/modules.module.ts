@@ -14,5 +14,6 @@ import { AppointmentsModule } from './appointments/appointments.module';
     AppointmentsModule,
     SharedModule,
   ],
+  exports: [AuthModule, HomeModule, AppointmentsModule, SharedModule],
 })
 export class ModulesModule {}
