@@ -4,6 +4,7 @@ export const environment = {
   endpoints: {
     employee: {
       getAll: '/employee/employees',
+      get: '/',
       signup: '/employee/signup',
       delete: '/employee/delete',
       update: '/employee/update',
@@ -15,6 +16,7 @@ export const environment = {
       login: '/patient/login',
       logout: '/patient/logout',
       getAll: '/patient/patients',
+      getpatientByToken: '/patient/patientByToken',
       delete: '/patient/delete',
       update: '/patient/update',
     },

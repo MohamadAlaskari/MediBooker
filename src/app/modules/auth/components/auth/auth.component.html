@@ -1,0 +1,50 @@
+<div class="login-section">
+  <div class="left">
+    <div class="overlay">
+      <h1>Parti Bremen Dashboard</h1>
+      <p>Willkommen beim Parti Bremen Dashboard. Diese Verwaltungsplattform ist ausschließlich für Administratoren und
+        Moderatoren gedacht, um Projekte effizient zu verwalten und den Überblick über alle Aktivitäten zu behalten!
+
+      </p>
+    </div>
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="right">
+    <h1 class="login-title-right">Login</h1>
+    <p>Bitte melden Sie sich an, um auf das Admin-Dashboard zuzugreifen. Nur Administratoren und Moderatoren haben
+      Zugang zu diesem Bereich
+
+    </p>
+
+    <div class="inputs">
+      <input type="email" formControlName="email" placeholder="Email" autocomplete="username" required>
+      <div style="color: red;" *ngIf=" loginForm.get('email')?.errors?.['email']">
+        Please enter a valid email.
+      </div>
+      <br>
+      <input type="password" formControlName="password" placeholder="Password" autocomplete="current-password" required>
+      <div style="color: red;" *ngIf="loginForm.get('password')?.errors?.['minLength']">
+        Password must be at least 6 characters.
+      </div>
+      <div style="color: red;" *ngIf=" loginForm.get('password')?.errors?.['required']">
+        Password is required.
+      </div>
+
+    </div>
+
+    <br><br>
+
+    <div class="remember-me--forget-password">
+      <label>
+        <input type="checkbox" name="item" checked />
+        <span class="text-checkbox">Remember me</span>
+      </label>
+      <p>forget password?</p>
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-primary">Login</button>
+
+  </form>
+
+</div>

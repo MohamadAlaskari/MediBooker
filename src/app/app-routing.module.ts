@@ -1,13 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './modules/home/components/home/home.component';
-import { AppoitmentsComponent } from './modules/appoitments/components/appoitments/appoitments.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'appoitments', component: AppoitmentsComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }, // Fallback-Route
+  {
+    path: 'appointments',
+    loadChildren: () =>
+      import('./modules/appointments/appointments.module').then(
+        (m) => m.AppointmentsModule
+      ),
+  },
+  {
+    path: 'home',
+    loadChildren: () =>
+      import('./modules/home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'authentication',
+    loadChildren: () =>
+      import('./modules/auth/auth.module').then((m) => m.AuthModule),
+  },
+  { path: '', redirectTo: 'home', pathMatch: 'full' }, //default route
+  { path: '**', redirectTo: 'home' }, // Fallback-Route beim fehler path
 ];
 
 @NgModule({

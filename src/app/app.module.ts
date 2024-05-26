@@ -10,17 +10,18 @@ import { CoreModule } from './core/core.module';
 import { ModulesModule } from './modules/modules.module';
 import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './modules/home/home.module';
-import { AppoitmentsComponent } from './modules/appoitments/components/appoitments/appoitments.component';
+import { AppointmentsModule } from './modules/appointments/appointments.module';
+import { AuthService } from './modules/auth/services/auth-service/auth.service';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    CoreModule,
     AppRoutingModule,
+    CoreModule,
     ModulesModule,
     SharedModule,
-
     BrowserModule,
+    AppointmentsModule,
   ],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],

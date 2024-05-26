@@ -3,20 +3,9 @@
     <app-main-header></app-main-header>
 
     <app-banner></app-banner>
-    <ul class="nav nav-tabs mt-3">
-      <li class="nav-item">
-        <a class="nav-link" aria-current="page" [routerLink]="['/home']" routerLinkActive="active" >Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/appoitments']" routerLinkActive="active">Apoitments</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/contact']" routerLinkActive="active">Contact</a>
-      </li>
-
-    </ul>
-
+    <div class="pb-4">
+      <app-sub-header></app-sub-header>
+    </div>
     <router-outlet></router-outlet>
 
 
