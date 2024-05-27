@@ -47,11 +47,9 @@ export class AuthService {
   }
   logout(): Observable<string> {
     return this.apiService.post<string>(`${this.patientEndpoints.logout}`);
+    localStorage.removeItem('token');
   }
-  isAuthentication(): boolean {
-    if (localStorage.getItem('status') == 'logedin') {
-      return true;
-    }
-    return false;
+  isAuthenticated(): boolean {
+    return localStorage.getItem('status') === 'loggedin';
   }
 }
