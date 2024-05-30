@@ -1,1 +1,89 @@
-<p>signup works!</p>
+<div class="signUp-section container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h1 class="card-title text-center mb-4">Sign up</h1>
+            <!-- Progress Bar -->
+            <div class="progress mb-4">
+                <div class="progress-bar " role="progressbar" [style.width]="(currentStep * 33.33) + '%'"></div>
+            </div>
+            <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
+                <div *ngIf="currentStep === 1" class="row">
+                    <!-- Step 1: Basic Information -->
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Name*</label>
+                        <input type="text" class="form-control" id="name" formControlName="name">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="surname" class="form-label">Surname*</label>
+                        <input type="text" class="form-control" id="surname" formControlName="surname">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="dob" class="form-label">Date of Birth*</label>
+                        <input type="date" class="form-control" id="dob" formControlName="dob">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="phoneNr" class="form-label">Phone number*</label>
+                        <input type="text" class="form-control" id="phoneNr" formControlName="phoneNr">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Email*</label>
+                        <input type="email" class="form-control" id="email" formControlName="email">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="password" class="form-label">Password*</label>
+                        <input type="password" class="form-control" id="password" formControlName="password">
+                    </div>
+                </div>
+                <div *ngIf="currentStep === 2" class="row">
+                    <!-- Step 2: Address Information -->
+                    <div class="col-md-6 mb-3">
+                        <label for="street" class="form-label">Street*</label>
+                        <input type="text" class="form-control" id="street" formControlName="street">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="hNr" class="form-label">House Number*</label>
+                        <input type="text" class="form-control" id="hNr" formControlName="hNr">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="postcode" class="form-label">Postcode*</label>
+                        <input type="text" class="form-control" id="postcode" formControlName="postcode">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="city" class="form-label">City*</label>
+                        <input type="text" class="form-control" id="city" formControlName="city">
+                    </div>
+                </div>
+                <div *ngIf="currentStep === 3" class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="healthInsurance" class="form-label">Health Insurance*</label>
+                        <input type="text" class="form-control" id="healthInsurance" formControlName="healthInsurance">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="insuranceNr" class="form-label">Insurance Nr:*</label>
+                        <input type="text" class="form-control" id="insuranceNr" formControlName="insuranceNr">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="insuranceType" class="form-label">Insurance Type*</label>
+                        <select class="form-select" id="insuranceType" formControlName="insuranceType">
+                            <option value="private">Private</option>
+                            <option value="gesetzlich">Gesetzlich</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="d-grid gap-2 d-md-block mt-4 text-center">
+                    <button *ngIf="currentStep > 1" type="button" class="rounded-pill btn btn-secondary me-2"
+                        (click)="prevStep()">Back</button>
+                    <button *ngIf="currentStep === 1" type="button" class="btn btn-success rounded-pill btn btn-primary"
+                        (click)="nextStep()">Next</button>
+                    <button *ngIf="currentStep === 2" type="submit" class="btn btn-success rounded-pill btn btn-primary"
+                        (click)="nextStep()">Next</button>
+                    <button *ngIf="currentStep === 3" type="submit" class="btn btn-success rounded-pill btn-medibooker">
+                        Sign up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
