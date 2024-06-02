@@ -1,5 +1,5 @@
 <div class="login-section">
-  <h1>Login Form</h1>
+  <h3 class="mb-4">Login Form</h3>
 
   <form class="row g-3" [formGroup]="loginForm" (ngSubmit)="onLogin()">
     <div *ngIf="loginForm.invalid && loginFormSubmitted" class="alert alert-danger">
@@ -41,8 +41,8 @@
     </div>
 
     <div class="d-grid gap-4 d-md-block">
-      <button type="reset" role="button" (click)="onCancel()" class="btn btn-outline-dark">Close</button>
-      <button type="submit" class="btn btn-dark mx-md-3">Login</button>
+      <button type="reset" role="button" (click)="onCancel()" class="btn btn-outline-success">Close</button>
+      <button type="submit" class="btn btn-success mx-md-3">Login</button>
     </div>
   </form>
 </div>
