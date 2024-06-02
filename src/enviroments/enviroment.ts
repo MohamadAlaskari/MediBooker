@@ -4,7 +4,7 @@ export const environment = {
   endpoints: {
     employee: {
       getAll: '/employee/employees',
-      get: '/',
+      get: '/employee/by-token',
       signup: '/employee/signup',
       delete: '/employee/delete',
       update: '/employee/update',
@@ -16,20 +16,21 @@ export const environment = {
       login: '/patient/login',
       logout: '/patient/logout',
       getAll: '/patient/patients',
-      getpatientByToken: '/patient/patientByToken',
+      getpatientByToken: '/patient/by-token',
       delete: '/patient/delete',
       update: '/patient/update',
     },
-
     appointment: {
       getAll: '/appointment/appointments',
       getById: '/appointment/getById',
+      getByDate: '/appointment/getByDate',
       create: '/appointment/create',
       update: '/appointment/update',
       delete: '/appointment/delete',
     },
     reservation: {
       getAll: '/reservation/reservations',
+      getPatientReservations: '/reservation/patient-appointments',
       create: '/reservation/create',
       update: '/reservation/update',
       delete: '/reservation/delete',

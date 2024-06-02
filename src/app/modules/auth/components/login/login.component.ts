@@ -1,17 +1,25 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../../services/login-service/login.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { Patient } from '../../../../core/models/Patient.model';
+import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   loginForm: FormGroup;
   loginFormSubmitted: boolean = false;
+  patient: Patient | null = null;
+  subscribtion = new Subscription();
 
-  constructor(private loginService: LoginService) {
+  constructor(
+    private loginService: LoginService,
+    private authService: AuthService
+  ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
@@ -19,9 +27,8 @@ export class LoginComponent {
         Validators.minLength(2),
       ]),
     });
-
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   onLogin(): void {
     this.loginFormSubmitted = true;
@@ -31,6 +38,7 @@ export class LoginComponent {
         next: (response) => {
           // Handle successful login response
           console.log('Login successful', response);
+          window.location.reload();
         },
         error: (error) => {
           // Handle error response
@@ -46,8 +54,4 @@ export class LoginComponent {
     this.loginForm.reset();
     this.loginFormSubmitted = false;
   }
-
 }
-
-
-

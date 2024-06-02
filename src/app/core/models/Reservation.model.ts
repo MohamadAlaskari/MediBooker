@@ -4,12 +4,12 @@ import { Service } from './Service.model';
 
 export class Reservation {
   constructor(
-    public id: number,
-    public appointmentId: number,
-    public patientId: number,
-    public serviceId: number,
-    public appointment?: Appointment,
+    public id: string,
+    public appointmentId: string,
+    public patientId: string,
+    public serviceId: string,
+    public Appointment?: Appointment,
     public patient?: Patient,
-    public service?: Service
+    public Service?: Service
   ) {}
 }

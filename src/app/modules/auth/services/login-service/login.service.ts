@@ -9,7 +9,7 @@ import { Patient } from '../../../../core/models/Patient.model';
 })
 export class LoginService {
   patientEndpoints = environment.endpoints.patient;
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {}
   login(email: string, password: string): Observable<string> {
     const body = { email: email, password: password };
     return this.apiService
@@ -31,7 +31,7 @@ export class LoginService {
         })
       );
   }
-  private storePatient(patient: Patient): void {
+  storePatient(patient: Patient): void {
     if (typeof window !== 'undefined') {
       localStorage.setItem('patient', JSON.stringify(patient));
     }
@@ -39,6 +39,7 @@ export class LoginService {
   getTocken(): string | null {
     return localStorage.getItem('token');
   }
+
 
   getPatientByToken(): Observable<Patient> {
     return this.apiService.get<Patient>(
@@ -53,4 +54,3 @@ export class LoginService {
     return localStorage.getItem('status') === 'loggedin';
   }
 }
-
