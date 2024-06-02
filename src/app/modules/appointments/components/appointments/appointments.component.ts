@@ -15,11 +15,30 @@ export class AppointmentsComponent {
   appointment: Appointment | null = null;
   subscribtion = new Subscription();
   reservations: Reservation[] = [];
+  selectedDate: string | null = null;
+  times = [
+    { hour: '08:30', status: true },
+    { hour: '09:00', status: true },
+    { hour: '09:30', status: false },
+    { hour: '09:30', status: true },
+    { hour: '10:00', status: false },
+    { hour: '10:30', status: true },
+    { hour: '11:00', status: true },
+    { hour: '11:30', status: true },
+    { hour: '12:00', status: true },
+  ];
 
   constructor(private appointmentsService: AppointmentsService) {}
 
   ngOnInit() {
     this.loadPatientReservations();
+  }
+  onDateChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.selectedDate = inputElement.value;
+  }
+  toggleStatus(time: { hour: string; status: boolean }): void {
+    time.status = !time.status;
   }
   private loadPatientReservations() {
     this.subscribtion.add(

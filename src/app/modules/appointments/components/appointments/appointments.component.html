@@ -45,9 +45,26 @@
   <div class="col-md-6">
     <h6 class="">Select date</h6>
     <div class="form-floating mb-3">
-      <input type="date" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <input [(ngModel)]="selectedDate" (change)="onDateChange($event)" type="date" class="form-control"
+        id="floatingInput" placeholder="name@example.com">
       <label for="floatingInput">Select Date</label>
     </div>
+    @if(selectedDate){
+    <div>
+      <h6>Select Time</h6>
+      <div class="d-flex flex-wrap gap-2">
+        
+        @for ( time of times ; track $index) {
+
+        <button type="button"  (click)="toggleStatus(time)" [ngClass]="time.status ? 'btn-success' : 'btn-outline-success'"
+          class="btn ">{{time.hour}}</button>
+        }
+
+
+
+      </div>
+    </div>
+    }
 
   </div>
 
