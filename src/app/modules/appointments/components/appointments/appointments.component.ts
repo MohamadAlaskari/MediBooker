@@ -75,7 +75,7 @@ export class AppointmentsComponent {
         console.log(' loading Appointments successfully', this.appointments);
       },
       error: (error) => {
-        console.log('an error occur by loading Appointments', error);
+        console.log('an error occur by loading Appointments', error.error.error);
       },
     });
   }

@@ -53,20 +53,18 @@
     <div>
       <h6>Select Time</h6>
       <div class="d-flex flex-wrap gap-2">
-        
+
         @for ( time of times ; track $index) {
 
         <button type="button"  (click)="toggleStatus(time)" [ngClass]="time.status ? 'btn-success' : 'btn-outline-success'"
           class="btn ">{{time.hour}}</button>
         }
 
-
-
       </div>
     </div>
     }
 
-<app-calendar></app-calendar>
+<app-calendar ></app-calendar>
 
   </div>
 

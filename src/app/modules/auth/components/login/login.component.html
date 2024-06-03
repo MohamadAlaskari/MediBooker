@@ -5,7 +5,7 @@
     <div *ngIf="loginForm.invalid && loginFormSubmitted" class="alert alert-danger">
       Please correct the errors in the form before submitting.
     </div>
-    @if ( loginFormSubmitted) {
+    @if ( loginFormSubmitted && loginForm.invalid) {
     <div class="alert alert-danger">
       Please correct the errors in the form before submitting.
     </div>

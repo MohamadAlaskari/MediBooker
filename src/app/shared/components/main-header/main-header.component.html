@@ -19,6 +19,20 @@
       </svg>
     </button>
 
+
+
+    @if(!currentPatient){
+    <button routerLink="/authentication" class="add-btn">
+      <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+        class="feather feather-plus">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+    </button>
+    }
+
+    @if(currentPatient){
     <button routerLink="/appointments" class="add-btn">
       <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
@@ -27,6 +41,8 @@
         <line x1="5" y1="12" x2="19" y2="12" />
       </svg>
     </button>
+
+
 
     <button (click)="logout()" class="logout-btn" title="Logout">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right"
@@ -37,6 +53,7 @@
           d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
       </svg>
     </button>
+    }
 
     <button class="profile-btn">
       @if(currentPatient){
@@ -45,8 +62,10 @@
       }
     </button>
 
-    <ng-template #notAuthenticated>
-      <a [routerLink]="['/authentication']">login</a>
-    </ng-template>
+    @if (!currentPatient ) {
+    <span class="text-success opacity-50 me-3">|</span>
+    <a [routerLink]="['/authentication']"  class="login-btn "> login</a>
+    }
+
   </div>
 </div>
