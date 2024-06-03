@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../../../core/services/api.service';
 import { environment } from '../../../../../enviroments/enviroment';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { Patient } from '../../../../core/models/Patient.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
+  private isAuthenticatedSubject: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(this.hasToken());
+
   patientEndpoints = environment.endpoints.patient;
   constructor(private apiService: ApiService) {}
   login(email: string, password: string): Observable<string> {
@@ -19,6 +22,8 @@ export class LoginService {
           if (response) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('status', 'logedin');
+            this.isAuthenticatedSubject.next(true);
+
             console.log('token', response.token);
 
             return response.token;
@@ -31,6 +36,21 @@ export class LoginService {
         })
       );
   }
+
+  private isLocalStorageAvailable(): boolean {
+    try {
+      const test = '__localStorageTest__';
+      localStorage.setItem(test, test);
+      localStorage.removeItem(test);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  private hasToken(): boolean {
+    return this.isLocalStorageAvailable() && !!localStorage.getItem('token');
+  }
   storePatient(patient: Patient): void {
     if (typeof window !== 'undefined') {
       localStorage.setItem('patient', JSON.stringify(patient));
@@ -40,17 +60,19 @@ export class LoginService {
     return localStorage.getItem('token');
   }
 
-
   getPatientByToken(): Observable<Patient> {
     return this.apiService.get<Patient>(
       `${this.patientEndpoints.getpatientByToken}`
     );
   }
   logout(): Observable<string> {
-    return this.apiService.post<string>(`${this.patientEndpoints.logout}`);
+    this.isAuthenticatedSubject.next(false);
+
     localStorage.removeItem('token');
+    return this.apiService.post<string>(`${this.patientEndpoints.logout}`);
   }
-  isAuthenticated(): boolean {
-    return localStorage.getItem('status') === 'loggedin';
+  isAuthenticated(): Observable<boolean> {
+    return this.isAuthenticatedSubject.asObservable();
+    // localStorage.getItem('status') === 'loggedin';
   }
 }
