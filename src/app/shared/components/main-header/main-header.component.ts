@@ -26,8 +26,16 @@ export class MainHeaderComponent {
   ) {}
 
   ngOnInit(): void {
-    this.islogedin = this.authService.isAuthenticated();
-    this.loadPatient();
+    this.subscribtion.add(
+      this.loginService.isAuthenticated().subscribe((isAuthenticated) => {
+        this.islogedin = isAuthenticated;
+        if (isAuthenticated) {
+          this.loadPatient();
+        } else {
+          this.currentPatient = null;
+        }
+      })
+    );
   }
   ngOnDestroy() {
     this.subscribtion.unsubscribe;
@@ -48,16 +56,18 @@ export class MainHeaderComponent {
     );
   }
   private loadPatient() {
-    this.subscribtion.add(
-      this.loginService.getPatientByToken().subscribe({
-        next: (patient: Patient) => {
-          this.currentPatient = patient;
-        },
-        error: (error) => {
-          console.error('an error ocure while fetching Patient: ', error);
-        },
-      })
-    );
+    if (this.islogedin) {
+      this.subscribtion.add(
+        this.loginService.getPatientByToken().subscribe({
+          next: (patient: Patient) => {
+            this.currentPatient = patient;
+          },
+          error: (error) => {
+            console.error('an error ocure while fetching Patient: ', error);
+          },
+        })
+      );
+    }
   }
 
   isAuthenticated(): boolean {

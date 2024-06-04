@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Patient } from '../../../../core/models/Patient.model';
 import { AuthService } from '../../services/auth-service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent {
 
   constructor(
     private loginService: LoginService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -38,7 +40,8 @@ export class LoginComponent {
         next: (response) => {
           // Handle successful login response
           console.log('Login successful', response);
-          window.location.reload();
+          //      window.location.reload();
+          this.router.navigate(['appointments']);
         },
         error: (error) => {
           // Handle error response

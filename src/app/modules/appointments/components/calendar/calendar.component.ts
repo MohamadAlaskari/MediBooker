@@ -1,15 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
+  @Output() dateSelected: EventEmitter<Date> = new EventEmitter<Date>();
+
   today: Date = new Date();
   year: number = this.today.getFullYear();
   month: number = this.today.getMonth();
-  monthTag: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  monthTag: string[] = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
   day: number = this.today.getDate();
   days: HTMLTableCellElement[] = [];
   selectedDay!: Date;
@@ -28,15 +43,27 @@ export class CalendarComponent implements OnInit {
     this.getOptions();
     this.drawDays();
 
-    document.getElementById('reset')?.addEventListener('click', () => this.reset());
-    document.getElementsByClassName('pre-button')[0]?.addEventListener('click', () => this.preMonth());
-    document.getElementsByClassName('next-button')[0]?.addEventListener('click', () => this.nextMonth());
-    this.days.forEach(day => day.addEventListener('click', () => this.clickDay(day)));
+    document
+      .getElementById('reset')
+      ?.addEventListener('click', () => this.reset());
+    document
+      .getElementsByClassName('pre-button')[0]
+      ?.addEventListener('click', () => this.preMonth());
+    document
+      .getElementsByClassName('next-button')[0]
+      ?.addEventListener('click', () => this.nextMonth());
+    this.days.forEach((day) =>
+      day.addEventListener('click', () => this.clickDay(day))
+    );
   }
 
   drawHeader(e?: any) {
-    const headDay = document.getElementsByClassName('head-day')[0] as HTMLElement;
-    const headMonth = document.getElementsByClassName('head-month')[0] as HTMLElement;
+    const headDay = document.getElementsByClassName(
+      'head-day'
+    )[0] as HTMLElement;
+    const headMonth = document.getElementsByClassName(
+      'head-month'
+    )[0] as HTMLElement;
 
     headDay.innerHTML = e || this.day.toString();
     headMonth.innerHTML = `${this.monthTag[this.month]} - ${this.year}`;
@@ -60,27 +87,40 @@ export class CalendarComponent implements OnInit {
 
     for (let j = 0; j < 42; j++) {
       if (!this.days[j].innerHTML) {
-        this.days[j].id = "disabled";
+        this.days[j].id = 'disabled';
       } else if (j === this.day + startDay - 1) {
-        if ((!this.setOptions() && this.isCurrentMonthAndYear()) || this.isSetMonthAndYear()) {
+        if (
+          (!this.setOptions() && this.isCurrentMonthAndYear()) ||
+          this.isSetMonthAndYear()
+        ) {
           this.drawHeader(this.day);
-          this.days[j].id = "today";
+          this.days[j].id = 'today';
         }
       }
-      if (this.selectedDay && j === this.selectedDay.getDate() + startDay - 1 && this.isSelectedMonthAndYear()) {
-        this.days[j].className = "selected";
+      if (
+        this.selectedDay &&
+        j === this.selectedDay.getDate() + startDay - 1 &&
+        this.isSelectedMonthAndYear()
+      ) {
+        this.days[j].className = 'selected';
         this.drawHeader(this.selectedDay.getDate());
       }
     }
   }
 
   clickDay(o: HTMLElement) {
-    const selected = document.getElementsByClassName("selected")[0] as HTMLElement;
+    const selected = document.getElementsByClassName(
+      'selected'
+    )[0] as HTMLElement;
     if (selected) {
-      selected.className = "";
+      selected.className = '';
     }
-    o.className = "selected";
+    o.className = 'selected';
     this.selectedDay = new Date(this.year, this.month, parseInt(o.innerHTML));
+
+    this.dateSelected.emit(this.selectedDay);
+
+
     this.drawHeader(o.innerHTML);
     this.setCookie('selected_day', 1);
   }
@@ -129,18 +169,21 @@ export class CalendarComponent implements OnInit {
 
   setCookie(name: string, expiredays: number) {
     const date = new Date();
-    date.setTime(date.getTime() + (expiredays * 24 * 60 * 60 * 1000));
-    const expires = "; expires=" + date.toUTCString();
-    document.cookie = name + "=" + this.selectedDay + expires + "; path=/";
+    date.setTime(date.getTime() + expiredays * 24 * 60 * 60 * 1000);
+    const expires = '; expires=' + date.toUTCString();
+    document.cookie = name + '=' + this.selectedDay + expires + '; path=/';
   }
 
   getCookie(name: string) {
-    const nameEQ = name + "=";
+    const nameEQ = name + '=';
     const cookies = document.cookie.split(';');
     for (let cookie of cookies) {
-      while (cookie.charAt(0) == ' ') cookie = cookie.substring(1, cookie.length);
+      while (cookie.charAt(0) == ' ')
+        cookie = cookie.substring(1, cookie.length);
       if (cookie.indexOf(nameEQ) == 0) {
-        this.selectedDay = new Date(cookie.substring(nameEQ.length, cookie.length));
+        this.selectedDay = new Date(
+          cookie.substring(nameEQ.length, cookie.length)
+        );
       }
     }
   }
@@ -151,15 +194,23 @@ export class CalendarComponent implements OnInit {
   }
 
   isCurrentMonthAndYear() {
-    return this.month === this.today.getMonth() && this.year === this.today.getFullYear();
+    return (
+      this.month === this.today.getMonth() &&
+      this.year === this.today.getFullYear()
+    );
   }
 
   isSetMonthAndYear() {
-    return this.month === this.setDate.getMonth() && this.year === this.setDate.getFullYear();
+    return (
+      this.month === this.setDate.getMonth() &&
+      this.year === this.setDate.getFullYear()
+    );
   }
 
   isSelectedMonthAndYear() {
-    return this.month === this.selectedDay.getMonth() && this.year === this.selectedDay.getFullYear();
+    return (
+      this.month === this.selectedDay.getMonth() &&
+      this.year === this.selectedDay.getFullYear()
+    );
   }
 }
-
