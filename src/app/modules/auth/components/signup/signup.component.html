@@ -1,14 +1,39 @@
-<div class="signUp-section d-grid gap-4 mt-4">
+<div class="signUp-section d-grid gap-4 ">
 
   <h3 class="">Sign up</h3>
   <!-- Progress Bar -->
+
+
+  <!-- progressbar -->
+  <ul id="progressbar" class="m-0 p-0">
+    <li class=" text-center" [ngClass]="{'active': currentStep === 1 || currentStep === 2 || currentStep === 3 }"
+      id="account">
+      <strong>Account</strong>
+    </li>
+    <li id="personal" class=" text-center" class="text-center"
+      [ngClass]="{'active': currentStep === 2 || currentStep === 3 }">
+      <strong>Adress</strong>
+    </li>
+    <li id="payment" class=" text-center" [ngClass]="{'active': currentStep === 3 }">
+      <strong>Health</strong>
+    </li>
+  </ul>
+
+
+  <!--
+
   <div class="progress  " style="height: 9px;">
     <div class="progress-bar bg-success  progress-bar-striped progress-bar-animated" role="progressbar"
-      [style.width]="(currentStep * 33.33) + '%'"></div>
+      [style.width]="(currentStep * 33.33) + '%'">
+    </div>
   </div>
+-->
+
+
+
   <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
     <!--User info-->
-    <div *ngIf="currentStep === 1" class="row g-3">
+    <div *ngIf="currentStep === 1" class="row g-3 ">
       <!-- Step 1: Basic Information -->
 
       <!--name-->
@@ -102,7 +127,7 @@
     </div>
 
     <!--Adress info-->
-    <div *ngIf="currentStep === 2" class="row g-3">
+    <div *ngIf="currentStep === 2" class="row g-3 ">
       <!-- Step 2: Address Information -->
 
       <!--street-->
