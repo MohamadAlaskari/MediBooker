@@ -875,3 +875,17 @@ tbody td:active {
   -ms-transform: scale(.8);
   transform: scale(.8)
 }
+.selected {
+  color: #fff;
+  border: none;
+}
+tbody td:hover:after,
+.selected:after {
+  background: #0b8a76;
+}
+#today {
+  color: #0e0a0a;
+}
+#today:after {
+  color: #010202;
+}

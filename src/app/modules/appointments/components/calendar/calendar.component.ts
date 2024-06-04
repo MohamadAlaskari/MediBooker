@@ -35,7 +35,9 @@ export class CalendarComponent implements OnInit {
   ngOnInit() {
     this.days = Array.from(document.getElementsByTagName('td'));
     this.daysLen = this.days.length;
+    this.getOptions();
     this.draw();
+    this.reset();
   }
 
   draw() {
@@ -107,23 +109,62 @@ export class CalendarComponent implements OnInit {
       }
     }
   }
-
   clickDay(o: HTMLElement) {
-    const selected = document.getElementsByClassName(
-      'selected'
-    )[0] as HTMLElement;
-    if (selected) {
-      selected.className = '';
-    }
-    o.className = 'selected';
-    this.selectedDay = new Date(this.year, this.month, parseInt(o.innerHTML));
+    // Get the date of the clicked day
+    const clickedDate = new Date(this.year, this.month, parseInt(o.innerHTML));
 
+    // Get today's date
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Remove time component for accurate comparison
+
+    // Check if the clicked date is before today
+    if (clickedDate < today) {
+      // If it's before today, do not allow selection
+      return;
+    }
+
+    // Remove styling from previously selected date
+    const selected = document.getElementsByClassName('selected');
+    for (let i = 0; i < selected.length; i++) {
+      selected[i].classList.remove('selected');
+    }
+
+    // Remove 'today' class from previous today's date
+    const todayElement = document.getElementsByClassName('today')[0] as HTMLElement;
+    if (todayElement) {
+      todayElement.classList.remove('today');
+    }
+
+    // Add 'selected' class to the clicked date
+    o.classList.add('selected');
+
+    // Apply 'today' class to the clicked date if it's today
+    if (this.isToday(clickedDate) && this.isCurrentMonthAndYear()) {
+      o.classList.add('today');
+    }
+
+    // Update the selected day and emit the event
+    this.selectedDay = clickedDate;
     this.dateSelected.emit(this.selectedDay);
 
-
-    this.drawHeader(o.innerHTML);
+    this.drawHeader(parseInt(o.innerHTML));
     this.setCookie('selected_day', 1);
   }
+
+
+
+  // Helper method to check if a given date is today's date
+  isToday(date: Date): boolean {
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  }
+
+
+
 
   preMonth() {
     if (this.month < 1) {
