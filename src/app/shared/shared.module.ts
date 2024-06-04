@@ -6,7 +6,9 @@ import { BannerComponent } from './components/banner/banner.component';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { SubHeaderComponent } from './components/sub-header/sub-header.component';
 import { RouterModule } from '@angular/router';
-
+import { ProfileComponent } from './components/profile/profile.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     MainHeaderComponent,
@@ -14,8 +16,10 @@ import { RouterModule } from '@angular/router';
     BannerComponent,
     CountdownTimerComponent,
     SubHeaderComponent,
+    ProfileComponent
   ],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule,
+    ReactiveFormsModule],
   exports: [
     BannerComponent,
     MainHeaderComponent,
@@ -23,6 +27,6 @@ import { RouterModule } from '@angular/router';
     FooterComponent,
     CountdownTimerComponent,
   ],
-  providers: [],
+  providers: [ DatePipe],
 })
-export class SharedModule {}
+export class SharedModule { }

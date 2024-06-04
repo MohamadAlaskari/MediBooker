@@ -133,3 +133,24 @@
     top: 48px;
   }
 }
+/* Optional custom styles for the dropdown */
+.dropdown-toggle::after {
+  margin-left: 0.5rem;
+}
+
+.dropdown-menu {
+  min-width: 200px; /* Adjust width as needed */
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  cursor: pointer; /* This will show the hand cursor on hover */
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item:active {
+  background-color: #e9ecef;
+}

@@ -3,6 +3,7 @@ import { AuthService } from '../../../modules/auth/services/auth-service/auth.se
 import { Patient } from '../../../core/models/Patient.model';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../../../modules/auth/services/login-service/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-header',
@@ -10,6 +11,7 @@ import { LoginService } from '../../../modules/auth/services/login-service/login
   styleUrl: './main-header.component.scss',
 })
 export class MainHeaderComponent {
+
   title = 'MediBooker';
   currentPatient: Patient | null = null;
 
@@ -19,7 +21,8 @@ export class MainHeaderComponent {
 
   constructor(
     private authService: AuthService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {

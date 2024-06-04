@@ -19,4 +19,11 @@ export class AuthService {
   isAuthenticated(): boolean {
     return localStorage.getItem('status') === 'loggedin';
   }
+
+  updatepatient(Patient: Patient): Observable<Patient> {
+    return this.apiService.put<Patient>(
+      `${this.patientEndpoints.update}`,
+      Patient
+    );
+  }
 }
