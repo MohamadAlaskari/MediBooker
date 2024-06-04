@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
   styleUrl: './main-header.component.scss',
 })
 export class MainHeaderComponent {
-
   title = 'MediBooker';
   currentPatient: Patient | null = null;
 
@@ -47,7 +46,8 @@ export class MainHeaderComponent {
         next: (response) => {
           console.log('logout successfully');
           this.islogedin = false;
-          window.location.reload();
+          this.currentPatient = null;
+          this.router.navigate(['/home']);
         },
         error: (error) => {
           console.log('an error occurred while logout', error);

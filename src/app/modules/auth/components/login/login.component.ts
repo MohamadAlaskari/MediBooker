@@ -60,4 +60,7 @@ export class LoginComponent {
     this.loginForm.reset();
     this.loginFormSubmitted = false;
   }
+  onSwitchToSignUp() {
+    this.switchToSignUp.emit();
+  }
 }
