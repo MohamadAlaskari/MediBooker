@@ -16,6 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
     this.whitelistEndpoints.patient.signup,
     this.whitelistEndpoints.employee.login,
     this.whitelistEndpoints.employee.signup,
+    this.whitelistEndpoints.service.getAll,
   ];
 
   intercept(
