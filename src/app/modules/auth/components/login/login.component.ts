@@ -61,6 +61,6 @@ export class LoginComponent {
     this.loginFormSubmitted = false;
   }
   onSwitchToSignUp() {
-    this.switchToSignUp.emit();
+    this.switchMode.emit();
   }
 }
