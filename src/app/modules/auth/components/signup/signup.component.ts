@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SignupService } from '../../services/signup-service/signup.service';
 import { response } from 'express';
@@ -9,6 +9,8 @@ import { response } from 'express';
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
+  @Output() switchToLogin = new EventEmitter<void>();
+
   signUpForm: FormGroup;
   loginFormSubmitted: boolean = false;
   currentStep: number = 1;
@@ -88,5 +90,9 @@ export class SignupComponent {
     } else {
       console.log('Form is invalid');
     }
+  }
+
+  onSwitchToLogin() {
+    this.switchToLogin.emit();
   }
 }

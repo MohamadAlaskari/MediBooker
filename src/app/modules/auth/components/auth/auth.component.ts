@@ -7,6 +7,15 @@ import { AuthService } from '../../services/auth-service/auth.service';
   styleUrl: './auth.component.scss',
 })
 export class AuthComponent {
-  constructor(private authService: AuthService) {
+  isLogin: boolean = true;
+  constructor() {}
+
+  switchToSignUp() {
+    this.isLogin = false;
+    console.log('switch to sign up ', this.isLogin);
+  }
+
+  switchToLogin() {
+    this.isLogin = true;
   }
 }

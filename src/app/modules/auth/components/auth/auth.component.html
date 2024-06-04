@@ -1,4 +1,6 @@
-
-<app-login ></app-login>
-
-<app-signup ></app-signup>
+<div *ngIf="isLogin">
+  <app-login (switchToSignUp)="switchToSignUp()"></app-login>
+</div>
+<div *ngIf="!isLogin">
+  <app-signup (switchToLogin)="switchToLogin()"></app-signup>
+</div>

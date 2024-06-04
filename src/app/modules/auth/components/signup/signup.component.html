@@ -3,7 +3,8 @@
   <h3 class="">Sign up</h3>
   <!-- Progress Bar -->
   <div class="progress  " style="height: 9px;">
-    <div class="progress-bar bg-success  progress-bar-striped progress-bar-animated" role="progressbar" [style.width]="(currentStep * 33.33) + '%'"></div>
+    <div class="progress-bar bg-success  progress-bar-striped progress-bar-animated" role="progressbar"
+      [style.width]="(currentStep * 33.33) + '%'"></div>
   </div>
   <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
     <!--User info-->
@@ -231,7 +232,7 @@
 
 
     </div>
-<!--Buttons-->
+    <!--Buttons-->
     <div class="d-grid gap-4 d-md-block  mt-4 ">
       <button *ngIf="currentStep > 1" type="button" class="btn btn-outline-success me-md-3 "
         (click)="prevStep()">Back</button>
@@ -240,6 +241,11 @@
       <button *ngIf="currentStep === 3" type="submit" class="btn btn-success">
         Sign up</button>
     </div>
+
+    <div class="mt-3">
+      <span>Already have an account? <a href="javascript:void(0)" (click)="onSwitchToLogin()">Login here</a></span>
+    </div>
+
   </form>
 
 </div>

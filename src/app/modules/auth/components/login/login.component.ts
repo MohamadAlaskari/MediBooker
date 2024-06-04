@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { LoginService } from '../../services/login-service/login.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  @Output() switchToSignUp = new EventEmitter<void>();
   loginForm: FormGroup;
   loginFormSubmitted: boolean = false;
   patient: Patient | null = null;
@@ -56,5 +57,8 @@ export class LoginComponent {
   onCancel(): void {
     this.loginForm.reset();
     this.loginFormSubmitted = false;
+  }
+  onSwitchToSignUp() {
+    this.switchToSignUp.emit();
   }
 }
