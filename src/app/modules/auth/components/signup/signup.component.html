@@ -1,10 +1,23 @@
-<div class="signUp-section d-grid gap-4 mt-4">
+<div class="login-section d-grid gap-4 mt-4">
 
   <h3 class="">Sign up</h3>
   <!-- Progress Bar -->
-  <div class="progress  " style="height: 9px;">
-    <div class="progress-bar bg-success  progress-bar-striped progress-bar-animated" role="progressbar" [style.width]="(currentStep * 33.33) + '%'"></div>
-  </div>
+  <ul id="progressbar" class="m-0 p-0">
+    <li class=" text-center" [ngClass]="{'active': currentStep === 1 || currentStep === 2 || currentStep === 3 }"
+      id="account">
+      <strong>Account</strong>
+    </li>
+    <li id="personal" class=" text-center" class="text-center"
+      [ngClass]="{'active': currentStep === 2 || currentStep === 3 }">
+      <strong>Adress</strong>
+    </li>
+    <li id="payment" class=" text-center" [ngClass]="{'active': currentStep === 3 }">
+      <strong>Health</strong>
+    </li>
+  </ul>
+
+
+
   <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
     <!--User info-->
     <div *ngIf="currentStep === 1" class="row g-3">
@@ -233,13 +246,15 @@
     </div>
 <!--Buttons-->
     <div class="d-grid gap-4 d-md-block  mt-4 ">
-      <button *ngIf="currentStep > 1" type="button" class="btn btn-outline-success me-md-3 "
+      <button *ngIf="currentStep > 1" type="button" class="btn btn-outline-secondary btn-lg"
         (click)="prevStep()">Back</button>
-      <button *ngIf="currentStep === 1" type="button" class="btn btn-success " (click)="nextStep()">Next</button>
-      <button *ngIf="currentStep === 2" type="submit" class="btn btn-success " (click)="nextStep()">Next</button>
-      <button *ngIf="currentStep === 3" type="submit" class="btn btn-success">
+      <button *ngIf="currentStep === 1" type="button" class="btn btn-primary btn-lg mx-md-3" (click)="nextStep()">Next</button>
+      <button *ngIf="currentStep === 2" type="submit"  class="btn btn-primary btn-lg mx-md-3" (click)="nextStep()">Next</button>
+      <button *ngIf="currentStep === 3" type="submit"  class="btn btn-primary btn-lg mx-md-3">
         Sign up</button>
     </div>
   </form>
+  <p>Already have an account? <a (click)="switchToLogin()"  class="link-primary">Login here</a></p>
 
 </div>
+

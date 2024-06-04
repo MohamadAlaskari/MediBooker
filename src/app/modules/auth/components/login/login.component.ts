@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { LoginService } from '../../services/login-service/login.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  @Output() switchMode = new EventEmitter<void>();
   loginForm: FormGroup;
   loginFormSubmitted: boolean = false;
   patient: Patient | null = null;
@@ -52,7 +53,9 @@ export class LoginComponent {
       console.log('Form is invalid');
     }
   }
-
+  switchToSignup() {
+    this.switchMode.emit();
+  }
   onCancel(): void {
     this.loginForm.reset();
     this.loginFormSubmitted = false;

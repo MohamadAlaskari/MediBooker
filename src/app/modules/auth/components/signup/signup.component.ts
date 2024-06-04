@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SignupService } from '../../services/signup-service/signup.service';
 import { response } from 'express';
-
+import { Component, ElementRef, OnInit, Renderer2,Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
+  @Output() switchMode = new EventEmitter<void>();
+
+
+  previousStep() {
+    this.currentStep--;
+  }
   signUpForm: FormGroup;
   loginFormSubmitted: boolean = false;
   currentStep: number = 1;
@@ -88,5 +93,8 @@ export class SignupComponent {
     } else {
       console.log('Form is invalid');
     }
+  }
+  switchToLogin() {
+    this.switchMode.emit();
   }
 }

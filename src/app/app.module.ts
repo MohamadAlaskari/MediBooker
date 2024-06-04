@@ -12,7 +12,7 @@ import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './modules/home/home.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { AuthService } from './modules/auth/services/auth-service/auth.service';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -22,6 +22,7 @@ import { AuthService } from './modules/auth/services/auth-service/auth.service';
     ModulesModule,
     SharedModule,
     BrowserModule,
+    BrowserAnimationsModule
   ],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],
