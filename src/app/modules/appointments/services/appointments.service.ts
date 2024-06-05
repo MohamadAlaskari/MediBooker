@@ -9,6 +9,7 @@ import { Reservation } from '../../../core/models/Reservation.model';
   providedIn: 'root',
 })
 export class AppointmentsService {
+
   appointmentsEndepoint = environment.endpoints.appointment;
   reservationEndepoints = environment.endpoints.reservation;
   constructor(private apiService: ApiService) {}
@@ -35,4 +36,15 @@ export class AppointmentsService {
       `${this.appointmentsEndepoint.getByDate}/${date}`
     );
   }
+  createreservation(appointmentId: string, serviceId: string): Observable<Reservation> {
+    const body = {
+      appointmentId: appointmentId,
+      serviceId: serviceId
+    };
+    return this.apiService.post<Reservation>(`${this.reservationEndepoints.create}`, body);
+  }
+
+
+
+
 }

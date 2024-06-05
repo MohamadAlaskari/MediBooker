@@ -18,7 +18,7 @@ const routes: Routes = [
   {
     path: 'authentication',
     loadChildren: () =>
-      import('./modules/auth/auth.module').then((m) => m.AuthModule), canActivate: [AuthGuard],
+      import('./modules/auth/auth.module').then((m) => m.AuthModule),
 
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' }, //default route

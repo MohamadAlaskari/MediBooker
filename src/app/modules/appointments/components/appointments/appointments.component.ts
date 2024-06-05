@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
-import { Appointment} from '../../../../core/models/Appointment.model';
+import { Appointment } from '../../../../core/models/Appointment.model';
 import { Subscription } from 'rxjs';
 import { Reservation } from '../../../../core/models/Reservation.model';
 import { OurservicesService } from '../../../home/services/ourservices/ourservices.service';
@@ -29,17 +29,17 @@ export class AppointmentsComponent {
 
 
   times = [
-    { hour: '08:30', selected: false,disabled: true },
-    { hour: '09:00', selected: false,disabled: true },
-    { hour: '09:30', selected: false,disabled: false },
-    { hour: '10:00', selected: false,disabled: true },
-    { hour: '10:30', selected: false,disabled: false },
-    { hour: '11:00', selected: false,disabled: true },
-    { hour: '11:30', selected: false,disabled: false },
-    { hour: '12:00', selected: false,disabled: true },
+    { hour: '08:30', selected: false, disabled: true },
+    { hour: '09:00', selected: false, disabled: true },
+    { hour: '09:30', selected: false, disabled: false },
+    { hour: '10:00', selected: false, disabled: true },
+    { hour: '10:30', selected: false, disabled: false },
+    { hour: '11:00', selected: false, disabled: true },
+    { hour: '11:30', selected: false, disabled: false },
+    { hour: '12:00', selected: false, disabled: true },
   ];
 
-  constructor(private appointmentsService: AppointmentsService,private ourservices: OurservicesService) {
+  constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService) {
     this.selectedDate = this.getCurrentDate();
   }
 
@@ -52,7 +52,7 @@ export class AppointmentsComponent {
       this.ourservices.getServices().subscribe({
         next: (services: Service[]) => {
           this.services = services;
-          console.log('Loading services  was successful',this.services);
+          console.log('Loading services  was successful', this.services);
         },
         error: (err) => {
           console.error(
@@ -84,8 +84,8 @@ export class AppointmentsComponent {
           t.selected = false;
         }
       });
-      this.selectedtime=time.hour;
-      console.log("Time selected:",this.selectedtime, this.selectedDate);
+      this.selectedtime = time.hour;
+      console.log("Time selected:", this.selectedtime, this.selectedDate);
     } else {
       console.log("Time deselected:", time.hour);
     }
@@ -164,8 +164,27 @@ export class AppointmentsComponent {
   }
 
   makeappointment() {
-    console.log("",this.selectedtime, this.selectedDate);
+    console.log("", this.selectedtime, this.selectedDate);
     console.log('Selected Service:', this.selectedService);
     console.log('Description:', this.description)
-    }
+
+    //testing
+    const appointmentid = "1";
+
+
+    this.appointmentsService.createreservation(appointmentid,this.selectedService).subscribe({
+        next: (response) => {
+          console.log(' success', response);
+        },
+        error(error) {
+          console.log('error', error);
+        },
+      });
+
+
+
+
+
+
+  }
 }
