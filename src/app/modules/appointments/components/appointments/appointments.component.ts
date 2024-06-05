@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
-import { Appointment } from '../../../../core/models/Appointment.model';
+import { Appointment} from '../../../../core/models/Appointment.model';
 import { Subscription } from 'rxjs';
 import { Reservation } from '../../../../core/models/Reservation.model';
+import { OurservicesService } from '../../../home/services/ourservices/ourservices.service';
+import { Service } from '../../../../core/models/Service.model';
 
 @Component({
   selector: 'app-appointments',
@@ -10,30 +12,56 @@ import { Reservation } from '../../../../core/models/Reservation.model';
   styleUrl: './appointments.component.scss',
 })
 export class AppointmentsComponent {
+
   appointments: Appointment[] = [];
   availableappointments: Appointment[] = [];
   appointment: Appointment | null = null;
   subscription = new Subscription();
   reservations: Reservation[] = [];
+
   selectedDate: string;
+  selectedtime: string | null = null;
+  selectedService: any;
+  description: string | null = null;
+
+  services: Service[] = [];
+  isActive: number | null = null;
+
 
   times = [
-    { hour: '08:30', status: true },
-    { hour: '09:00', status: true },
-    { hour: '09:30', status: false },
-    { hour: '10:00', status: false },
-    { hour: '10:30', status: true },
-    { hour: '11:00', status: true },
-    { hour: '11:30', status: true },
-    { hour: '12:00', status: true },
+    { hour: '08:30', selected: false,disabled: true },
+    { hour: '09:00', selected: false,disabled: true },
+    { hour: '09:30', selected: false,disabled: false },
+    { hour: '10:00', selected: false,disabled: true },
+    { hour: '10:30', selected: false,disabled: false },
+    { hour: '11:00', selected: false,disabled: true },
+    { hour: '11:30', selected: false,disabled: false },
+    { hour: '12:00', selected: false,disabled: true },
   ];
 
-  constructor(private appointmentsService: AppointmentsService) {
+  constructor(private appointmentsService: AppointmentsService,private ourservices: OurservicesService) {
     this.selectedDate = this.getCurrentDate();
   }
 
   ngOnInit() {
     this.loadPatientReservations();
+    this.loadservices();
+  }
+  loadservices() {
+    this.subscription.add(
+      this.ourservices.getServices().subscribe({
+        next: (services: Service[]) => {
+          this.services = services;
+          console.log('Loading services  was successful',this.services);
+        },
+        error: (err) => {
+          console.error(
+            'An error occurred while fetching services',
+            err
+          );
+        },
+      })
+    );
   }
 
   ngOnDestroy() {
@@ -45,9 +73,24 @@ export class AppointmentsComponent {
     this.selectedDate = inputElement.value;
   }
 
-  toggleStatus(time: { hour: string; status: boolean }): void {
-    time.status = !time.status;
+
+
+
+  handleCheckboxClick(index: number) {
+    const time = this.times[index];
+    if (!time.selected) {
+      this.times.forEach((t, i) => {
+        if (i !== index) {
+          t.selected = false;
+        }
+      });
+      this.selectedtime=time.hour;
+      console.log("Time selected:",this.selectedtime, this.selectedDate);
+    } else {
+      console.log("Time deselected:", time.hour);
+    }
   }
+
 
   private loadPatientReservations() {
     this.subscription.add(
@@ -119,4 +162,10 @@ export class AppointmentsComponent {
     const year = date.getFullYear().toString();
     return `${day}.${month}.${year}`;
   }
+
+  makeappointment() {
+    console.log("",this.selectedtime, this.selectedDate);
+    console.log('Selected Service:', this.selectedService);
+    console.log('Description:', this.description)
+    }
 }

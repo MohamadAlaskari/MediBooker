@@ -8,7 +8,7 @@ import { Patient } from '../../../../core/models/Patient.model';
   providedIn: 'root',
 })
 export class LoginService {
-  private isAuthenticatedSubject: BehaviorSubject<boolean> =
+  public isAuthenticatedSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(this.hasToken());
 
   patientEndpoints = environment.endpoints.patient;
@@ -65,14 +65,32 @@ export class LoginService {
       `${this.patientEndpoints.getpatientByToken}`
     );
   }
-  logout(): Observable<string> {
-    this.isAuthenticatedSubject.next(false);
 
-    localStorage.removeItem('token');
-    return this.apiService.post<string>(`${this.patientEndpoints.logout}`);
+  logout(): Observable<string> {
+    return this.apiService.post<string>(`${this.patientEndpoints.logout}`).pipe(
+      map((response) => {
+        localStorage.removeItem('token');
+        this.isAuthenticatedSubject.next(false);
+        console.log('Logout: user logged out, token removed, isAuthenticatedSubject set to false');
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Logout error:', error);
+        return throwError(() => new Error(`Logout failed: ${error.message}`));
+      })
+    );
   }
+
+
+
+
+
+
+
+
+
   isAuthenticated(): Observable<boolean> {
+    console.log('LoginService: isAuthenticatedSubject value =', this.isAuthenticatedSubject.value); // Log current value
     return this.isAuthenticatedSubject.asObservable();
-    // localStorage.getItem('status') === 'loggedin';
   }
 }

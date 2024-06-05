@@ -1,1 +1,73 @@
 
+button {
+  padding: 10px;
+  margin: 5px;
+}
+
+button.active {
+  background-color: rgb(95, 223, 122);
+  color: white;
+  border-color: rgb(95, 223, 122) ;
+}
+.checkbox-button input[type="checkbox"] {
+  display: none;
+}
+.checkbox-button{
+  margin-bottom: 15px;
+}
+/* Style the label as a button */
+.checkbox-button label {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  background-color: #0a756a; /* Blue color */
+  color: #fff; /* White text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Change label background color when checkbox is checked */
+.checkbox-button input[type="checkbox"]:checked + label {
+  background-color: #28a745; /* Green color */
+}
+.checkbox-button input[type="checkbox"]:disabled + label {
+  color: #000000; /* Change label text color for disabled checkboxes */
+  cursor: not-allowed; /* Change cursor style for disabled checkboxes */
+  /* Add any additional styles for disabled checkboxes */
+  background-color: #eceaea;
+}
+.bt {
+  background-color: #0a756a; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  margin: 0 auto; /* Centering horizontally */
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+}
+
+
+.bt:hover {
+  background-color: rgb(60, 151, 64); /* Darker Green */
+}
+.calend{
+  margin-bottom: 30px;
+}
+
+.form-select{
+  margin-bottom: 15px;
+}
+.form-group{
+  margin-bottom: 15px;
+}
+.form{
+  align-content: center;
+  margin: 0 auto;
+}

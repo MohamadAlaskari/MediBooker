@@ -43,23 +43,43 @@
   </div>
   <!--Calender-->
   <div class="col-md-6">
-    <h6 class="">Select date</h6>
-    <app-calendar (dateSelected)="handleDateSelected($event)"></app-calendar>
+    <div class="calend">
+      <h6 class="">Select date</h6>
+      <app-calendar (dateSelected)="handleDateSelected($event)"></app-calendar>
+    </div>
 
     @if(selectedDate){
-    <div>
+
+    <div class="timesel">
       <h6>Select Time</h6>
-      <div class="d-flex flex-wrap gap-2">
+      <div class="d-flex flex-wrap ">
 
-        @for ( time of times ; track $index) {
+        <div *ngFor="let time of times; let i = index" class="checkbox-button">
+          <input type="checkbox" id="checkbox{{i}}" [(ngModel)]="time.selected" [disabled]="time.disabled"
+            (click)="handleCheckboxClick(i)">
+          <label for="checkbox{{i}}">{{time.hour}}</label>
+        </div>
+        <div *ngFor="let time of times" class="form">
+          <div *ngIf="time.selected">
+            <form (ngSubmit)="makeappointment()">
+              <select class="form-select" aria-label="Default select example" required [(ngModel)]="selectedService" name="selectedService">
+                <option disabled [ngValue]="null">Choose a service</option>
+                <option *ngFor="let service of services" [ngValue]="service.id">{{ service.description }}</option>
+              </select>
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1">Description</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="description" name="description"></textarea>
+              </div>
+              <button class="bt" type="submit">Make an appointment</button>
+            </form>
 
-        <button type="button" (click)="toggleStatus(time)" class="btn btn-success"
-          [disabled]='time.status'>{{time.hour}}</button>
-        }
-
+          </div>
+        </div>
       </div>
     </div>
+
     }
+
 
 
   </div>

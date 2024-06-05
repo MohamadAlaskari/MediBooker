@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/services/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
   {
     path: 'authentication',
     loadChildren: () =>
-      import('./modules/auth/auth.module').then((m) => m.AuthModule),
+      import('./modules/auth/auth.module').then((m) => m.AuthModule), canActivate: [AuthGuard],
+
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' }, //default route
   { path: '**', redirectTo: 'home' }, // Fallback-Route beim fehler path
