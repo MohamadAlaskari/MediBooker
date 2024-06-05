@@ -1,28 +1,25 @@
-<div class="container">
-  <div class="row text-center">
-    <div class="col">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Countdown to {{ targetDate }}</h5>
-          <div class="countdown">
-            <div class="time-unit">
-              <span class="number">{{ timeLeft.days }}</span>
-              <span class="label">Days</span>
-            </div>
-            <div class="time-unit">
-              <span class="number">{{ timeLeft.hours }}</span>
-              <span class="label">Hours</span>
-            </div>
-            <div class="time-unit">
-              <span class="number">{{ timeLeft.minutes }}</span>
-              <span class="label">Minutes</span>
-            </div>
-            <div class="time-unit">
-              <span class="number">{{ timeLeft.seconds }}</span>
-              <span class="label">Seconds</span>
-            </div>
-          </div>
-        </div>
+<div *ngIf="islogedin">
+  <div *ngIf="nearestReservation" class="countdown-container">
+    <p class="countdown-heading">Next Appointment in:</p>
+    <div *ngIf="appointmentTodayMessage" class="appointment-today-message">
+      {{ appointmentTodayMessage }}
+    </div>
+    <div class="countdown">
+      <div class="countdown-item">
+        <span class="countdown-number">{{ countdown.days }}</span>
+        <span class="countdown-label">Days</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-number">{{ countdown.hours }}</span>
+        <span class="countdown-label">Hours</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-number">{{ countdown.minutes }}</span>
+        <span class="countdown-label">Minutes</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-number">{{ countdown.seconds }}</span>
+        <span class="countdown-label">Seconds</span>
       </div>
     </div>
   </div>

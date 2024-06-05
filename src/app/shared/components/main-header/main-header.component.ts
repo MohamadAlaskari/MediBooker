@@ -4,7 +4,7 @@ import { Patient } from '../../../core/models/Patient.model';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../../../modules/auth/services/login-service/login.service';
 import { Router } from '@angular/router';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-main-header',
   templateUrl: './main-header.component.html',
@@ -21,7 +21,8 @@ export class MainHeaderComponent {
   constructor(
     private authService: AuthService,
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +48,10 @@ export class MainHeaderComponent {
           console.log('logout successfully');
           this.islogedin = false;
           this.currentPatient = null;
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).then(() => {
+            this.location.replaceState('/home');
+            window.location.reload();
+          });
         },
         error: (error) => {
           console.log('an error occurred while logout', error);
