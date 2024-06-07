@@ -1,20 +1,21 @@
-
 button {
   padding: 10px;
   margin: 5px;
 }
 
-button.active {
-  background-color: rgb(95, 223, 122);
-  color: white;
-  border-color: rgb(95, 223, 122) ;
+
+.selected {
+  background-color: #f0f0f0; /* Change to your desired background color */
+  /* Add any other styling you want for the selected appointment */
 }
 .checkbox-button input[type="checkbox"] {
   display: none;
 }
-.checkbox-button{
+
+.checkbox-button {
   margin-bottom: 15px;
 }
+
 /* Style the label as a button */
 .checkbox-button label {
   display: inline-block;
@@ -26,18 +27,31 @@ button.active {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+  width: 100px; /* Set a consistent width for the label buttons */
 }
-
-/* Change label background color when checkbox is checked */
-.checkbox-button input[type="checkbox"]:checked + label {
+.selected {
+  /* Your styles for selected appointments */
+  background-color: rgb(98, 182, 98) !important;
+  border-radius: 10%;
+  color: #000; /* For example */
+}
+.selected label {
+  /* Your styles for selected appointments */
+  background-color: rgb(98, 182, 98) !important;
+  border-radius: 10%;
+  color: #000; /* For example */
+}
+.checkbox-button input[type="checkbox"].selected {
   background-color: #28a745; /* Green color */
 }
+
 .checkbox-button input[type="checkbox"]:disabled + label {
   color: #000000; /* Change label text color for disabled checkboxes */
   cursor: not-allowed; /* Change cursor style for disabled checkboxes */
   /* Add any additional styles for disabled checkboxes */
   background-color: #eceaea;
 }
+
 .bt {
   background-color: #0a756a; /* Green */
   border: none;
@@ -53,21 +67,38 @@ button.active {
   transition-duration: 0.4s;
 }
 
-
 .bt:hover {
   background-color: rgb(60, 151, 64); /* Darker Green */
 }
-.calend{
+
+.calend {
   margin-bottom: 30px;
 }
 
-.form-select{
+.form-select {
+  margin-bottom: 15px;
+  width: 100%; /* Full width */
+}
+
+.form-group {
   margin-bottom: 15px;
 }
-.form-group{
-  margin-bottom: 15px;
-}
-.form{
+
+.form {
   align-content: center;
   margin: 0 auto;
+  width: 100%; /* Full width */
+}
+
+.form-container {
+  width: 100%; /* Full width for the form container */
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 20px; /* Add margin to separate the form from the checkboxes */
+}
+
+.appointment-container {
+  flex: 1 1 20%; /* Adjust the percentage to control the width of each appointment block */
+  box-sizing: border-box;
+  padding: 10px;
 }

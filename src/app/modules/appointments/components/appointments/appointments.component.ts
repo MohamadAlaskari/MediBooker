@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Reservation } from '../../../../core/models/Reservation.model';
 import { OurservicesService } from '../../../home/services/ourservices/ourservices.service';
 import { Service } from '../../../../core/models/Service.model';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
@@ -18,15 +18,15 @@ export class AppointmentsComponent {
   appointment: Appointment | null = null;
   subscription = new Subscription();
   reservations: Reservation[] = [];
-
+  appointmentsbydate: Appointment[] = [];
   selectedDate: string;
   selectedtime: string | null = null;
   selectedService: any;
   description: string | null = null;
-
+  selectedAppointments: boolean[] = [];
   services: Service[] = [];
   isActive: number | null = null;
-
+  selcAppointment: Appointment | null = null;
 
   times = [
     { hour: '08:30', selected: false, disabled: true },
@@ -39,13 +39,29 @@ export class AppointmentsComponent {
     { hour: '12:00', selected: false, disabled: true },
   ];
 
-  constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService) {
+  constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService,private datePipe: DatePipe) {
     this.selectedDate = this.getCurrentDate();
+    this.selectedAppointments = this.availableappointments.map(_ => false);
   }
 
   ngOnInit() {
     this.loadPatientReservations();
     this.loadservices();
+    const formattedDate = new Date(this.selectedDate);
+
+    console.log("init",this.selectedDate)
+  }
+
+  handleDateSelected(selectedDate: Date) {
+    if (!(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
+      console.error('Invalid date selected:', selectedDate);
+      return;
+    }
+
+    this.selectedDate = this.formatDate(selectedDate);
+    console.log(this.selectedDate)
+    // Assuming this method formats the date for display purposes
+    this.loadAppointmentbydate(selectedDate); // Pass the valid Date object
   }
   loadservices() {
     this.subscription.add(
@@ -72,24 +88,31 @@ export class AppointmentsComponent {
     const inputElement = event.target as HTMLInputElement;
     this.selectedDate = inputElement.value;
   }
-
-
-
-
-  handleCheckboxClick(index: number) {
-    const time = this.times[index];
-    if (!time.selected) {
-      this.times.forEach((t, i) => {
-        if (i !== index) {
-          t.selected = false;
+  handleCheckboxClick(appointment: Appointment) {
+    if (!appointment.status) {
+        const index = this.availableappointments.findIndex(appt => appt === appointment);
+        if (this.selcAppointment === appointment) {
+            // If the clicked appointment is already selected, deselect it
+            this.selcAppointment = null;
+            console.log("Time deselected:", appointment.hour);
+        } else {
+            // Deselect the previously selected appointment
+            this.selcAppointment = appointment;
+            console.log("Time selected:", this.selcAppointment.hour);
         }
-      });
-      this.selectedtime = time.hour;
-      console.log("Time selected:", this.selectedtime, this.selectedDate);
-    } else {
-      console.log("Time deselected:", time.hour);
+        // Update the selectedAppointments array based on the checkbox state
+        this.selectedAppointments[index] = !this.selectedAppointments[index];
     }
-  }
+}
+isSelected(appointment: Appointment): boolean {
+  return this.selcAppointment === appointment;
+}
+
+
+
+
+
+
 
 
   private loadPatientReservations() {
@@ -108,18 +131,15 @@ export class AppointmentsComponent {
       })
     );
   }
-
   private loadAppointmentbydate(date: Date) {
+    console.log("final",date);
     this.appointmentsService.getAppointmentByDate(date).subscribe({
       next: (availableappointments: Appointment[]) => {
         this.availableappointments = availableappointments;
-        console.log(
-          'Loading Appointments successfully',
-          this.availableappointments
-        );
+        console.log('Loading Appointments successfully', this.availableappointments);
       },
       error: (error) => {
-        console.log('An error occurred while loading Appointments', error);
+        console.error('An error occurred while loading Appointments', error);
       },
     });
   }
@@ -144,18 +164,17 @@ export class AppointmentsComponent {
     return this.appointment;
   }
 
-  handleDateSelected(selectedDate: Date) {
-    const formattedDate = this.formatDate(selectedDate);
-    this.selectedDate = formattedDate;
 
-    console.log('Selected Date:', formattedDate);
-  }
 
   private getCurrentDate(): string {
     const today = new Date();
     return this.formatDate(today);
   }
-
+  formatHour(hourString: string ): string {
+    // Split the hourString by ':' and take the first two elements
+    const [hour, minute] = hourString.split(':').slice(0, 2);
+    return `${hour}:${minute}`;
+  }
   private formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -164,22 +183,29 @@ export class AppointmentsComponent {
   }
 
   makeappointment() {
-    console.log("", this.selectedtime, this.selectedDate);
+    console.log("", this.selcAppointment?.id, this.selectedDate);
     console.log('Selected Service:', this.selectedService);
     console.log('Description:', this.description)
 
-    //testing
-    const appointmentid = "1";
+    let id: number | undefined;
 
+    if (this.selcAppointment != null) {
+      id = this.selcAppointment.id;
+    } else {
+      console.error('Error: selcAppointment is null');
+      return; // or handle the error in an appropriate way
+    }
 
-    this.appointmentsService.createreservation(appointmentid,this.selectedService).subscribe({
-        next: (response) => {
-          console.log(' success', response);
-        },
-        error(error) {
-          console.log('error', error);
-        },
-      });
+    this.appointmentsService.createreservation(id, this.selectedService).subscribe({
+      next: (response) => {
+        console.log(' success', response);
+        window.location.reload();
+      },
+      error(error) {
+        console.log('error', error);
+      },
+    });
+
 
 
 

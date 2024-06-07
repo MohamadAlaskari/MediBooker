@@ -73,10 +73,11 @@ export class CalendarComponent implements OnInit {
 
   drawDays() {
     const startDay = new Date(this.year, this.month, 1).getDay();
+    const adjustedStartDay = (startDay === 0) ? 7 : startDay;
     const nDays = new Date(this.year, this.month + 1, 0).getDate();
     let n = startDay;
 
-    for (let k = 0; k < 42; k++) {
+    for (let k = adjustedStartDay - 1; k < adjustedStartDay + nDays - 1; k++) {
       this.days[k].innerHTML = '';
       this.days[k].id = '';
       this.days[k].className = '';
@@ -146,7 +147,7 @@ export class CalendarComponent implements OnInit {
     // Update the selected day and emit the event
     this.selectedDay = clickedDate;
     this.dateSelected.emit(this.selectedDay);
-
+console.log(this.selectedDay)
     this.drawHeader(parseInt(o.innerHTML));
     this.setCookie('selected_day', 1);
   }
@@ -192,9 +193,10 @@ export class CalendarComponent implements OnInit {
     if (this.setOptions()) {
       const [year, month, day] = this.setOptions()!.split('-').map(Number);
       this.setDate = new Date(year, month - 1, day);
-      this.day = this.setDate.getDate();
+      this.day = this.setDate.getDate()+1;
       this.year = this.setDate.getFullYear();
-      this.month = this.setDate.getMonth();
+      this.month = this.setDate.getMonth() + 1;
+
     }
   }
 

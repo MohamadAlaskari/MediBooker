@@ -55,6 +55,7 @@ export class ProfileComponent {
       this.loginService.getPatientByToken().subscribe({
         next: (patient: Patient) => {
           this.currentPatient = patient;
+          console.log(this.currentPatient);
 
           this.updateForm.patchValue({
             id: this.currentPatient.id,

@@ -23,7 +23,7 @@ export const environment = {
     appointment: {
       getAll: '/appointment/appointments',
       getById: '/appointment/getById',
-      getByDate: '/appointment/getByDate',
+      getByDate: '/appointment/appointmentsByDate',
       create: '/appointment/create',
       update: '/appointment/update',
       delete: '/appointment/delete',

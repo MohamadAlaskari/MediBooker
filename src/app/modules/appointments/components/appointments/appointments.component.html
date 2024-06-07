@@ -53,14 +53,23 @@
     <div class="timesel">
       <h6>Select Time</h6>
       <div class="d-flex flex-wrap ">
+        <div *ngFor="let appointment of availableappointments; let i = index" >
+          <div class="checkbox-button" [class.selected]="isSelected(appointment)">
+            <input type="checkbox" id="checkbox{{i}}" [disabled]="appointment.status === true"
+                   (change)="handleCheckboxClick(appointment)" [(ngModel)]="selectedAppointments[i]">
+            <label for="checkbox{{i}}">{{ formatHour(appointment.hour) }}</label>
+          </div>
 
-        <div *ngFor="let time of times; let i = index" class="checkbox-button">
-          <input type="checkbox" id="checkbox{{i}}" [(ngModel)]="time.selected" [disabled]="time.disabled"
-            (click)="handleCheckboxClick(i)">
-          <label for="checkbox{{i}}">{{time.hour}}</label>
-        </div>
-        <div *ngFor="let time of times" class="form">
-          <div *ngIf="time.selected">
+      </div>
+
+
+
+
+
+
+
+        <div class="form">
+          <div *ngIf="selcAppointment">
             <form (ngSubmit)="makeappointment()">
               <select class="form-select" aria-label="Default select example" required [(ngModel)]="selectedService" name="selectedService">
                 <option disabled [ngValue]="null">Choose a service</option>
@@ -70,11 +79,13 @@
                 <label for="exampleFormControlTextarea1">Description</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="description" name="description"></textarea>
               </div>
-              <button class="bt" type="submit">Make an appointment</button>
+              <button class="bt" type="submit">Make an appointment for {{ selcAppointment.hour }}</button>
             </form>
-
           </div>
         </div>
+
+
+
       </div>
     </div>
 
