@@ -102,3 +102,42 @@ button {
   box-sizing: border-box;
   padding: 10px;
 }
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #0b8a76;
+}
+
+.btn-danger {
+  background-color: #e0c39a;
+  border: none;
+  border-radius: 20px;
+  width: 100px;
+  transition: background-color 0.3s;
+  display: block;
+  margin: 0 auto; /* Center the button */
+}
+
+.btn-danger:hover {
+  background-color: #bdad98;
+}
+
+.btn-danger:focus {
+  box-shadow: 0 0 0 0.2rem rgba(224, 186, 182, 0.705);
+}
+
+.opacity-75 {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
