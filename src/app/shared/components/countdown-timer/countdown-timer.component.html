@@ -1,9 +1,9 @@
 <div *ngIf="islogedin">
   <div *ngIf="nearestReservation" class="countdown-container">
-    <h3 class="countdown-heading fw-bold">Next Appointment in:</h3>
-    <div *ngIf="appointmentTodayMessage" class="appointment-today-message">
+    <h3 *ngIf="!appointmentTodayMessage" class="countdown-heading fw-bold">Next Appointment in:</h3>
+    <h3 *ngIf="appointmentTodayMessage" class="appointment-today-message fw-bold">
       {{ appointmentTodayMessage }}
-    </div>
+    </h3>
     <div class="countdown">
       <div class="countdown-item">
         <span class="countdown-number">{{ countdown.days }}</span>

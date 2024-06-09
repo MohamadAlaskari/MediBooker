@@ -44,7 +44,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
       this.appointmentsService.getPatientReservation().subscribe({
         next: (reservations: Reservation[]) => {
           this.reservations = reservations;
-          console.log('Loading Patient reservations was successful');
+          console.log('Loading Patient reservations was successful',reservations);
           this.findNearestReservation();
         },
         error: (err) => {
@@ -53,28 +53,52 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
       })
     );
   }
-
   private findNearestReservation() {
-    const now = new Date().getTime();
-    console.log('Current timestamp:', now);
+    console.log('All reservations:', this.reservations);
 
-    this.nearestReservation = this.reservations
-      .filter(reservation => reservation.Appointment?.date)
-      .map(reservation => ({
-        ...reservation,
-        appointmentTime: reservation.Appointment?.date ? new Date(reservation.Appointment.date).getTime() : null
-      }))
-      .filter(reservation => reservation.appointmentTime && reservation.appointmentTime > now)
-      .sort((a, b) => (a.appointmentTime as number) - (b.appointmentTime as number))[0] || null;
+    const now = new Date();
+    console.log('Current date:', now);
+
+    let nearestAppointment: Date | null = null;
+
+    this.reservations.forEach(reservation => {
+        if (reservation.Appointment) {
+            const appointmentDate = new Date(reservation.Appointment.date);
+            const [hours, minutes, seconds] = reservation.Appointment.hour.split(':').map(Number);
+            appointmentDate.setHours(hours, minutes, seconds || 0);
+
+            if (appointmentDate >= now && (!nearestAppointment || appointmentDate < nearestAppointment)) {
+                nearestAppointment = appointmentDate;
+                this.nearestReservation = reservation;
+            }
+        }
+    });
 
     if (this.nearestReservation) {
-      console.log('Nearest reservation found:', this.nearestReservation);
-      this.checkIfAppointmentIsToday();
-      this.startCountdown();
+        console.log('Nearest reservation found:', this.nearestReservation);
+        this.checkIfAppointmentIsToday();
+        this.startCountdown();
     } else {
-      console.log('No upcoming reservations found');
+        console.log('No upcoming reservations found');
     }
-  }
+}
+
+
+
+
+
+private isSameDay(date1: Date, date2: Date): boolean {
+  console.log('Date 1:', date1);
+  console.log('Date 2:', date2);
+  return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+  );
+}
+
+
+
 
   private checkIfAppointmentIsToday() {
     if (!this.nearestReservation || !this.nearestReservation.Appointment) return;
@@ -94,7 +118,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
 
     // Check if the appointment is today
     if (appointmentDateOnly.getTime() === todayDateOnly.getTime()) {
-      this.appointmentTodayMessage = 'Your appointment is today!';
+      this.appointmentTodayMessage = 'Your Appointment is today!';
       console.log(this.appointmentTodayMessage);
     } else {
       this.appointmentTodayMessage = '';
