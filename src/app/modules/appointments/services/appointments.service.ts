@@ -11,6 +11,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 })
 export class AppointmentsService {
 
+
   appointmentsEndepoint = environment.endpoints.appointment;
   reservationEndepoints = environment.endpoints.reservation;
 
@@ -63,4 +64,9 @@ export class AppointmentsService {
     };
     return this.apiService.post<Reservation>(`${this.reservationEndepoints.create}`, body);
   }
+  deletereservation(id: string): Observable<string> {
+    const params = new HttpParams().set('id', id);
+    return this.apiService.delete<string>(`${this.reservationEndepoints.delete}?${params.toString()}`);
+  }
+
 }

@@ -6,6 +6,7 @@ import { Reservation } from '../../../../core/models/Reservation.model';
 import { OurservicesService } from '../../../home/services/ourservices/ourservices.service';
 import { Service } from '../../../../core/models/Service.model';
 import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
@@ -222,4 +223,40 @@ isSelected(appointment: Appointment): boolean {
 
 
   }
+  deletereservation(id: string) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cancelreservation(id);
+      }
+    });
+  }
+
+  cancelreservation(id: string) {
+
+    this.appointmentsService.deletereservation(id).subscribe({
+      next: (response) => {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Appointment has been cancled.",
+          icon: "success"
+        });
+window.location.reload();
+      },
+      error(error) {
+        console.log('error', error);
+      },
+    });
+
+
+  }
+
+
 }
