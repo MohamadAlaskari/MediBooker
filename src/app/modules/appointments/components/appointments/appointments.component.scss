@@ -141,3 +141,38 @@ button {
   font-size: 0.9rem;
   line-height: 1.4;
 }
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.remove-btn {
+  margin-left: 10px;
+}
+
+.remv-btn {
+  margin-top: 27px;
+}
+.add-btn {
+  margin-top: 10px;
+}
+
+.submit-btn {
+  margin-top: 10px;
+}

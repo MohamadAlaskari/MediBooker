@@ -9,12 +9,15 @@ import { Patient } from '../../../../core/models/Patient.model';
 })
 export class AuthService {
   patientEndpoints = environment.endpoints.patient;
+  employeeEndpoints = environment.endpoints.employee;
+
   constructor(private apiService: ApiService) {}
 
   logout(): Observable<string> {
     return this.apiService.post<string>(`${this.patientEndpoints.logout}`);
     localStorage.removeItem('token');
   }
+
 
   isAuthenticated(): boolean {
     return localStorage.getItem('status') === 'loggedin';

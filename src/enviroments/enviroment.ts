@@ -8,6 +8,7 @@ export const environment = {
       signup: '/employee/signup',
       delete: '/employee/delete',
       update: '/employee/update',
+      getemployeeByToken: '/employee/by-token',
       login: '/employee/login',
       logout: '/employee/logout',
     },
@@ -27,6 +28,7 @@ export const environment = {
       create: '/appointment/create',
       update: '/appointment/update',
       delete: '/appointment/delete',
+      createMultiple: '/appointment/createMultiple',
     },
     reservation: {
       getAll: '/reservation/reservations',

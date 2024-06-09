@@ -7,6 +7,7 @@ import { OurservicesService } from '../../../home/services/ourservices/ourservic
 import { Service } from '../../../../core/models/Service.model';
 import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
+import { LoginService } from '../../../auth/services/login-service/login.service';
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
@@ -28,22 +29,46 @@ export class AppointmentsComponent {
   services: Service[] = [];
   isActive: number | null = null;
   selcAppointment: Appointment | null = null;
-
-
-  constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService,private datePipe: DatePipe) {
+  usertype: string | null = null;
+  appointmentsData: any[] = [{ date: '', start: '', end: '', min: null }];
+  constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService,private datePipe: DatePipe,private loginService: LoginService,) {
     this.selectedDate = this.getCurrentDate();
     this.selectedAppointments = this.availableappointments.map(_ => false);
   }
 
   ngOnInit() {
-    this.loadPatientReservations();
-    this.loadservices();
-    const formattedDate = new Date(this.selectedDate);
     const today = new Date();
     this.loadAppointmentbydate(today);
-    console.log("init",this.selectedDate)
+    this.usertype = localStorage.getItem('usertype');
+    if (this.usertype == "patient"){
+      this.loadPatientReservations();
+      this.loadservices();
+
+    }
+    else if (this.usertype == "employee"){
+
+
+    }
+
+  }
+  onSubmit() {
+    this.appointmentsService.createMultipleAppointments(this.appointmentsData).subscribe({
+      next: (response) => {
+        console.log(' success', response);
+        window.location.reload();
+      },
+      error(error) {
+        console.log('error', error);
+      },
+    });
+  }
+  addAppointment() {
+    this.appointmentsData.push({ date: '', start: '', end: '', min: null });
   }
 
+  removeAppointment(index: number) {
+    this.appointmentsData.splice(index, 1);
+  }
   handleDateSelected(selectedDate: Date) {
     if (!(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
       console.error('Invalid date selected:', selectedDate);
