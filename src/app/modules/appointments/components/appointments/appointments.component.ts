@@ -28,16 +28,6 @@ export class AppointmentsComponent {
   isActive: number | null = null;
   selcAppointment: Appointment | null = null;
 
-  times = [
-    { hour: '08:30', selected: false, disabled: true },
-    { hour: '09:00', selected: false, disabled: true },
-    { hour: '09:30', selected: false, disabled: false },
-    { hour: '10:00', selected: false, disabled: true },
-    { hour: '10:30', selected: false, disabled: false },
-    { hour: '11:00', selected: false, disabled: true },
-    { hour: '11:30', selected: false, disabled: false },
-    { hour: '12:00', selected: false, disabled: true },
-  ];
 
   constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService,private datePipe: DatePipe) {
     this.selectedDate = this.getCurrentDate();
@@ -48,7 +38,8 @@ export class AppointmentsComponent {
     this.loadPatientReservations();
     this.loadservices();
     const formattedDate = new Date(this.selectedDate);
-
+    const today = new Date();
+    this.loadAppointmentbydate(today);
     console.log("init",this.selectedDate)
   }
 
@@ -108,13 +99,6 @@ isSelected(appointment: Appointment): boolean {
   return this.selcAppointment === appointment;
 }
 
-
-
-
-
-
-
-
   private loadPatientReservations() {
     this.subscription.add(
       this.appointmentsService.getPatientReservation().subscribe({
@@ -139,6 +123,7 @@ isSelected(appointment: Appointment): boolean {
         console.log('Loading Appointments successfully', this.availableappointments);
       },
       error: (error) => {
+        this.availableappointments = [];
         console.error('An error occurred while loading Appointments', error);
       },
     });
@@ -163,8 +148,32 @@ isSelected(appointment: Appointment): boolean {
     this.loadAppointment(id);
     return this.appointment;
   }
+  isPastAppointment(date: any, hourString: string): boolean {
+    // Ensure the date is a Date object
+    const appointmentDate = new Date(date);
 
+    if (isNaN(appointmentDate.getTime())) {
+      console.error('Invalid date:', date);
+      return false;
+    }
 
+    const today = new Date();
+
+    const isSameDay = appointmentDate.getFullYear() === today.getFullYear() &&
+                      appointmentDate.getMonth() === today.getMonth() &&
+                      appointmentDate.getDate() === today.getDate();
+
+    if (isSameDay) {
+      const [hour, minute] = hourString.split(':').map(Number);
+      const appointmentTime = new Date();
+      appointmentTime.setHours(hour, minute, 0, 0);
+
+      const now = new Date();
+      return appointmentTime < now;
+    }
+
+    return false;
+  }
 
   private getCurrentDate(): string {
     const today = new Date();
