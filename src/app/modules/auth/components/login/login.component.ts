@@ -29,19 +29,22 @@ export class LoginComponent {
         Validators.required,
         Validators.minLength(6),
       ]),
+      userType: new FormControl('patient', Validators.required) // Added userType FormControl
     });
   }
   ngOnInit(): void {}
 
   onLogin(): void {
     this.loginFormSubmitted = true;
+
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      this.loginService.login(email, password).subscribe({
+      const { email, password, userType } = this.loginForm.value;
+
+      this.loginService.login(email, password, userType).subscribe({
         next: (response) => {
           // Handle successful login response
           console.log('Login successful', response);
-          //      window.location.reload();
+          // window.location.reload();
           this.router.navigate(['appointments']);
         },
         error: (error) => {
@@ -53,6 +56,7 @@ export class LoginComponent {
       console.log('Form is invalid');
     }
   }
+
   switchToSignup() {
     this.switchMode.emit();
   }

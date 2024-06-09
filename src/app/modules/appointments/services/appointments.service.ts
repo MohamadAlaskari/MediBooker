@@ -64,9 +64,12 @@ export class AppointmentsService {
     };
     return this.apiService.post<Reservation>(`${this.reservationEndepoints.create}`, body);
   }
+  createMultipleAppointments (data: any[]): Observable<Appointment[]>{
+
+    return this.apiService.post<Appointment[]>(`${this.appointmentsEndepoint.createMultiple}`, data);
+  }
   deletereservation(id: string): Observable<string> {
     const params = new HttpParams().set('id', id);
     return this.apiService.delete<string>(`${this.reservationEndepoints.delete}?${params.toString()}`);
   }
-
 }
