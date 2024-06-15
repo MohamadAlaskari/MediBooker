@@ -83,12 +83,16 @@
       <div class="d-flex flex-wrap ">
         <ng-container *ngIf="availableappointments && availableappointments.length > 0">
           <div *ngFor="let appointment of availableappointments; let i = index">
+
+
             <div class="checkbox-button" [class.selected]="isSelected(appointment)">
               <input type="checkbox" id="checkbox{{i}}"
                 [disabled]="appointment.status === true || isPastAppointment(appointment.date, appointment.hour)"
                 (change)="handleCheckboxClick(appointment)" [(ngModel)]="selectedAppointments[i]">
               <label for="checkbox{{i}}">{{ formatHour(appointment.hour) }}</label>
             </div>
+
+
           </div>
         </ng-container>
 
