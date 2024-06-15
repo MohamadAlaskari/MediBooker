@@ -5,23 +5,20 @@
   <!--services-->
   <div class="row pt-5 mt-30 d-flex flex-wrap">
 
-   @for ( service of services; track service.id) {
+    @for ( service of services; track service.id) {
 
-     <div  class="col-lg-4 col-sm-6 mb-30 pb-5 d-flex ">
-       <a class="card">
+    <div class="col-lg-4 col-sm-6 mb-30 pb-5 d-flex ">
+      <a class="card">
 
-         <div class="box-service box-shadow bg-white rounded-circle mx-auto text-center">
-
-
-         </div>
-         <div class="card-body text-center d-flex flex-column">
-           <h3 class="card-title pt-1">{{ service.type }}</h3>
-           <p class="card-text text-sm flex-grow-1">{{ service.description }}</p>
-           <span class="text-sm text-uppercase font-weight-bold">Learn More&nbsp;<i class="fa fa-arrow-right"></i></span>
-         </div>
-       </a>
-     </div>
-   }
+        <div class="box-service box-shadow rounded-circle mx-auto text-center"></div>
+        <div class="card-body text-center d-flex flex-column">
+          <h3 class="card-title pt-1">{{ service.type }}</h3>
+          <p class="card-text text-sm flex-grow-1">{{ service.description }}</p>
+          <span class="text-sm text-uppercase font-weight-bold">read more&nbsp;<i class="fa fa-arrow-right"></i></span>
+        </div>
+      </a>
+    </div>
+    }
 
   </div>
 </section>
