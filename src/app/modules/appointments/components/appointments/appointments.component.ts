@@ -15,14 +15,19 @@ import { LoginService } from '../../../auth/services/login-service/login.service
 })
 export class AppointmentsComponent {
 
+
   appointments: Appointment[] = [];
   availableappointments: Appointment[] = [];
   appointment: Appointment | null = null;
+
   subscription = new Subscription();
   reservations: Reservation[] = [];
   appointmentsbydate: Appointment[] = [];
+
   selectedDate: string;
   selectedtime: string | null = null;
+
+
   selectedService: any;
   description: string | null = null;
   selectedAppointments: boolean[] = [];
@@ -30,8 +35,10 @@ export class AppointmentsComponent {
   isActive: number | null = null;
   selcAppointment: Appointment | null = null;
   usertype: string | null = null;
-  appointmentsData: any[] = [{ date: '', start: '', end: '', min: null }];
-  constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService,private datePipe: DatePipe,private loginService: LoginService,) {
+
+
+
+  constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService, private datePipe: DatePipe, private loginService: LoginService,) {
     this.selectedDate = this.getCurrentDate();
     this.selectedAppointments = this.availableappointments.map(_ => false);
   }
@@ -40,35 +47,32 @@ export class AppointmentsComponent {
     const today = new Date();
     this.loadAppointmentbydate(today);
     this.usertype = localStorage.getItem('usertype');
-    if (this.usertype == "patient"){
+    if (this.usertype == "patient") {
       this.loadPatientReservations();
       this.loadservices();
 
     }
-    else if (this.usertype == "employee"){
-
+    else if (this.usertype == "employee") {
 
     }
 
   }
-  onSubmit() {
-    this.appointmentsService.createMultipleAppointments(this.appointmentsData).subscribe({
-      next: (response) => {
-        console.log(' success', response);
-        window.location.reload();
-      },
-      error(error) {
-        console.log('error', error);
-      },
-    });
-  }
-  addAppointment() {
-    this.appointmentsData.push({ date: '', start: '', end: '', min: null });
+
+
+
+
+
+
+
+
+
+  enforceMinimumValue(appointment: any) {
+    if (appointment.min < 10) {
+      appointment.min = 10; // Set it to 10 if it's less than 10
+    }
   }
 
-  removeAppointment(index: number) {
-    this.appointmentsData.splice(index, 1);
-  }
+
   handleDateSelected(selectedDate: Date) {
     if (!(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
       console.error('Invalid date selected:', selectedDate);
@@ -107,23 +111,23 @@ export class AppointmentsComponent {
   }
   handleCheckboxClick(appointment: Appointment) {
     if (!appointment.status) {
-        const index = this.availableappointments.findIndex(appt => appt === appointment);
-        if (this.selcAppointment === appointment) {
-            // If the clicked appointment is already selected, deselect it
-            this.selcAppointment = null;
-            console.log("Time deselected:", appointment.hour);
-        } else {
-            // Deselect the previously selected appointment
-            this.selcAppointment = appointment;
-            console.log("Time selected:", this.selcAppointment.hour);
-        }
-        // Update the selectedAppointments array based on the checkbox state
-        this.selectedAppointments[index] = !this.selectedAppointments[index];
+      const index = this.availableappointments.findIndex(appt => appt === appointment);
+      if (this.selcAppointment === appointment) {
+        // If the clicked appointment is already selected, deselect it
+        this.selcAppointment = null;
+        console.log("Time deselected:", appointment.hour);
+      } else {
+        // Deselect the previously selected appointment
+        this.selcAppointment = appointment;
+        console.log("Time selected:", this.selcAppointment.hour);
+      }
+      // Update the selectedAppointments array based on the checkbox state
+      this.selectedAppointments[index] = !this.selectedAppointments[index];
     }
-}
-isSelected(appointment: Appointment): boolean {
-  return this.selcAppointment === appointment;
-}
+  }
+  isSelected(appointment: Appointment): boolean {
+    return this.selcAppointment === appointment;
+  }
 
   private loadPatientReservations() {
     this.subscription.add(
@@ -142,7 +146,7 @@ isSelected(appointment: Appointment): boolean {
     );
   }
   private loadAppointmentbydate(date: Date) {
-    console.log("final",date);
+    console.log("final", date);
     this.appointmentsService.getAppointmentByDate(date).subscribe({
       next: (availableappointments: Appointment[]) => {
         this.availableappointments = availableappointments;
@@ -186,8 +190,8 @@ isSelected(appointment: Appointment): boolean {
     const today = new Date();
 
     const isSameDay = appointmentDate.getFullYear() === today.getFullYear() &&
-                      appointmentDate.getMonth() === today.getMonth() &&
-                      appointmentDate.getDate() === today.getDate();
+      appointmentDate.getMonth() === today.getMonth() &&
+      appointmentDate.getDate() === today.getDate();
 
     if (isSameDay) {
       const [hour, minute] = hourString.split(':').map(Number);
@@ -205,7 +209,7 @@ isSelected(appointment: Appointment): boolean {
     const today = new Date();
     return this.formatDate(today);
   }
-  formatHour(hourString: string ): string {
+  formatHour(hourString: string): string {
     // Split the hourString by ':' and take the first two elements
     const [hour, minute] = hourString.split(':').slice(0, 2);
     return `${hour}:${minute}`;
@@ -273,7 +277,7 @@ isSelected(appointment: Appointment): boolean {
           text: "Your Appointment has been cancled.",
           icon: "success"
         });
-window.location.reload();
+        window.location.reload();
       },
       error(error) {
         console.log('error', error);

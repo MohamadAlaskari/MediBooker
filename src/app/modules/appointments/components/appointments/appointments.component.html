@@ -36,38 +36,11 @@
     }
   </div>
   <div class="col-md-6" *ngIf="usertype === 'employee'">
-    <!-- your-component.component.html -->
-    <!-- your-component.component.html -->
-    <form (ngSubmit)="onSubmit()" class="form-container">
-      <h4>create appointments</h4>
-      <div *ngFor="let appointment of appointmentsData; let i = index" class="form-group">
-        <div class="form-row">
-          <div class="col-md-3">
-            <label>Date:</label>
-            <input type="date" [(ngModel)]="appointment.date" name="date{{i}}" class="form-control" required>
-          </div>
-          <div class="col-md-3">
-            <label>Start Time:</label>
-            <input type="time" [(ngModel)]="appointment.start" name="start{{i}}" class="form-control" required>
-          </div>
-          <div class="col-md-3">
-            <label>End Time:</label>
-            <input type="time" [(ngModel)]="appointment.end" name="end{{i}}" class="form-control" required>
-          </div>
-          <div class="col-md-2">
-            <label>Duration:</label>
-            <input type="number" [(ngModel)]="appointment.min" name="min{{i}}" class="form-control" required>
-          </div>
-          <div class="col-md-1">
-            <button type="button" class="remv-btn btn btn-primary " (click)="removeAppointment(i)">-</button>
-          </div>
-        </div>
-      </div>
-      <button type="button" class="btn btn-success add-btn" (click)="addAppointment()">+</button>
-      <button type="submit" class="btn btn-primary submit-btn">Submit</button>
-    </form>
+<app-appointment-managment></app-appointment-managment>
 
   </div>
+
+
 
   <!--Calender-->
   <div class="col-md-6">

@@ -1,0 +1,48 @@
+<form (ngSubmit)="onSubmit()" class="form-container">
+  <h4>create appointments</h4>
+  <div *ngFor="let appointment of appointmentsData; let i = index" class="form-group">
+    <div class="form-row">
+      <div class="col-md-3">
+        <label>Date:</label>
+        <input type="text"
+               placeholder="select date"
+               class="form-control"
+               bsDatepicker
+               required=""
+               name="date{{i}}"
+               [(ngModel)]="appointment.date"
+               [bsValue]="bsValue"
+               [minDate]="minDate"
+               [datesDisabled]="disabledDates"
+               [daysDisabled]="[7,0]"
+               [bsConfig]="bsConfig">
+      </div>
+
+
+      <div class="col-md-3">
+        <label>Start Time:</label>
+        <select [(ngModel)]="appointment.start" name="start{{i}}" class="form-control" required>
+          <option value="" disabled selected>Select start time</option>
+          <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label>End Time:</label>
+        <select [(ngModel)]="appointment.end" name="end{{i}}" class="form-control" required>
+          <option value="" disabled selected>Select end time</option>
+          <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label>Duration:</label>
+        <input type="number" [(ngModel)]="appointment.min" name="min{{i}}" class="form-control" (change)="enforceMinimumValue(appointment)" required>
+      </div>
+
+      <div class="col-md-1">
+        <button type="button" class="btn remv-btn" (click)="removeAppointment(i)">-</button>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn add-btn" (click)="addAppointment()">+</button>
+  <button type="submit" class="btn submit-btn">Submit</button>
+</form>
