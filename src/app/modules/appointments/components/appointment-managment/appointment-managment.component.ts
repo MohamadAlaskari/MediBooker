@@ -16,7 +16,7 @@ export class AppointmentManagmentComponent {
   showAppointmentsForm: boolean = true;
   starttime : string  = "";
   endtime : string = "";
-  Duration : string = "";
+  Duration: number =10;
   fromtoday: string | null = null;
   availableTimes: string[] = [];
   allappointments: Appointment[] = [];
@@ -46,7 +46,21 @@ export class AppointmentManagmentComponent {
   padTime(value: number): string {
     return value < 10 ? '0' + value : value.toString();
   }
+  checkDisabledDates(dateRange: Date[]): boolean {
+    const startDate = dateRange[0];
+    const endDate = dateRange[1];
+    const disabledDates = this.disabledDates; // assuming this is your disabledDates array
+
+    for (const disabledDate of disabledDates) {
+      if (disabledDate >= startDate && disabledDate <= endDate) {
+        return true;
+      }
+    }
+
+    return false; // no disabled dates found within the range
+  }
   createForDateRange() {
+    if (!this.checkDisabledDates(this.dateRange)) {
     const dateStart = this.dateRange[0].toISOString().split('T')[0];
     const dateEnd = this.dateRange[1].toISOString().split('T')[0];
 
@@ -60,6 +74,7 @@ export class AppointmentManagmentComponent {
           console.error('Error:', error);
         }
       });
+    }
   }
   getAppointments() {
     this.appointmentsService.getAppointments().subscribe({
@@ -101,7 +116,7 @@ export class AppointmentManagmentComponent {
         const count = appointmentsCount[dateStr];
         console.log(`Date: ${dateStr}, Count: ${count}`);
 
-        if (count > 3) {
+        if (count > 10) {
           const dateParts = dateStr.split('-').map(Number); // Split the date string into parts
           const year = dateParts[0];
           const month = dateParts[1] - 1; // Months are zero-indexed in JavaScript Date objects
@@ -142,6 +157,12 @@ export class AppointmentManagmentComponent {
   enforceMinimumValue(appointment: any) {
     if (appointment.min < 10) {
       appointment.min = 10; // Set it to 10 if it's less than 10
+    }
+  }
+
+  enforceMinimum() {
+    if (this.Duration < 10) {
+      this.Duration = 10;
     }
   }
 }
