@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://medi-booker-ap-i.vercel.app',
+  apiBaseUrl: 'http://localhost:3000',
   endpoints: {
     employee: {
       getAll: '/employee/employees',
@@ -29,6 +29,7 @@ export const environment = {
       update: '/appointment/update',
       delete: '/appointment/delete',
       createMultiple: '/appointment/createMultiple',
+      createForDateRange: '/appointment/createForDateRange',
     },
     reservation: {
       getAll: '/reservation/reservations',

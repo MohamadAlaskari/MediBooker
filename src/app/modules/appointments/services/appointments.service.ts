@@ -55,7 +55,7 @@ export class AppointmentsService {
 }
 
 
-createForDateRange(dateStart: string, dateEnd: string, min: string, start: string, end: string): Observable<Appointment[]> {
+createForDateRange(dateStart: string, dateEnd: string, min: number, start: string, end: string): Observable<Appointment[]> {
 
   const body = {
     dateStart: dateStart,
