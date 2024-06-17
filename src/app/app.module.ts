@@ -15,6 +15,9 @@ import { AuthService } from './modules/auth/services/auth-service/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './modules/auth/auth.module';
 import { AuthComponent } from './modules/auth/components/auth/auth.component';
+import { PatientsModule } from './modules/patients/patients.module';
+import { EmployeesModule } from './modules/employees/employees.module';
+import { ServicesModule } from './modules/services/services.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -22,10 +25,14 @@ import { AuthComponent } from './modules/auth/components/auth/auth.component';
     CoreModule,
     AppointmentsModule,
     ModulesModule,
+    ServicesModule,
     SweetAlert2Module.forRoot(),
     SharedModule,
     BrowserModule,
     AuthModule,
+    PatientsModule,
+    EmployeesModule,
+
     BrowserAnimationsModule,
   ],
   providers: [provideClientHydration()],

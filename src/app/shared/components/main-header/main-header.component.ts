@@ -49,6 +49,8 @@ export class MainHeaderComponent {
   }
 
   logout(): void {
+    localStorage.removeItem('usertype');
+    localStorage.setItem('usertype', "null");
     this.subscribtion.add(
       this.authService.logout().subscribe({
         next: (response) => {
@@ -68,6 +70,7 @@ export class MainHeaderComponent {
     );
   }
   logoutemp(): void {
+    localStorage.removeItem('usertype');
     this.subscribtion.add(
       this.loginService.logoutemp().subscribe({
         next: (response) => {

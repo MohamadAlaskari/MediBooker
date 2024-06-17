@@ -11,6 +11,27 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'Employees',
+    loadChildren: () =>
+      import('./modules/employees/employees.module').then(
+        (m) => m.EmployeesModule
+      ),
+  },
+  {
+    path: 'Services',
+    loadChildren: () =>
+      import('./modules/services/services.module').then(
+        (m) => m.ServicesModule
+      ),
+  },
+  {
+    path: 'Patients',
+    loadChildren: () =>
+      import('./modules/patients/patients.module').then(
+        (m) => m.PatientsModule
+      ),
+  },
+  {
     path: 'home',
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
