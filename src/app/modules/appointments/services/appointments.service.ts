@@ -55,7 +55,19 @@ export class AppointmentsService {
 }
 
 
+createForDateRange(dateStart: string, dateEnd: string, min: string, start: string, end: string): Observable<Appointment[]> {
 
+  const body = {
+    dateStart: dateStart,
+    dateEnd: dateEnd,
+    min: min,
+    start: start,
+    end: end
+  };
+
+  return this.apiService.post<Appointment[]>(`${this.appointmentsEndepoint.createForDateRange}`, body);
+
+}
 
   createreservation(appointmentId: number, serviceId: string): Observable<Reservation> {
     const body = {
