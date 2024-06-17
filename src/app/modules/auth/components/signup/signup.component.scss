@@ -1,67 +1,7 @@
-
-
-.login-section h3 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 1.5rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Previous CSS styles here */
-
-.form-floating {
-  position: relative;
-  margin-bottom: 1.5rem;
-}
-
-.form-floating label {
-  color: #555;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: transform .2s ease-in-out, color .2s ease-in-out;
-}
-
-.form-floating input {
-  border-radius: 10px;
-  padding: 20px 15px;
-  border: 1px solid #ddd;
-  transition: padding .2s ease-in-out; /* Add transition for padding */
-}
-
-.form-floating input:focus {
-  padding-top: 35px; /* Increase padding when input is focused */
-}
-
-/* Add padding for input when label is floated */
-.form-floating label.floated {
-  transform: translate(0, -35px);
-  font-size: 0.875rem;
-}
-
-/* Add styles for invalid feedback */
-.invalid-feedback {
-  display: block;
-  color: #e3342f;
-  font-size: 0.875rem;
-}
-
-/* Additional styles for larger buttons */
-.btn-lg {
-  font-size: 1.5rem;
-  padding: 20px 40px;
-}
-
-
 .btn-primary {
   background-color: #0b8a76;
   border-color: #0b8a76;
-  border-radius: 15px;
-  padding: 15px 30px;
-  font-size: 1.25rem;
-  transition: all 0.3s;
 }
-
 
 .btn-primary:hover {
   background-color: #077565;
@@ -71,10 +11,6 @@
 .btn-outline-secondary {
   border-color: #6c757d;
   color: #6c757d;
-  border-radius: 15px;
-  padding: 15px 30px;
-  font-size: 1.25rem;
-  transition: all 0.3s;
 }
 
 .btn-outline-secondary:hover {
@@ -92,23 +28,6 @@
   text-decoration: underline;
 }
 
-.alert {
-  border-radius: 10px;
-  padding: 15px;
-  font-size: 0.875rem;
-}
-
-.mt-3 {
-  margin-top: 1rem;
-}
-
-
-
-
-
-.bg-light {
-  background-color: #f8f9fa !important; /* Change to your desired color */
-}
 .step-indicators {
   display: flex;
   justify-content: center;
@@ -169,7 +88,7 @@
 
 /*ProgressBar connectors*/
 #progressbar li:after {
-  content: '';
+  content: "";
   width: 100%;
   height: 5px;
   background: lightgray;
@@ -180,27 +99,8 @@
 }
 
 /*Color number of the step and the connector before it*/
-#progressbar li.active:before, #progressbar li.active:after {
+#progressbar li.active:before,
+#progressbar li.active:after {
   transition: all 0.4s ease-in;
   background: #0b8a76;
-}
-
-.circle {
-  width: 50px; /* Adjust as needed */
-  height: 50px; /* Adjust as needed */
-  border-radius: 50%;
-  background-color: transparent; /* Set background color to transparent */
-  border: 2px solid #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-.bg-success {
-  box-shadow: inset 0 0 0 20px #156d2a;
-  color: white;
-  width: 50px; /* Adjust as needed */
-  height: 50px; /* Adjust as needed */
-  border-radius: 50%;/* Use box-shadow to create the green circle within the border */
 }
