@@ -26,9 +26,5 @@ import { trigger, style, animate, transition, group } from '@angular/animations'
 
 export class AuthComponent {
 
-  isLoginMode: boolean = true;
 
-  switchMode() {
-    this.isLoginMode = !this.isLoginMode;
-  }
 }

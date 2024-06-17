@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  @Output() switchMode = new EventEmitter<void>();
   loginForm: FormGroup;
   loginFormSubmitted: boolean = false;
   patient: Patient | null = null;
@@ -24,12 +23,12 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [
+      loginEmail: new FormControl('', [Validators.required, Validators.email]),
+      loginPassword: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
       ]),
-      userType: new FormControl('patient', Validators.required) // Added userType FormControl
+      userType: new FormControl('patient', Validators.required), // Added userType FormControl
     });
   }
   ngOnInit(): void {}
@@ -38,9 +37,9 @@ export class LoginComponent {
     this.loginFormSubmitted = true;
 
     if (this.loginForm.valid) {
-      const { email, password, userType } = this.loginForm.value;
+      const { loginEmail, loginPassword, userType } = this.loginForm.value;
 
-      this.loginService.login(email, password, userType).subscribe({
+      this.loginService.login(loginEmail, loginPassword, userType).subscribe({
         next: (response) => {
           // Handle successful login response
           console.log('Login successful', response);
@@ -57,14 +56,8 @@ export class LoginComponent {
     }
   }
 
-  switchToSignup() {
-    this.switchMode.emit();
-  }
   onCancel(): void {
     this.loginForm.reset();
     this.loginFormSubmitted = false;
-  }
-  onSwitchToSignUp() {
-    this.switchMode.emit();
   }
 }

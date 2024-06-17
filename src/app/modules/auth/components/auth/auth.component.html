@@ -1,10 +1,8 @@
 <div class="auth-container">
   <div class="auth-content">
-    <div *ngIf="isLoginMode"  class="form-container">
-      <app-login  @fadeInOut (switchMode)="switchMode()"></app-login>
-    </div>
-    <div *ngIf="!isLoginMode"  class="form-container">
-      <app-signup  @fadeInOut (switchMode)="switchMode()"></app-signup>
-    </div>
+
+    <app-login></app-login>
+    <app-signup></app-signup>
+
   </div>
 </div>

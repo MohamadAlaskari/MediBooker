@@ -15,12 +15,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
   },
-  {
-    path: 'authentication',
-    loadChildren: () =>
-      import('./modules/auth/auth.module').then((m) => m.AuthModule),
 
-  },
   { path: '', redirectTo: 'home', pathMatch: 'full' }, //default route
   { path: '**', redirectTo: 'home' }, // Fallback-Route beim fehler path
 ];

@@ -13,6 +13,8 @@ import { HomeModule } from './modules/home/home.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { AuthService } from './modules/auth/services/auth-service/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthModule } from './modules/auth/auth.module';
+import { AuthComponent } from './modules/auth/components/auth/auth.component';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -23,7 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SweetAlert2Module.forRoot(),
     SharedModule,
     BrowserModule,
-    BrowserAnimationsModule
+    AuthModule,
+    BrowserAnimationsModule,
   ],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],
