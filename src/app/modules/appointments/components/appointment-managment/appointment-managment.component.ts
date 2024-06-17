@@ -13,14 +13,18 @@ export class AppointmentManagmentComponent {
   bsValue = new Date();
   bsConfig: Partial<BsDatepickerConfig>;
   minDate = new Date();
+  showAppointmentsForm: boolean = true;
+  starttime : string  = "";
+  endtime : string = "";
+  Duration : string = "";
   fromtoday: string | null = null;
   availableTimes: string[] = [];
   allappointments: Appointment[] = [];
   disabledDates: Date[] = [];
   appointmentsData: any[] = [{ date: '', start: '', end: '', min: 10 }];
-
+  dateRange: Date[];
   constructor(private appointmentsService: AppointmentsService) {
-
+    this.dateRange = [new Date(), new Date()];
     this.bsConfig = {
       dateInputFormat: 'YYYY-MM-DD',
       isAnimated: true,
@@ -41,6 +45,21 @@ export class AppointmentManagmentComponent {
   }
   padTime(value: number): string {
     return value < 10 ? '0' + value : value.toString();
+  }
+  createForDateRange() {
+    const dateStart = this.dateRange[0].toISOString().split('T')[0];
+    const dateEnd = this.dateRange[1].toISOString().split('T')[0];
+
+    this.appointmentsService.createForDateRange(dateStart, dateEnd, this.Duration, this.starttime, this.endtime)
+      .subscribe({
+        next: (response) => {
+          console.log('Success:', response);
+          window.location.reload(); // Example: Reload page on success
+        },
+        error: (error) => {
+          console.error('Error:', error);
+        }
+      });
   }
   getAppointments() {
     this.appointmentsService.getAppointments().subscribe({
