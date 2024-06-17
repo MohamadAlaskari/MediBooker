@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrl: './sub-header.component.scss'
 })
 export class SubHeaderComponent {
+  usertype: string | null = null;
 
+  ngOnInit() {
+
+    this.usertype = localStorage.getItem('usertype');
+
+
+  }
 }

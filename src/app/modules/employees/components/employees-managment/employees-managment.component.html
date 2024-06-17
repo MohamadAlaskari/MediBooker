@@ -1,0 +1,23 @@
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">name</th>
+      <th scope="col">surname</th>
+      <th scope="col">email</th>
+      <th scope="col">adress</th>
+      <th scope="col">act</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let employee of employees">
+      <th scope="row">1</th>
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.surname }}</td>
+      <td>{{ employee.email }}</td>
+      <td>{{ employee.city }}</td>
+    </tr>
+
+  </tbody>
+</table>
+
