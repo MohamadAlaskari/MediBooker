@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" class="form-container">
+<form (ngSubmit)="onSubmit()" #appointmentForm="ngForm" class="form-container">
   <h4>create appointments</h4>
   <div *ngFor="let appointment of appointmentsData; let i = index" class="form-group">
     <div class="form-row">
@@ -8,34 +8,47 @@
                placeholder="select date"
                class="form-control"
                bsDatepicker
-               required=""
+               required
                name="date{{i}}"
                [(ngModel)]="appointment.date"
+               #date="ngModel"
+               [class.is-invalid]="date.invalid && date.touched"
                [bsValue]="bsValue"
                [minDate]="minDate"
                [datesDisabled]="disabledDates"
                [daysDisabled]="[7,0]"
                [bsConfig]="bsConfig">
+        <div *ngIf="date.invalid && date.touched" class="invalid-feedback">
+          Date is required.
+        </div>
       </div>
-
 
       <div class="col-md-3">
         <label>Start Time:</label>
-        <select [(ngModel)]="appointment.start" name="start{{i}}" class="form-control" required>
+        <select [(ngModel)]="appointment.start" name="start{{i}}" class="form-control" required #start="ngModel" [class.is-invalid]="start.invalid && start.touched">
           <option value="" disabled selected>Select start time</option>
           <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
         </select>
+        <div *ngIf="start.invalid && start.touched" class="invalid-feedback">
+          Start time is required.
+        </div>
       </div>
       <div class="col-md-3">
         <label>End Time:</label>
-        <select [(ngModel)]="appointment.end" name="end{{i}}" class="form-control" required>
+        <select [(ngModel)]="appointment.end" name="end{{i}}" class="form-control" required #end="ngModel" [class.is-invalid]="end.invalid && end.touched">
           <option value="" disabled selected>Select end time</option>
           <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
         </select>
+        <div *ngIf="end.invalid && end.touched" class="invalid-feedback">
+          End time is required.
+        </div>
       </div>
       <div class="col-md-2">
         <label>Duration:</label>
-        <input type="number" [(ngModel)]="appointment.min" name="min{{i}}" class="form-control" (change)="enforceMinimumValue(appointment)" required>
+        <input type="number" [(ngModel)]="appointment.min" name="min{{i}}" class="form-control" (change)="enforceMinimumValue(appointment)" required #min="ngModel" [class.is-invalid]="min.invalid && min.touched">
+        <div *ngIf="min.invalid && min.touched" class="invalid-feedback">
+          Duration is required .
+        </div>
       </div>
 
       <div class="col-md-1">
@@ -44,5 +57,6 @@
     </div>
   </div>
   <button type="button" class="btn add-btn" (click)="addAppointment()">+</button>
-  <button type="submit" class="btn submit-btn">Submit</button>
+  <button type="submit" class="btn submit-btn" [disabled]="appointmentForm.invalid">Submit</button>
 </form>
+
