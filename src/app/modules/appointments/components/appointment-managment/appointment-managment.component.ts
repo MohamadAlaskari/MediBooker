@@ -98,16 +98,21 @@ export class AppointmentManagmentComponent {
   }
 
   onSubmit() {
-    this.appointmentsService.createMultipleAppointments(this.appointmentsData).subscribe({
-      next: (response) => {
-        console.log(' success', response);
-        window.location.reload();
-      },
-      error(error) {
-        console.log('error', error);
-      },
-    });
+    if (this.appointmentsData.every(app => app.date && app.start && app.end && app.min > 0)) {
+      this.appointmentsService.createMultipleAppointments(this.appointmentsData).subscribe({
+        next: (response) => {
+          console.log(' success', response);
+          window.location.reload();
+        },
+        error: (error) => {
+          console.log('error', error);
+        },
+      });
+    } else {
+      console.log('Form is invalid');
+    }
   }
+
   addAppointment() {
     this.appointmentsData.push({ date: '', start: '', end: '', min: null });
   }
