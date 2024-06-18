@@ -19,8 +19,8 @@ export class SignupComponent {
     this.currentStep--;
   }
   signUpForm: FormGroup;
-  loginFormSubmitted: boolean = false;
   currentStep: number = 1;
+  loginFormSubmitted: boolean = false;
 
   constructor(private signUpService: SignupService) {
     this.signUpForm = new FormGroup({

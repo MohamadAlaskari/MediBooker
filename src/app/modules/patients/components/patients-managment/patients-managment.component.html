@@ -1,1 +1,68 @@
-<p>patients-managment works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-10">
+      <div class="search-section">
+        <input type="text" class="form-control form-control-lg" placeholder="Search" [(ngModel)]="searchTerm">
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="modal fade" id="modal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="loginmodal"> Form</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Address</th>
+            <th scope="col">Insurance</th>
+            <th scope="col">Act</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let patient of filteredPatients(); let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ patient.name }}</td>
+            <td>{{ patient.surname }}</td>
+            <td>{{ patient.email }}</td>
+            <td>{{ patient.phoneNr }}</td>
+            <td (mouseenter)="showTooltip($event, [{ label: 'City', value: patient.city },{ label: 'street', value: patient.street},{ label: 'hNr', value: patient.hNr },{ label: 'Plz', value: patient.postcode}])" (mouseleave)="hideTooltip()">
+              {{ patient.city }}
+            </td>
+            <td (mouseenter)="showTooltip($event, [{ label: 'healthInsurance', value: patient.healthInsurance },{ label: 'insuranceType', value: patient.insuranceType},{ label: 'insuranceNr', value: patient.insuranceNr}])" (mouseleave)="hideTooltip()">
+              {{ patient.healthInsurance }}
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="removePatient(patient.id)">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+</div>
