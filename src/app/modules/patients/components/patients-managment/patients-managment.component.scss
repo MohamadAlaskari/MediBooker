@@ -1,0 +1,75 @@
+.container {
+  padding: 20px;
+}
+
+.form-section, .search-section {
+  margin-bottom: 20px;
+}
+
+.form-section h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.thead-dark th {
+  background-color: #343a40;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #0b8a76;
+  border: none;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+}
+
+.btn {
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+
+.form-control {
+  border-radius: 20px;
+  padding: 10px;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+.search {
+  height: 50px;
+}
+.custom-tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  z-index: 1000;
+  font-size: 14px;
+  pointer-events: none; /* Ensure tooltip does not interfere with mouse events on underlying elements */
+}
+.tooltip-trigger {
+  position: relative; /* Ensure position:relative for containing the tooltip */
+  cursor: pointer; /* Change cursor to pointer to indicate interaction */
+}
