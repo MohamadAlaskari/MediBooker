@@ -36,13 +36,14 @@
     }
   </div>
   <div class="col-md-6" *ngIf="usertype === 'employee'">
-<app-appointment-managment></app-appointment-managment>
+    <app-appointment-managment></app-appointment-managment>
 
   </div>
 
 
 
   <!--Calender-->
+  @if(selectedDate){
   <div class="col-md-6">
     <div class="calend ">
       <h6 class="">Select date</h6>
@@ -50,8 +51,8 @@
     </div>
 
     <!-- Times-->
-    @if(selectedDate){
-    <div class="timesel">
+
+    <div class="timesel" *ngIf="usertype === 'patient'">
       <h6>Select Time</h6>
       <div class="d-flex flex-wrap ">
         <ng-container *ngIf="availableappointments && availableappointments.length > 0">
@@ -103,10 +104,93 @@
       </div>
     </div>
 
-    }
+
 
 
 
   </div>
+  <div class="col-md-12" *ngIf="usertype === 'employee'">
+    <div class="table-responsive">
+      <table class="table  table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Hour</th>
+            <th scope="col">status</th>
 
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let appointment of availableappointments; let i = index"
+            [class.table-success]="appointment.status">
+            <td>{{ i + 1 }}</td>
+            <td>{{ appointment.date | date:'dd-MM-yyyy' }}</td>
+            <td>{{ formatHour(appointment.hour) }}</td>
+            <td (click)="openModal(appointment)" [style.cursor]="appointment.status ? 'pointer' : 'default'">
+              {{ appointment.status ? 'reserviert' : 'nicht reserviert' }}
+            </td>
+
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  }
+</div>
+<div class="modal fade" #Modal id="modal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content" style="width: 700px;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="loginmodal">Reservation Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if(reservationdetails){
+        <div class="container">
+          <div class="team-single text-center">
+            <div class="row">
+              <div class="col-md-5 xs-margin-30px-bottom">
+                <div class="team-single-img">
+
+                  <div class="initials-avatar"
+                    *ngIf="reservationdetails.Patient.name && reservationdetails.Patient.surname">
+                    {{ reservationdetails.Patient.name.charAt(0) }}{{ reservationdetails.Patient.surname.charAt(0) }}
+                  </div>
+                </div>
+
+                <div>
+                  <h4>{{ reservationdetails.Patient.name }} {{ reservationdetails.Patient.surname }}</h4>
+                  <p>Email: {{ reservationdetails.Patient.email }}</p>
+                  <p>Phone Number: {{ reservationdetails.Patient.phoneNr }}</p>
+                  <p>Date of Birth: {{ reservationdetails.Patient.dob | date:'dd-MM-yyyy' }}</p>
+                </div>
+              </div>
+
+              <div class="col-md-7 text-start">
+                <div class="mb-3">
+                  <div class="service-title">Service :</div>
+                  <h4>{{reservationdetails.Service.type}}</h4>
+                </div>
+                <div class="mb-3">
+                  <div class="service-title">Description :</div>
+                  <p class="service-description">{{reservationdetails.Service.description}}</p>
+                </div>
+                <div class="footer">
+                  <p>Date: {{ reservationdetails.Appointment.date | date:'dd-MM-yyyy' }}</p>
+                  <p>Time: {{ formatHour(reservationdetails.Appointment.hour) }}</p>
+                  <p id="countdown" class="countdown">{{ countdown }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
 </div>

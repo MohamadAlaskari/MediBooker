@@ -12,6 +12,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 export class AppointmentsService {
 
 
+
   appointmentsEndepoint = environment.endpoints.appointment;
   reservationEndepoints = environment.endpoints.reservation;
 
@@ -84,4 +85,12 @@ createForDateRange(dateStart: string, dateEnd: string, min: number, start: strin
     const params = new HttpParams().set('id', id);
     return this.apiService.delete<string>(`${this.reservationEndepoints.delete}?${params.toString()}`);
   }
+
+
+  getreservationByAppointment(id: number): Observable<Reservation> {
+    return this.apiService.get<Reservation>(
+      `${this.reservationEndepoints.reservationByAppointment}/${id}`
+    );
+  }
+
 }
