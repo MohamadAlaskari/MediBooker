@@ -484,3 +484,21 @@ img {
   background-color: rgb(202, 238, 200);
   border-radius: 50%;
 }
+.custom-dropdown-button {
+  color: black; /* Set the icon color to black */
+  background: none; /* Remove background */
+  border: none; /* Remove border */
+  padding: 0; /* Remove padding */
+}
+
+.custom-dropdown-button::after {
+  display: none; /* Remove the default down arrow */
+}
+
+.custom-dropdown-button:focus {
+  box-shadow: none; /* Remove focus outline */
+}
+
+.custom-dropdown-button i {
+  font-size: 19px; /* Adjust the icon size if needed */
+}

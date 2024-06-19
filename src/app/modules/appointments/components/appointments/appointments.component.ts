@@ -16,6 +16,8 @@ declare var bootstrap: any;
   styleUrl: './appointments.component.scss',
 })
 export class AppointmentsComponent {
+
+
   @ViewChild('Modal') Modal!: ElementRef;
 
 
@@ -73,6 +75,8 @@ export class AppointmentsComponent {
       },
       error: (error) => {
         this.availableappointments = [];
+        this.paginatedAppointments= [];
+        this.filteredAppointments= [];
         console.error('An error occurred while loading Appointments', error);
       },
     });
@@ -390,5 +394,38 @@ export class AppointmentsComponent {
       this.countdown = `Appointment after: ${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
   }
-
+  removeappointment(index: any): void {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteappointment(index);
+      }
+    });
+  }
+  deleteappointment(id: string): void {
+    this.appointmentsService.deleteappointment(id).subscribe({
+      next: () => {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Appointment has been deleted.",
+          icon: "success"
+        });
+        this.ngOnInit();
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!"
+        });
+      },
+    });
+  }
 }
