@@ -7,7 +7,7 @@ import { AppointmentsRoutingModule } from './appointments-routing.module';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AppointmentManagmentComponent } from './components/appointment-managment/appointment-managment.component';
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 @NgModule({
   declarations: [
     AppointmentsComponent,
@@ -18,6 +18,7 @@ import { AppointmentManagmentComponent } from './components/appointment-managmen
     CommonModule,
     FormsModule,
     AppointmentsRoutingModule,
+    PaginationModule.forRoot(),
     BsDatepickerModule.forRoot()
   ]
 })

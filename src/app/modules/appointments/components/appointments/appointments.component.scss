@@ -464,3 +464,23 @@ img {
   color: #FF0000;
   font-weight: bold;
 }
+/* appointments.component.css */
+.pagination {
+  margin-top: 20px;
+}
+
+.pagination .page-item .page-link {
+  border: none;
+  color: #007bff;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #0a756a;
+  border-radius: 50%;
+  color: white;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: rgb(202, 238, 200);
+  border-radius: 50%;
+}

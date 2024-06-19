@@ -110,34 +110,66 @@
 
   </div>
   <div class="col-md-12" *ngIf="usertype === 'employee'">
+    <div class="filter-sort-controls mb-3">
+      <div class="form-inline">
+        <label class="mr-2" for="statusFilter">Status:</label>
+        <select id="statusFilter" class="form-control" [(ngModel)]="statusFilter" (ngModelChange)="applyFilterAndSort()">
+          <option value="">All</option>
+          <option value="reserviert">Reserviert</option>
+          <option value="nicht reserviert">Nicht Reserviert</option>
+        </select>
+
+        <label class="mr-2" for="sortOrder">Sort by Time:</label>
+        <select id="sortOrder" class="form-control" [(ngModel)]="sortOrder" (ngModelChange)="applyFilterAndSort()">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+    </div>
+
     <div class="table-responsive">
-      <table class="table  table-hover">
+      <table class="table table-hover">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Date</th>
             <th scope="col">Hour</th>
-            <th scope="col">status</th>
-
+            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let appointment of availableappointments; let i = index"
-            [class.table-success]="appointment.status">
-            <td>{{ i + 1 }}</td>
-            <td>{{ appointment.date | date:'dd-MM-yyyy' }}</td>
+          <tr *ngFor="let appointment of paginatedAppointments; let i = index"
+              [class.table-success]="appointment.status">
+            <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+            <td>{{ appointment.date | date: 'dd-MM-yyyy' }}</td>
             <td>{{ formatHour(appointment.hour) }}</td>
             <td (click)="openModal(appointment)" [style.cursor]="appointment.status ? 'pointer' : 'default'">
               {{ appointment.status ? 'reserviert' : 'nicht reserviert' }}
             </td>
-
           </tr>
-
-
         </tbody>
       </table>
     </div>
+
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="isFirstPage()">
+          <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item" [class.active]="currentPage === page" *ngFor="let page of pages">
+          <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="isLastPage()">
+          <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
+
 
   }
 </div>

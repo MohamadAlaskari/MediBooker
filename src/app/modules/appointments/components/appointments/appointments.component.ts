@@ -39,7 +39,12 @@ export class AppointmentsComponent {
   selcAppointment: Appointment | null = null;
   usertype: string | null = null;
   private intervalId: any;
-
+  currentPage = 1;
+  itemsPerPage = 20;
+  statusFilter: string = '';
+  sortOrder: string = 'asc';
+  filteredAppointments: Appointment[] = [];
+  paginatedAppointments: Appointment[] = [];
 
   constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService, private datePipe: DatePipe, private loginService: LoginService,) {
     this.selectedDate = this.getCurrentDate();
@@ -50,22 +55,80 @@ export class AppointmentsComponent {
     const today = new Date();
     this.loadAppointmentbydate(today);
     this.usertype = localStorage.getItem('usertype');
-    if (this.usertype == "patient") {
+    if (this.usertype == 'patient') {
       this.loadPatientReservations();
       this.loadservices();
-
+    } else if (this.usertype == 'employee') {
+      // Apply filter and sort for employees
+      this.applyFilterAndSort();
     }
-    else if (this.usertype == "employee") {
-
-    }
-
+  }
+  private loadAppointmentbydate(date: Date) {
+    console.log("final", date);
+    this.appointmentsService.getAppointmentByDate(date).subscribe({
+      next: (availableappointments: Appointment[]) => {
+        this.availableappointments = availableappointments;
+        console.log('Loading Appointments successfully', this.availableappointments);
+        this.applyFilterAndSort(); // Call applyFilterAndSort here
+      },
+      error: (error) => {
+        this.availableappointments = [];
+        console.error('An error occurred while loading Appointments', error);
+      },
+    });
   }
 
 
+  applyFilterAndSort() {
+    this.filteredAppointments = this.availableappointments;
 
+    if (this.statusFilter) {
+      this.filteredAppointments = this.filteredAppointments.filter(appointment =>
+        (this.statusFilter === 'reserviert' && appointment.status) ||
+        (this.statusFilter === 'nicht reserviert' && !appointment.status)
+      );
+    }
 
+    this.filteredAppointments = this.filteredAppointments.sort((a, b) => {
+      if (this.sortOrder === 'asc') {
+        return a.hour.localeCompare(b.hour);
+      } else {
+        return b.hour.localeCompare(a.hour);
+      }
+    });
 
+    this.paginateAppointments(); // Ensure pagination is applied after filtering and sorting
+  }
 
+  paginateAppointments() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedAppointments = this.filteredAppointments.slice(startIndex, endIndex);
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) {
+      return;
+    }
+    this.currentPage = page;
+    this.paginateAppointments(); // Update pagination when page changes
+  }
+
+  get totalPages() {
+    return Math.ceil(this.filteredAppointments.length / this.itemsPerPage);
+  }
+
+  get pages() {
+    return Array(this.totalPages).fill(0).map((x, i) => i + 1);
+  }
+
+  isFirstPage() {
+    return this.currentPage === 1;
+  }
+
+  isLastPage() {
+    return this.currentPage === this.totalPages;
+  }
 
 
 
@@ -148,19 +211,7 @@ export class AppointmentsComponent {
       })
     );
   }
-  private loadAppointmentbydate(date: Date) {
-    console.log("final", date);
-    this.appointmentsService.getAppointmentByDate(date).subscribe({
-      next: (availableappointments: Appointment[]) => {
-        this.availableappointments = availableappointments;
-        console.log('Loading Appointments successfully', this.availableappointments);
-      },
-      error: (error) => {
-        this.availableappointments = [];
-        console.error('An error occurred while loading Appointments', error);
-      },
-    });
-  }
+
 
   private loadAppointment(id: string) {
     this.appointmentsService.getAppointmentByID(id).subscribe({
