@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ServicesRoutingModule } from './services-routing.module';
 import { ServicesManagmentComponent } from './components/services-managment/services-managment.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,6 +12,8 @@ import { ServicesManagmentComponent } from './components/services-managment/serv
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     ServicesRoutingModule
   ]
 })

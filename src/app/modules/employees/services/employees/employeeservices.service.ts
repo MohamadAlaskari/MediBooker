@@ -38,4 +38,18 @@ export class Employeeservice{
     };
     return this.apiService.post<Employee>(`${this.employeesEndepoint.signup}`, body);
   }
+  updateemployee(id : number ,name: string,surname: string,email: string,street: string,hNr: string,postcode: string,city: string): Observable<Employee> {
+    const params = new HttpParams().set('id', id);
+    const body = {
+      name: name,
+      surname: surname,
+      email: email,
+      street: street,
+      hNr: hNr,
+      postcode: postcode,
+      city: city,
+    };
+    return this.apiService.put<Employee>(`${this.employeesEndepoint.update}?${params.toString()}`,body);
+
+  }
 }

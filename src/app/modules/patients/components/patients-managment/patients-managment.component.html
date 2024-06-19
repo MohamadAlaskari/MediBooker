@@ -54,8 +54,18 @@
             <td (mouseenter)="showTooltip($event, [{ label: 'healthInsurance', value: patient.healthInsurance },{ label: 'insuranceType', value: patient.insuranceType},{ label: 'insuranceNr', value: patient.insuranceNr}])" (mouseleave)="hideTooltip()">
               {{ patient.healthInsurance }}
             </td>
+
             <td>
-              <button class="btn btn-danger" (click)="removePatient(patient.id)">Remove</button>
+              <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle custom-dropdown-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" (click)="removePatient(patient.id)">Remove</a></li>
+                  <li><a class="dropdown-item" >Edit</a></li>
+                  <li><a class="dropdown-item" >View Details</a></li>
+                </ul>
+              </div>
             </td>
           </tr>
         </tbody>
