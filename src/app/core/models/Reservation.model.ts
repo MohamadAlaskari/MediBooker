@@ -8,8 +8,9 @@ export class Reservation {
     public appointmentId: string,
     public patientId: string,
     public serviceId: string,
-    public Appointment?: Appointment,
-    public patient?: Patient,
-    public Service?: Service
+    public Appointment: Appointment,
+    public Patient: Patient,
+    public Service: Service
   ) {}
 }
+

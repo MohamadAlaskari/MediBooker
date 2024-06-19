@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
 import { Appointment } from '../../../../core/models/Appointment.model';
 import { Subscription } from 'rxjs';
@@ -8,25 +8,28 @@ import { Service } from '../../../../core/models/Service.model';
 import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
 import { LoginService } from '../../../auth/services/login-service/login.service';
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
   styleUrl: './appointments.component.scss',
 })
 export class AppointmentsComponent {
+  @ViewChild('Modal') Modal!: ElementRef;
 
 
   appointments: Appointment[] = [];
   availableappointments: Appointment[] = [];
   appointment: Appointment | null = null;
-
+  countdown: string = "";
   subscription = new Subscription();
   reservations: Reservation[] = [];
   appointmentsbydate: Appointment[] = [];
 
   selectedDate: string;
   selectedtime: string | null = null;
-
+  reservationdetails : Reservation | null = null;
 
   selectedService: any;
   description: string | null = null;
@@ -35,7 +38,7 @@ export class AppointmentsComponent {
   isActive: number | null = null;
   selcAppointment: Appointment | null = null;
   usertype: string | null = null;
-
+  private intervalId: any;
 
 
   constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService, private datePipe: DatePipe, private loginService: LoginService,) {
@@ -214,7 +217,7 @@ export class AppointmentsComponent {
     const [hour, minute] = hourString.split(':').slice(0, 2);
     return `${hour}:${minute}`;
   }
-  private formatDate(date: Date): string {
+   formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
@@ -286,6 +289,55 @@ export class AppointmentsComponent {
 
 
   }
+  openModal(appointment: Appointment): void {
+    if (appointment.status === true) {
+      this.appointmentsService.getreservationByAppointment(appointment.id).subscribe({
+        next: (reservationdetails: Reservation) => {
+          this.reservationdetails = reservationdetails;
+          console.log('Loading reservation details successfully', this.reservationdetails);
 
+          if (this.reservationdetails?.Appointment?.date && this.reservationdetails?.Appointment?.hour) {
+            this.startCountdown(this.reservationdetails.Appointment.date, this.reservationdetails.Appointment.hour);
+            this.intervalId = setInterval(() => {
+              this.startCountdown(this.reservationdetails!.Appointment!.date, this.reservationdetails!.Appointment!.hour);
+            }, 1000);
+          }
+
+          const modalElement = this.Modal.nativeElement;
+          const bootstrapModal = new bootstrap.Modal(modalElement);
+          bootstrapModal.show();
+        },
+        error: (error) => {
+          console.log('An error occurred while loading appointment', error.error.error);
+        }
+      });
+    }
+  }
+
+
+  startCountdown(date: Date, hour: string): void {
+    if (!date || !hour) {
+      this.countdown = 'Invalid date or time!';
+      return;
+    }
+
+    const appointmentDate = new Date(date);
+    const [hours, minutes, seconds] = hour.split(':').map(Number);
+    appointmentDate.setHours(hours, minutes, seconds);
+
+    const now = new Date();
+    const timeDifference = appointmentDate.getTime() - now.getTime();
+
+    if (timeDifference <= 0) {
+      this.countdown = 'The  appointment time has already passed.!';
+      clearInterval(this.intervalId);
+    } else {
+      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+      this.countdown = `Appointment after: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+  }
 
 }
