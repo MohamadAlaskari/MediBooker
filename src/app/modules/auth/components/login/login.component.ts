@@ -26,7 +26,7 @@ export class LoginComponent {
       loginEmail: new FormControl('', [Validators.required, Validators.email]),
       loginPassword: new FormControl('', [
         Validators.required,
-        Validators.minLength(6),
+        Validators.minLength(2),
       ]),
       userType: new FormControl('patient', Validators.required), // Added userType FormControl
     });
