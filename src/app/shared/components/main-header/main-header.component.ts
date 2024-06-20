@@ -50,7 +50,6 @@ export class MainHeaderComponent {
 
   logout(): void {
     localStorage.removeItem('usertype');
-    localStorage.setItem('usertype', "null");
     this.subscribtion.add(
       this.authService.logout().subscribe({
         next: (response) => {

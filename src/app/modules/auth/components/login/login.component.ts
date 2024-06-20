@@ -44,7 +44,9 @@ export class LoginComponent {
           // Handle successful login response
           console.log('Login successful', response);
           // window.location.reload();
-          this.router.navigate(['appointments']);
+          this.router.navigate(['appointments']).then(() => {
+            window.location.reload();
+          });
         },
         error: (error) => {
           // Handle error response

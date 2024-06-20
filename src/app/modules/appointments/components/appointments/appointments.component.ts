@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
 import { Appointment } from '../../../../core/models/Appointment.model';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,8 @@ import { Service } from '../../../../core/models/Service.model';
 import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
 import { LoginService } from '../../../auth/services/login-service/login.service';
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
@@ -16,17 +18,20 @@ import { LoginService } from '../../../auth/services/login-service/login.service
 export class AppointmentsComponent {
 
 
+  @ViewChild('Modal') Modal!: ElementRef;
+
+
   appointments: Appointment[] = [];
   availableappointments: Appointment[] = [];
   appointment: Appointment | null = null;
-
+  countdown: string = "";
   subscription = new Subscription();
   reservations: Reservation[] = [];
   appointmentsbydate: Appointment[] = [];
 
   selectedDate: string;
   selectedtime: string | null = null;
-
+  reservationdetails : Reservation | null = null;
 
   selectedService: any;
   description: string | null = null;
@@ -35,8 +40,13 @@ export class AppointmentsComponent {
   isActive: number | null = null;
   selcAppointment: Appointment | null = null;
   usertype: string | null = null;
-
-
+  private intervalId: any;
+  currentPage = 1;
+  itemsPerPage = 20;
+  statusFilter: string = '';
+  sortOrder: string = 'asc';
+  filteredAppointments: Appointment[] = [];
+  paginatedAppointments: Appointment[] = [];
 
   constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService, private datePipe: DatePipe, private loginService: LoginService,) {
     this.selectedDate = this.getCurrentDate();
@@ -47,22 +57,82 @@ export class AppointmentsComponent {
     const today = new Date();
     this.loadAppointmentbydate(today);
     this.usertype = localStorage.getItem('usertype');
-    if (this.usertype == "patient") {
+    if (this.usertype == 'patient') {
       this.loadPatientReservations();
       this.loadservices();
-
+    } else if (this.usertype == 'employee') {
+      // Apply filter and sort for employees
+      this.applyFilterAndSort();
     }
-    else if (this.usertype == "employee") {
-
-    }
-
+  }
+  private loadAppointmentbydate(date: Date) {
+    console.log("final", date);
+    this.appointmentsService.getAppointmentByDate(date).subscribe({
+      next: (availableappointments: Appointment[]) => {
+        this.availableappointments = availableappointments;
+        console.log('Loading Appointments successfully', this.availableappointments);
+        this.applyFilterAndSort(); // Call applyFilterAndSort here
+      },
+      error: (error) => {
+        this.availableappointments = [];
+        this.paginatedAppointments= [];
+        this.filteredAppointments= [];
+        console.error('An error occurred while loading Appointments', error);
+      },
+    });
   }
 
 
+  applyFilterAndSort() {
+    this.filteredAppointments = this.availableappointments;
 
+    if (this.statusFilter) {
+      this.filteredAppointments = this.filteredAppointments.filter(appointment =>
+        (this.statusFilter === 'reserviert' && appointment.status) ||
+        (this.statusFilter === 'nicht reserviert' && !appointment.status)
+      );
+    }
 
+    this.filteredAppointments = this.filteredAppointments.sort((a, b) => {
+      if (this.sortOrder === 'asc') {
+        return a.hour.localeCompare(b.hour);
+      } else {
+        return b.hour.localeCompare(a.hour);
+      }
+    });
 
+    this.paginateAppointments(); // Ensure pagination is applied after filtering and sorting
+  }
 
+  paginateAppointments() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedAppointments = this.filteredAppointments.slice(startIndex, endIndex);
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) {
+      return;
+    }
+    this.currentPage = page;
+    this.paginateAppointments(); // Update pagination when page changes
+  }
+
+  get totalPages() {
+    return Math.ceil(this.filteredAppointments.length / this.itemsPerPage);
+  }
+
+  get pages() {
+    return Array(this.totalPages).fill(0).map((x, i) => i + 1);
+  }
+
+  isFirstPage() {
+    return this.currentPage === 1;
+  }
+
+  isLastPage() {
+    return this.currentPage === this.totalPages;
+  }
 
 
 
@@ -145,19 +215,7 @@ export class AppointmentsComponent {
       })
     );
   }
-  private loadAppointmentbydate(date: Date) {
-    console.log("final", date);
-    this.appointmentsService.getAppointmentByDate(date).subscribe({
-      next: (availableappointments: Appointment[]) => {
-        this.availableappointments = availableappointments;
-        console.log('Loading Appointments successfully', this.availableappointments);
-      },
-      error: (error) => {
-        this.availableappointments = [];
-        console.error('An error occurred while loading Appointments', error);
-      },
-    });
-  }
+
 
   private loadAppointment(id: string) {
     this.appointmentsService.getAppointmentByID(id).subscribe({
@@ -214,7 +272,7 @@ export class AppointmentsComponent {
     const [hour, minute] = hourString.split(':').slice(0, 2);
     return `${hour}:${minute}`;
   }
-  private formatDate(date: Date): string {
+   formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
@@ -286,6 +344,88 @@ export class AppointmentsComponent {
 
 
   }
+  openModal(appointment: Appointment): void {
+    if (appointment.status === true) {
+      this.appointmentsService.getreservationByAppointment(appointment.id).subscribe({
+        next: (reservationdetails: Reservation) => {
+          this.reservationdetails = reservationdetails;
+          console.log('Loading reservation details successfully', this.reservationdetails);
+
+          if (this.reservationdetails?.Appointment?.date && this.reservationdetails?.Appointment?.hour) {
+            this.startCountdown(this.reservationdetails.Appointment.date, this.reservationdetails.Appointment.hour);
+            this.intervalId = setInterval(() => {
+              this.startCountdown(this.reservationdetails!.Appointment!.date, this.reservationdetails!.Appointment!.hour);
+            }, 1000);
+          }
+
+          const modalElement = this.Modal.nativeElement;
+          const bootstrapModal = new bootstrap.Modal(modalElement);
+          bootstrapModal.show();
+        },
+        error: (error) => {
+          console.log('An error occurred while loading appointment', error.error.error);
+        }
+      });
+    }
+  }
 
 
+  startCountdown(date: Date, hour: string): void {
+    if (!date || !hour) {
+      this.countdown = 'Invalid date or time!';
+      return;
+    }
+
+    const appointmentDate = new Date(date);
+    const [hours, minutes, seconds] = hour.split(':').map(Number);
+    appointmentDate.setHours(hours, minutes, seconds);
+
+    const now = new Date();
+    const timeDifference = appointmentDate.getTime() - now.getTime();
+
+    if (timeDifference <= 0) {
+      this.countdown = 'The  appointment time has already passed.!';
+      clearInterval(this.intervalId);
+    } else {
+      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+      this.countdown = `Appointment after: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+  }
+  removeappointment(index: any): void {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteappointment(index);
+      }
+    });
+  }
+  deleteappointment(id: string): void {
+    this.appointmentsService.deleteappointment(id).subscribe({
+      next: () => {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Appointment has been deleted.",
+          icon: "success"
+        });
+        this.ngOnInit();
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!"
+        });
+      },
+    });
+  }
 }

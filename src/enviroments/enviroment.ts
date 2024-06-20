@@ -37,6 +37,8 @@ export const environment = {
       create: '/reservation/create',
       update: '/reservation/update',
       delete: '/reservation/delete',
+      loadpatientreservationsbyid:'/reservation/getPatientAppointmentsbyid',
+      reservationByAppointment: '/reservation/reservationByAppointment',
     },
     service: {
       getAll: '/service/services',
