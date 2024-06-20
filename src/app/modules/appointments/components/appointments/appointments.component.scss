@@ -102,6 +102,7 @@ button {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+  width: 70%;
 }
 
 .card:hover {
@@ -406,7 +407,11 @@ img {
   background-color: #f8f9fa; /* Example background color */
   text-align: center; /* Center align text within the footer */
 }
-
+.center-container {
+  display: flex;
+  justify-content: center; /* Centers the div horizontally */
+  align-items: center;    /* Centers the div vertically */
+}
 
 .modal-content {
   border-radius: 15px;
@@ -451,6 +456,7 @@ img {
 .service-title {
   font-weight: bold;
   color: #333;
+  margin-bottom: 3px;
 }
 .service-description {
   color: #555;

@@ -15,6 +15,7 @@ export class AuthService {
 
   logout(): Observable<string> {
     return this.apiService.post<string>(`${this.patientEndpoints.logout}`);
+    localStorage.removeItem('usertype');
     localStorage.removeItem('token');
   }
 

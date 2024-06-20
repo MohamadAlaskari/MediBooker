@@ -2,22 +2,27 @@ import { Component, ElementRef, ViewChild, Renderer2 } from '@angular/core';
 import { PatientService } from '../../services/patients/patientservices.service';
 import { Patient } from '../../../../core/models/Patient.model';
 import Swal from 'sweetalert2';
-
+import { Reservation } from '../../../../core/models/Reservation.model';
+import { AppointmentsService } from '../../../appointments/services/appointments.service';
+import { Subscription } from 'rxjs';
+declare var bootstrap: any;
 @Component({
   selector: 'app-patients-managment',
   templateUrl: './patients-managment.component.html',
   styleUrls: ['./patients-managment.component.scss']
 })
 export class PatientsManagmentComponent {
-  @ViewChild('addPatientModal', { static: false }) addPatientModal!: ElementRef;
   searchTerm: string = '';
   Patients: Patient[] = [];
-
-
+  reservations: Reservation[] = [];
+  subscription = new Subscription();
+  @ViewChild('Modal') Modal!: ElementRef;
+  patientdetails: Patient | null = null;
   constructor(
     private patientService: PatientService,
+    private appointmentsService: AppointmentsService,
     private renderer: Renderer2
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getPatients();
@@ -52,7 +57,7 @@ export class PatientsManagmentComponent {
     }).then((result) => {
       if (result.isConfirmed) {
 
-       this.deletepatient(index);
+        this.deletepatient(index);
 
       }
     });
@@ -86,7 +91,7 @@ export class PatientsManagmentComponent {
       patient.surname.toLowerCase().startsWith(searchTermLower) ||
       patient.email.toLowerCase().startsWith(searchTermLower) ||
       patient.city.toLowerCase().startsWith(searchTermLower) ||
-      patient.healthInsurance.toLowerCase().startsWith(searchTermLower)||
+      patient.healthInsurance.toLowerCase().startsWith(searchTermLower) ||
       patient.phoneNr.toLowerCase().startsWith(searchTermLower)
     );
   }
@@ -118,6 +123,39 @@ export class PatientsManagmentComponent {
     if (tooltipElement) {
       this.renderer.removeChild(document.body, tooltipElement);
     }
+  }
+  openModal(patient: Patient): void {
+    this.patientdetails = patient;
+
+
+    this.loadpatientreservations(patient.id);
+
+
+    const modalElement = this.Modal.nativeElement;
+    const bootstrapModal = new bootstrap.Modal(modalElement);
+    bootstrapModal.show();
+
+  }
+  formatHour(hourString: string): string {
+    // Split the hourString by ':' and take the first two elements
+    const [hour, minute] = hourString.split(':').slice(0, 2);
+    return `${hour}:${minute}`;
+  }
+  loadpatientreservations(id: number) {
+    this.subscription.add(
+      this.appointmentsService.loadpatientreservationsbyid(id).subscribe({
+        next: (reservations: Reservation[]) => {
+          this.reservations = reservations;
+          console.log('Loading Patient reservations was successful');
+        },
+        error: (err) => {
+          console.error(
+            'An error occurred while fetching Patient Reservations',
+            err
+          );
+        },
+      })
+    );
   }
 
 
