@@ -14,6 +14,7 @@ export class AppointmentsService {
 
 
 
+
   appointmentsEndepoint = environment.endpoints.appointment;
   reservationEndepoints = environment.endpoints.reservation;
 
@@ -96,5 +97,12 @@ createForDateRange(dateStart: string, dateEnd: string, min: number, start: strin
   deleteappointment(id: string): Observable<any> {
     const params = new HttpParams().set('id', id);
     return this.apiService.delete<string>(`${this.appointmentsEndepoint.delete}?${params.toString()}`);
+  }
+
+
+  loadpatientreservationsbyid(id: number): Observable<Reservation[]> {
+    return this.apiService.get<Reservation[]>(
+      `${this.reservationEndepoints.loadpatientreservationsbyid}/${id}`
+    );
   }
 }

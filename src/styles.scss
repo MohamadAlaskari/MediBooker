@@ -1,3 +1,26 @@
 .bg-medi {
   background-color: #0b8a76 !important;
 }
+.dropdown-item {
+cursor: pointer;
+}
+.dropdown-item:active {
+ background-color: rgb(202, 209, 199) !important; /* Change this to your desired color */
+}
+.modal-header {
+  background-color: #0b8a76 !important;
+  color: white;
+  justify-content: center;
+  border-bottom: none;
+}
+
+.modal-content {
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.btn-close {
+  background-color: white;
+  border-radius: 50%;
+  border: none;
+}
