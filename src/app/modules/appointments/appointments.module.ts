@@ -8,11 +8,13 @@ import { AppointmentsComponent } from './components/appointments/appointments.co
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AppointmentManagmentComponent } from './components/appointment-managment/appointment-managment.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { AddAppointmentComponent } from './components/add-appointment/add-appointment.component';
 @NgModule({
   declarations: [
     AppointmentsComponent,
     CalendarComponent,
-    AppointmentManagmentComponent
+    AppointmentManagmentComponent,
+    AddAppointmentComponent
   ],
   imports: [
     CommonModule,

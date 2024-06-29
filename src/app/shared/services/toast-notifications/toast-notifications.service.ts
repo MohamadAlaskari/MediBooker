@@ -9,17 +9,18 @@ export class ToastNotificationsService {
   private toastSubject = new BehaviorSubject<Toast[]>([]);
   private currentId = 0;
 
-  show(
+  private show(
     type: 'success' | 'warning' | 'error' | 'info',
     title: string,
     message: string
   ) {
     const toast: Toast = { id: this.currentId++, type, title, message };
     this.toastSubject.next([...this.toastSubject.value, toast]);
-    // setTimeout(() => this.closeToast(toast.id), 3000);
+     setTimeout(() => this.closeToast(toast.id), 10000);
   }
   showSuccess(message: string, title?: string) {
     this.show('success', title || 'Success', message);
+
   }
 
   showWarning(message: string, title?: string) {

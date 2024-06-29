@@ -303,12 +303,6 @@ export class AppointmentsComponent {
       },
     });
 
-
-
-
-
-
-
   }
   deletereservation(id: string) {
     Swal.fire({

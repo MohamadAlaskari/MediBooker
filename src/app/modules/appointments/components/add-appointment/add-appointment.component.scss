@@ -1,0 +1,63 @@
+.calender-container {
+ //  transform: scale(0.8);
+//  transform-origin: top left;
+}
+
+//checkbox
+.checkbox-button input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-button {
+  margin-bottom: 15px;
+}
+
+/* Style the label as a button */
+.checkbox-button label {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  background-color: #0a756a; /* Blue color */
+  color: #fff; /* White text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  width: 100px; /* Set a consistent width for the label buttons */
+}
+
+/* Style the label as a button */
+.checkbox-button label {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  background-color: #0a756a; /* Blue color */
+  color: #fff; /* White text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  width: 100px; /* Set a consistent width for the label buttons */
+}
+.selected {
+  /* Your styles for selected appointments */
+  background-color: rgb(98, 182, 98) !important;
+  border-radius: 10%;
+  color: #000; /* For example */
+}
+.selected label {
+  /* Your styles for selected appointments */
+  background-color: rgb(98, 182, 98) !important;
+  border-radius: 10%;
+  color: #000; /* For example */
+}
+.checkbox-button input[type="checkbox"].selected {
+  background-color: #28a745; /* Green color */
+}
+
+.checkbox-button input[type="checkbox"]:disabled + label {
+  color: #000000; /* Change label text color for disabled checkboxes */
+  cursor: not-allowed; /* Change cursor style for disabled checkboxes */
+  /* Add any additional styles for disabled checkboxes */
+  background-color: #eceaea;
+}

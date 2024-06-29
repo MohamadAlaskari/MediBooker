@@ -1,0 +1,87 @@
+<section class="add-appointment-section">
+  <div class="row">
+    <!--Calender select Date-->
+    <div class="col-md-6">
+      @if(selectedDate){
+      <div class="calend ">
+        <h6 class="">Select date</h6>
+        <div class="calender-container">
+
+          <app-calendar (dateSelected)="handleDateSelected($event)" class="calendar-component"></app-calendar>
+        </div>
+      </div>
+      }
+    </div>
+    <!--Times select Time-->
+    <div class="col-md-4">
+      <!-- Times-->
+
+      <div class="timesel">
+        <h6>Select Time</h6>
+        <div class="d-flex flex-wrap ">
+
+          <ng-container *ngIf="availableappointments && availableappointments.length > 0">
+            <div *ngFor="let appointment of availableappointments; let i = index">
+
+              <div class="checkbox-button" [class.selected]="isSelected(appointment)">
+                <input type="checkbox" id="checkbox{{i}}"
+                  [disabled]="appointment.status === true || isPastAppointment(appointment.date, appointment.hour)"
+                  (change)="handleCheckboxClick(appointment)" [(ngModel)]="selectedAppointments[i]">
+                <label for="checkbox{{i}}">{{ formatHour(appointment.hour) }}</label>
+              </div>
+
+
+            </div>
+          </ng-container>
+          <!--
+
+<ng-container *ngIf="!availableappointments || availableappointments.length === 0">
+  <p>No appointments available for this day.</p>
+</ng-container>
+
+<div class="form">
+  <div *ngIf="selcAppointment && availableappointments.length > 0">
+    <form (ngSubmit)="makeappointment()">
+      <label for="exampleFormControlTextarea1">Choose a service</label>
+
+      <select class="form-select" aria-label="Default select example" required [(ngModel)]="selectedService"
+        name="selectedService">
+        <option disabled [ngValue]="null">Choose a service</option>
+        <option *ngFor="let service of services" [ngValue]="service.id">{{ service.type }}</option>
+      </select>
+
+      <button class="bt" type="submit">Make an appointment for {{ selcAppointment.hour }}</button>
+    </form>
+  </div>
+</div>
+-->
+
+
+
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-2">
+      <h6 class="">Select Service</h6>
+
+      <div class="form">
+        <div *ngIf="selcAppointment && availableappointments.length > 0">
+          <form (ngSubmit)="makeappointment()">
+
+            <select class="form-select" aria-label="Default select example" required [(ngModel)]="selectedService"
+              name="selectedService">
+              <option disabled selected>Choose a service</option>
+              <option *ngFor="let service of services" [ngValue]="service.id">{{ service.type }}</option>
+            </select>
+
+            <button class="btn btn-success mt-3" type="submit">Make an appointment for {{ selcAppointment.hour
+              }}</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>

@@ -115,11 +115,6 @@ export class LoginService {
   }
 
 
-
-
-
-
-
   isAuthenticated(): Observable<boolean> {
     console.log('LoginService: isAuthenticatedSubject value =', this.isAuthenticatedSubject.value); // Log current value
     return this.isAuthenticatedSubject.asObservable();
