@@ -1,0 +1,64 @@
+.tabs {
+  display: flex;
+  position: relative;
+  background-color: var(--bg-color-primary);
+  border-radius: 4px;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.tab {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 90px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--link-color);
+  transition: color 0.15s ease-in;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.75rem;
+  border-radius: 50%;
+  background-color: #e6eef9;
+  transition: 0.15s ease-in;
+}
+
+input[type="radio"]:checked + .tab {
+  color: var(--link-color-active);
+}
+
+input[type="radio"]:checked + .tab > .notification {
+  background-color: #185ee0;
+  color: #fff;
+}
+
+.glider {
+  position: absolute;
+  display: flex;
+  height: 30px;
+  width: 90px;
+  background-color: var(--link-color-active-bg);
+  z-index: 1;
+  border-radius: 4px;
+  transition: transform 0.25s ease-out;
+}
+
+.tabs[data-instance] .glider {
+  transition: transform 0.25s ease-out;
+}
+
+.tabs[data-instance] input[type="radio"]:checked ~ .glider {
+  transform: translateX(calc(var(--glider-index) * 100%));
+}

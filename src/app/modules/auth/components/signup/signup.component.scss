@@ -1,0 +1,108 @@
+.btn-primary {
+  background-color: #0b8a76;
+  border-color: #0b8a76;
+}
+
+.btn-primary:hover {
+  background-color: #077565;
+  border-color: #077565;
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.link-primary {
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link-primary:hover {
+  text-decoration: underline;
+}
+
+.step-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Add this line to align items vertically */
+}
+/*progressbar*/
+#progressbar {
+  overflow: hidden;
+  color: lightgrey;
+}
+
+#progressbar .active {
+  color: #066a5b;
+}
+
+#progressbar li {
+  list-style-type: none;
+  font-size: 12px;
+  width: 33.33%;
+  float: left;
+  position: relative;
+}
+
+/*Icons in the ProgressBar*/
+#progressbar #account:before {
+  font-family: FontAwesome;
+  content: "\f023";
+}
+
+#progressbar #personal:before {
+  font-family: FontAwesome;
+  content: "\f007";
+}
+
+#progressbar #payment:before {
+  font-family: FontAwesome;
+  content: "\f09d";
+}
+
+#progressbar #confirm:before {
+  font-family: FontAwesome;
+  content: "\f00c";
+}
+
+/*ProgressBar before any progress*/
+#progressbar li:before {
+  width: 30px;
+  height: 30px;
+  line-height: 25px;
+  display: block;
+  font-size: 18px;
+  color: #ffffff;
+  background: lightgray;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
+  padding: 3px;
+  position: relative;
+  z-index: 10;
+}
+
+/*ProgressBar connectors*/
+#progressbar li:after {
+  content: "";
+  width: 100%;
+  height: 5px;
+  background: lightgray;
+  position: absolute;
+  left: 0;
+  top: 15px;
+  z-index: 1;
+}
+
+/*Color number of the step and the connector before it*/
+#progressbar li.active:before,
+#progressbar li.active:after {
+  transition: all 0.4s ease-in;
+  background: #0b8a76;
+}

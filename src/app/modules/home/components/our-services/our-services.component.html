@@ -1,0 +1,28 @@
+<section class="container pt-3 mb-3">
+  <h2 class="h3 block-title text-center">Our Services<small>Whatever we do, we do with your end user in mind</small>
+  </h2>
+
+  <!--services-->
+  <div class="row pt-5 mt-30 d-flex flex-wrap">
+
+    @for ( service of services; track service.id) {
+
+    <div class="col-lg-4 col-sm-6 mb-30 pb-5 d-flex ">
+      <a class="card">
+
+        <div class="box-service box-shadow rounded-circle mx-auto text-center"></div>
+        <div class="card-body text-center d-flex flex-column">
+          <h3 class="card-title pt-1">{{ service.type }}</h3>
+          <p class="card-text text-sm flex-grow-1">{{ service.description }}</p>
+        </div>
+      </a>
+    </div>
+    }@empty {
+      <p class="alert alert-warning">No Services vorhanden</p>
+
+    }
+
+  </div>
+</section>
+
+

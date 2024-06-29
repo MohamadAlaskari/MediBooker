@@ -1,0 +1,160 @@
+.app {
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    // width: 100%;
+    padding: 16px 24px;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 999;
+
+    &-left,
+    &-right {
+      display: flex;
+      align-items: center;
+    }
+
+    &-left {
+      flex-grow: 1;
+      height: 40px;
+    }
+
+    &-right button {
+      margin-left: 10px;
+    }
+  }
+
+  &-name {
+    margin: 0;
+    font-size: 22px;
+    line-height: 24px;
+    font-weight: 700;
+    // margin: 0 32px;
+  }
+}
+
+.mode-switch,
+.add-btn,
+.add-btn,
+.logout-btn,
+.messages-btn {
+  color: var(--font-color-primary);
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  transition: all 0.3s ease-out;
+  opacity: 0.9;
+
+  &:hover {
+    background-color: #0b8a76;
+    color: #fff;
+    border-radius: 50%;
+    opacity: 1;
+  }
+}
+.add-btn {
+  background-color: #0b8a76;
+  color: #fff;
+}
+.login-btn {
+  color: #0b8a76;
+  cursor: pointer;
+}
+
+.profile-btn {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  border-left: 2px solid #ddd;
+
+  img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+  span {
+    color: var(--font-color-primary);
+    font-weight: bold;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .messages-btn {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .add-btn,
+  .notification-btn,
+  .mode-switch,
+  .logout-btn {
+    width: 24px;
+    height: 24px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .app-header-right button {
+    margin-left: 4px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .app-header {
+    padding: 10px;
+  }
+
+  .profile-btn img {
+    width: 24px;
+    height: 24px;
+  }
+  .profile-btn span {
+    font-size: 12px;
+  }
+  .search-input {
+    font-size: 14px;
+  }
+
+  .messages-btn {
+    top: 48px;
+  }
+}
+/* Optional custom styles for the dropdown */
+.dropdown-toggle::after {
+  margin-left: 0.5rem;
+}
+
+.dropdown-menu {
+  min-width: 200px; /* Adjust width as needed */
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  cursor: pointer; /* This will show the hand cursor on hover */
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item:active {
+  background-color: #e9ecef;
+}

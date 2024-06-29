@@ -1,0 +1,134 @@
+<div class="form-container">
+  <div class="header">
+    <h4>Create Appointments</h4>
+    <a *ngIf="!showAppointmentsForm" (click)="showAppointmentsForm = true">create appointments for selected Dates ? </a>
+    <a *ngIf="showAppointmentsForm" (click)="showAppointmentsForm = false">create appointments for a Date Range ? </a>
+
+  </div>
+
+
+  <div *ngIf="showAppointmentsForm">
+    <form (ngSubmit)="onSubmit()" #appointmentForm="ngForm">
+
+      <div *ngFor="let appointment of appointmentsData; let i = index" class="form-group">
+        <div class="form-row">
+          <div class="col-md-3">
+            <label>Date:</label>
+            <input type="text" placeholder="Select date" class="form-control" bsDatepicker required name="date{{i}}"
+              [(ngModel)]="appointment.date" #date="ngModel" [class.is-invalid]="date.invalid && date.touched"
+              [bsValue]="bsValue" [minDate]="minDate" [datesDisabled]="disabledDates" [daysDisabled]="[7,0]"
+              [bsConfig]="bsConfig">
+
+          </div>
+          <div *ngIf="date.invalid && date.touched" class="invalid-feedback">
+            Date is required.
+          </div>
+
+          <div *ngIf="start.invalid && start.touched" class="invalid-feedback">
+            Start time is required.
+          </div>
+
+          <div *ngIf="end.invalid && end.touched" class="invalid-feedback">
+            End time is required.
+          </div>
+
+          <div *ngIf="min.invalid && min.touched" class="invalid-feedback">
+            Duration is required.
+          </div>
+          <div class="col-md-3">
+            <label>Start Time:</label>
+            <select [(ngModel)]="appointment.start" name="start{{i}}" class="form-control" required #start="ngModel"
+              [class.is-invalid]="start.invalid && start.touched">
+              <option value="" disabled selected>Select start time</option>
+              <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
+            </select>
+
+          </div>
+          <div class="col-md-3">
+            <label>End Time:</label>
+            <select [(ngModel)]="appointment.end" name="end{{i}}" class="form-control" required #end="ngModel"
+              [class.is-invalid]="end.invalid && end.touched">
+              <option value="" disabled selected>Select end time</option>
+              <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
+            </select>
+
+          </div>
+          <div class="col-md-2">
+            <label>Duration:</label>
+            <input type="number" [(ngModel)]="appointment.min" name="min{{i}}" class="form-control"
+              (change)="enforceMinimumValue(appointment)" required #min="ngModel"
+              [class.is-invalid]="min.invalid && min.touched">
+
+          </div>
+
+          <div class="col-md-1">
+            <button type="button" class="btn remv-btn" (click)="removeAppointment(i)">-</button>
+          </div>
+        </div>
+
+
+
+    </div>
+
+      <button type="button" class="btn add-btn" (click)="addAppointment()">+</button>
+      <button type="submit" class="btn submit-btn" [disabled]="appointmentForm.invalid">Submit</button>
+    </form>
+
+  </div>
+  <div *ngIf="!showAppointmentsForm">
+    <form (ngSubmit)=" createForDateRange()" #appointmentForm="ngForm">
+      <div class="form-row">
+        <div class="col-md-4">
+          <label for="dateRange">Select Range:</label>
+          <input type="text" class="form-control" [minDate]="minDate" bsDaterangepicker [datesDisabled]="disabledDates" [daysDisabled]="[7,0]" [(bsValue)]="dateRange" [placement]="'bottom'"
+            [bsConfig]="{
+            showWeekNumbers: false
+          }" placeholder="Select date range" style="font-size: 15px;">
+
+        </div>
+
+        <div class="col-md-3">
+          <label>Start Time:</label>
+          <select [(ngModel)]="starttime" name="starttime" class="form-control" required #start="ngModel"
+            [class.is-invalid]="start.invalid && start.touched">
+            <option value="" disabled selected>Select start time</option>
+            <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
+          </select>
+          <div *ngIf="start.invalid && start.touched" class="invalid-feedback">
+            Start time is required.
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label>End Time:</label>
+          <select [(ngModel)]="endtime" name="endtime" class="form-control" required #end="ngModel"
+            [class.is-invalid]="end.invalid && end.touched">
+            <option value="" disabled selected>Select end time</option>
+            <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
+          </select>
+          <div *ngIf="end.invalid && end.touched" class="invalid-feedback">
+            End time is required.
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label>Duration:</label>
+          <input type="number" [(ngModel)]="Duration" name="Duration" class="form-control"
+          required #min="ngModel"
+          [class.is-invalid]="min.invalid && min.touched"
+          min="10">
+
+        </div>
+
+
+      </div>
+      <div *ngIf="checkDisabledDates(dateRange)" class="error-message">
+        Selected date range includes a date that already have appointments.
+      </div>
+      <div *ngIf="min.invalid && min.touched" class="error-message">
+        Duration is required.
+      </div>
+      <button type="submit" class="btn submit-btn" [disabled]="appointmentForm.invalid && checkDisabledDates(dateRange) ">Submit</button>
+    </form>
+
+
+  </div>
+</div>

@@ -4,6 +4,7 @@
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "strict": true,
+    "types": ["jquery", "bootstrap"],
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,

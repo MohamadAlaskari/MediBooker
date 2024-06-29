@@ -1,0 +1,235 @@
+<!-- Modal -->
+<div class="modal fade" id="addNewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-xl px-4 mt-4">
+          <!-- Account page navigation-->
+          <hr class="mt-0 mb-4">
+          <div class="row">
+
+            <div class="col-xl-12">
+              <!-- Account details card-->
+              <div *ngIf="updateForm.invalid  && FormSubmitted" class="alert alert-danger">
+                Please fill  the missing data   before submitting.
+              </div>
+              <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                <div class="card mb-4">
+                  <div class="card-header">Account Details</div>
+                  <div class="card-body">
+                    <div class="row gx-3 mb-3">
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputFirstName">name</label>
+                        <input type="text" class="form-control" id="name" placeholder="" formControlName="name"
+                          [class.is-invalid]="updateForm.get('name')!.invalid && updateForm.get('name')!.touched "
+                          [class.is-valid]="updateForm.get('name')!.valid && updateForm.get('name')!.touched ">
+                        <div *ngIf="(updateForm.get('name')!.invalid && updateForm.get('name')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid name.
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputLastName">surname</label>
+                        <input type="text" class="form-control" id="surname" placeholder="" formControlName="surname"
+                          autocomplete="current-surname"
+                          [class.is-invalid]="updateForm.get('surname')!.invalid && updateForm.get('surname')!.touched "
+                          [class.is-valid]="updateForm.get('surname')!.valid && updateForm.get('surname')!.touched ">
+                        <div *ngIf="(updateForm.get('surname')!.invalid && updateForm.get('surname')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid surname.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row gx-3 mb-3">
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputOrgName">Date of birth</label>
+                        <input type="date" class="form-control" id="dob" placeholder="" formControlName="dob"
+                          autocomplete="current-dob"
+                          [class.is-invalid]="updateForm.get('dob')!.invalid && updateForm.get('dob')!.touched "
+                          [class.is-valid]="updateForm.get('dob')!.valid && updateForm.get('dob')!.touched ">
+                        <div *ngIf="(updateForm.get('dob')!.invalid && updateForm.get('dob')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid date.
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputLocation">Phone number</label>
+                        <input type="text" class="form-control" id="phoneNr" placeholder="" formControlName="phoneNr"
+                          autocomplete="current-phoneNr"
+                          [class.is-invalid]="updateForm.get('phoneNr')!.invalid && updateForm.get('phoneNr')!.touched "
+                          [class.is-valid]="updateForm.get('phoneNr')!.valid && updateForm.get('phoneNr')!.touched ">
+                        <div *ngIf="(updateForm.get('phoneNr')!.invalid && updateForm.get('phoneNr')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid phoneNr.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row gx-3 mb-3">
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputOrgName">email</label>
+                        <input type="email" class="form-control" id="email" placeholder="" formControlName="email"
+                          autocomplete="current-email"
+                          [class.is-invalid]="updateForm.get('email')!.invalid && updateForm.get('email')!.touched "
+                          [class.is-valid]="updateForm.get('email')!.valid && updateForm.get('email')!.touched ">
+                        <div *ngIf="(updateForm.get('email')!.invalid && updateForm.get('email')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid email.
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputLocation">password</label>
+                        <input type="password" class="form-control" id="password" placeholder=""
+                          formControlName="password" autocomplete="current-password"
+                          [class.is-invalid]="updateForm.get('password')!.invalid && updateForm.get('password')!.touched "
+                          [class.is-valid]="updateForm.get('password')!.valid && updateForm.get('password')!.touched ">
+                        <div *ngIf="(updateForm.get('password')!.invalid && updateForm.get('password')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid password.
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+                <div class="card mb-4">
+                  <div class="card-header">Address Details</div>
+                  <div class="card-body">
+                    <div class="row gx-3 mb-3">
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputFirstName">Street</label>
+                        <input type="street" class="form-control" id="street" placeholder="" formControlName="street"
+                          autocomplete="current-street"
+                          [class.is-invalid]="updateForm.get('street')!.invalid && updateForm.get('street')!.touched "
+                          [class.is-valid]="updateForm.get('street')!.valid && updateForm.get('street')!.touched ">
+                        <div *ngIf="(updateForm.get('street')!.invalid && updateForm.get('street')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid street.
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputLastName">House Number</label>
+                        <input type="street" class="form-control" id="hNr" placeholder="" formControlName="hNr"
+                          autocomplete="current-street"
+                          [class.is-invalid]="updateForm.get('hNr')!.invalid && updateForm.get('hNr')!.touched "
+                          [class.is-valid]="updateForm.get('hNr')!.valid && updateForm.get('hNr')!.touched ">
+                        <div *ngIf="(updateForm.get('hNr')!.invalid && updateForm.get('hNr')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid HausNr.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row gx-3 mb-3">
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputOrgName">Post code*</label>
+                        <input type="text" class="form-control" id="postcode" placeholder="" formControlName="postcode"
+                          autocomplete="current-postcode"
+                          [class.is-invalid]="updateForm.get('postcode')!.invalid && updateForm.get('postcode')!.touched "
+                          [class.is-valid]="updateForm.get('postcode')!.valid && updateForm.get('postcode')!.touched ">
+                        <div *ngIf="(updateForm.get('postcode')!.invalid && updateForm.get('postcode')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid postcode.
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputLocation">City</label>
+                        <input type="text" class="form-control" id="city" placeholder="" formControlName="city"
+                          autocomplete="current-city"
+                          [class.is-invalid]="updateForm.get('city')!.invalid && updateForm.get('city')!.touched "
+                          [class.is-valid]="updateForm.get('city')!.valid && updateForm.get('city')!.touched ">
+                        <div *ngIf="(updateForm.get('city')!.invalid && updateForm.get('city')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid City.
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+                </div>
+                <div class="card mb-4">
+                  <div class="card-header">insurance Details</div>
+                  <div class="card-body">
+                    <div class="row gx-3 mb-3">
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputFirstName">insuranceType</label>
+                        <br>
+                        <div class="form-check form-check-inline">
+                          <input
+                            [class.is-invalid]="updateForm.get('insuranceType')!.invalid && updateForm.get('insuranceType')!.touched "
+                            [class.is-valid]="updateForm.get('insuranceType')!.valid && updateForm.get('insuranceType')!.touched "
+                            class="form-check-input" type="radio" id="private" value="private"
+                            formControlName="insuranceType" required>
+                          <label class="form-check-label" for="private">
+                            Private
+                          </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            [class.is-invalid]="updateForm.get('insuranceType')!.invalid && updateForm.get('insuranceType')!.touched "
+                            [class.is-valid]="updateForm.get('insuranceType')!.valid && updateForm.get('insuranceType')!.touched "
+                            class="form-check-input" type="radio" id="gesetzlich" value="gesetzlich"
+                            formControlName="insuranceType" required>
+                          <label class="form-check-label" for="gesetzlich">
+                            Gesetzlich
+                          </label>
+                        </div>
+                        <div
+                          *ngIf="updateForm.get('insuranceType')!.invalid && updateForm.get('insuranceType')!.touched"
+                          class="invalid-feedback d-block">
+                          Please select an insurance type.
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputLastName">Health Insurance</label>
+                        <input type="text" class="form-control" id="healthInsurance" placeholder=""
+                          formControlName="healthInsurance" autocomplete="current-healthInsurance"
+                          [class.is-invalid]="updateForm.get('healthInsurance')!.invalid && updateForm.get('healthInsurance')!.touched "
+                          [class.is-valid]="updateForm.get('healthInsurance')!.valid && updateForm.get('healthInsurance')!.touched ">
+                        <div
+                          *ngIf="(updateForm.get('healthInsurance')!.invalid && updateForm.get('healthInsurance')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid Health Insurance.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row gx-3 mb-3">
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputOrgName">insuranceNr</label>
+                        <input type="text" class="form-control" id="insuranceNr" placeholder=""
+                          formControlName="insuranceNr" autocomplete="current-insuranceNr"
+                          [class.is-invalid]="updateForm.get('insuranceNr')!.invalid && updateForm.get('insuranceNr')!.touched "
+                          [class.is-valid]="updateForm.get('insuranceNr')!.valid && updateForm.get('insuranceNr')!.touched ">
+                        <div *ngIf="(updateForm.get('insuranceNr')!.invalid && updateForm.get('insuranceNr')!.touched) "
+                          class="invalid-feedback">
+                          Please provide a valid insuranceNr.
+                        </div>
+                      </div>
+
+                    </div>
+
+
+
+
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-success mx-md-3">Save changes</button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

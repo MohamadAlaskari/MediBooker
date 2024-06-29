@@ -1,0 +1,257 @@
+.container {
+  padding: 20px;
+}
+
+.form-section, .search-section {
+  margin-bottom: 20px;
+}
+
+.form-section h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.thead-dark th {
+  background-color: #343a40;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #0b8a76;
+  border: none;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+}
+
+.btn {
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+
+.form-control {
+  border-radius: 20px;
+  padding: 10px;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+.search {
+  height: 50px;
+}
+.custom-tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  z-index: 1000;
+  font-size: 14px;
+  pointer-events: none; /* Ensure tooltip does not interfere with mouse events on underlying elements */
+}
+.tooltip-trigger {
+  position: relative; /* Ensure position:relative for containing the tooltip */
+  cursor: pointer; /* Change cursor to pointer to indicate interaction */
+}
+.custom-dropdown-button {
+  color: black; /* Set the icon color to black */
+  background: none; /* Remove background */
+  border: none; /* Remove border */
+  padding: 0; /* Remove padding */
+}
+
+.custom-dropdown-button::after {
+  display: none; /* Remove the default down arrow */
+}
+
+.custom-dropdown-button:focus {
+  box-shadow: none; /* Remove focus outline */
+}
+
+.custom-dropdown-button i {
+  font-size: 19px; /* Adjust the icon size if needed */
+}
+
+
+
+.modal-content {
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.modal-header {
+  background-color: #0b8a76;
+  color: white;
+  justify-content: center;
+  border-bottom: none;
+}
+.modal-title {
+  font-size: 24px;
+}
+.btn-close {
+  background-color: white;
+  border-radius: 50%;
+  border: none;
+}
+.container {
+  padding: 20px;
+}
+.team-single-img .initials-avatar {
+  border-radius: 50%;
+  width: 100px;
+  padding: 30px;
+  font-weight: bold;
+  height: 100px;
+  font-size: 26px; background-color: #0b8a76;
+}
+.team-single h4 {
+  margin-top: 10px;
+  font-size: 22px;
+  text-align: center;
+  font-weight: 600;
+}
+.team-single p {
+  font-size: 14px;
+  color: #030303;
+}
+.service-title {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 9px;
+}
+.service-description {
+  color: #0e0c0c;
+  font-size: 15px;
+}
+.footer p {
+  font-weight: bold;
+  color: #0c0909;
+}
+
+.team-single-icons ul li {
+  display: inline-block;
+  border: 1px solid #02c2c7;
+  border-radius: 50%;
+  color: #86bc42;
+  margin-right: 8px;
+  margin-bottom: 5px;
+  -webkit-transition-duration: .3s;
+  transition-duration: .3s
+}
+
+.team-single-icons ul li a {
+  color: #02c2c7;
+  display: block;
+  font-size: 14px;
+  height: 25px;
+  line-height: 26px;
+  text-align: center;
+  width: 25px
+}
+
+.team-single-icons ul li:hover {
+  background: #02c2c7;
+  border-color: #02c2c7
+}
+
+.team-single-icons ul li:hover a {
+  color: #fff
+}
+
+.team-social-icon li {
+  display: inline-block;
+  margin-right: 5px
+}
+
+.team-social-icon li:last-child {
+  margin-right: 0
+}
+
+.team-social-icon i {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-size: 15px;
+  border-radius: 50px
+}
+.team-single-img {
+  display: flex; /* Use flexbox */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  margin-bottom: 7px;
+}
+.padding-30px-all {
+  padding: 30px;
+}
+.bg-light-gray {
+  background-color: #f7f7f7;
+}
+.text-center {
+  text-align: center!important;
+}
+img {
+  max-width: 70%;
+  height: auto;
+}
+
+
+.list-style9 {
+  list-style: none;
+  padding: 0
+}
+
+.list-style9 li {
+  position: relative;
+  padding: 0 0 15px 0;
+  margin: 0 0 15px 0;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1)
+}
+
+.list-style9 li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0
+}
+
+.col-md-7 {
+  display: flex;
+  flex-direction: column;
+
+}
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #0b8a76;
+}

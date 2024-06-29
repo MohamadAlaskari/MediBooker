@@ -1,0 +1,75 @@
+* {
+  outline: none;
+  box-sizing: border-box;
+}
+.content-wrapper-header {
+  width: 100%;
+  background-image: url("https://www.transparenttextures.com/patterns/cubes.png"),
+    linear-gradient(
+      to right top,
+
+      #0a756a,
+      #0b8a76,
+      #0ca981
+    );
+}
+.content-wrapper-context {
+  max-width: 350px;
+}
+.img-content svg {
+  margin-right: 14px;
+}
+.content-wrapper-img {
+  width: 186px;
+  -o-object-fit: cover;
+  object-fit: cover;
+  margin-top: -25px;
+  -o-object-position: center;
+  object-position: center;
+}
+.content-text {
+  font-weight: 400;
+  font-size: 14px;
+  margin-top: 16px;
+  line-height: 1.7em;
+  color: #ebecec;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.btn-medibooker {
+  background-color: #0ca981;
+  border: none;
+
+  cursor: pointer;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+.btn-outline-medibooker {
+  color: #fff;
+}
+
+// card
+
+.doctor-card {
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.doctor-details {
+  margin-left: 15px;
+}
+.doctor-details h5 {
+  margin: 0;
+}
+.icon-text {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.icon-text i {
+  margin-right: 5px;
+}

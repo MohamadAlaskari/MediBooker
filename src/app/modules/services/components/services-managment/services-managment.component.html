@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10">
+      <div class="search-section">
+        <input type="text" class="form-control form-control-lg" placeholder="Search" [(ngModel)]="searchTerm">
+      </div>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary mb-3 search"   data-bs-toggle="modal" (click)="setEditModefalse()" data-bs-target="#modal">Add New Service</button>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="modal" #Modal data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="loginmodal">Form</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="type" class="form-label">Type</label>
+              <select id="type" formControlName="type" class="form-select" [ngClass]="{'is-invalid': form.get('type')?.invalid && form.get('type')?.touched}">
+                <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+              </select>
+              <div *ngIf="form.get('type')?.invalid && form.get('type')?.touched" class="invalid-feedback">
+                Please select a type.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea id="description" formControlName="description" class="form-control" rows="3" [ngClass]="{'is-invalid': form.get('description')?.invalid && form.get('description')?.touched}"></textarea>
+              <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="invalid-feedback">
+                Description is required and must be at least 10 characters long.
+              </div>
+            </div>
+            <div class="d-grid">
+
+              <button type="submit" class="btn btn-primary modalbtn" *ngIf="EditMode; else editModeFalse" [disabled]="form.invalid">
+                Update Service
+              </button>
+              <ng-template #editModeFalse>
+                <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Create new Service</button>
+              </ng-template>
+
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">type</th>
+            <th scope="col">description</th>
+            <th scope="col">Act</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let service of filteredServices(); let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ service.type }}</td>
+            <td>{{ service.description }}</td>
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle custom-dropdown-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" (click)="removeservice(service.id)">Remove</a></li>
+                  <li><a class="dropdown-item" (click)="editservice(service.id)">Edit</a></li>
+                  <li><a class="dropdown-item" >View Details</a></li>
+                </ul>
+              </div>
+            </td>
+
+
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+</div>

@@ -1,1 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  //toast-colors
+  --color-help1: #05478a;
+  --color-help2: #0070e0;
+  --color-success1: #005e38;
+  --color-success2: #03a65a;
+  --color-warning1: #c24914;
+  --color-warning2: #fc8621;
+  --color-error1: #851d41;
+  --color-error2: #db3056;
+  --transition-base: all 0.5s ease 0s;
+}
+.dark {
+}
+
+.bg-medi {
+  background-color: #8a0b0b !important;
+}
+.dropdown-item {
+  cursor: pointer;
+}
+.dropdown-item:active {
+  background-color: rgb(
+    202,
+    209,
+    199
+  ) !important; /* Change this to your desired color */
+}
+.modal-header {
+  background-color: #0b8a76 !important;
+  color: white;
+  justify-content: center;
+  border-bottom: none;
+}
+
+.modal-content {
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.btn-close {
+  background-color: white;
+  border-radius: 50%;
+  border: none;
+}

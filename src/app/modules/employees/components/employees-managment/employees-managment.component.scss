@@ -1,0 +1,247 @@
+.container {
+  padding: 20px;
+}
+
+.form-section, .search-section {
+  margin-bottom: 20px;
+}
+
+.form-section h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.thead-dark th {
+  background-color: #343a40;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #0b8a76;
+  border: none;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+}
+
+.btn {
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+
+.form-control {
+  border-radius: 20px;
+  padding: 10px;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+.search {
+  height: 50px;
+}
+.custom-tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  z-index: 1000;
+  font-size: 14px;
+  pointer-events: none; /* Ensure tooltip does not interfere with mouse events on underlying elements */
+}
+.tooltip-trigger {
+  position: relative; /* Ensure position:relative for containing the tooltip */
+  cursor: pointer; /* Change cursor to pointer to indicate interaction */
+}
+.btn-primary {
+  background-color: #0b8a76;
+  border-color: #0b8a76;
+}
+
+.btn-primary:hover {
+  background-color: #077565;
+  border-color: #077565;
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.link-primary {
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link-primary:hover {
+  text-decoration: underline;
+}
+
+.step-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Add this line to align items vertically */
+}
+/*progressbar*/
+#progressbar {
+  overflow: hidden;
+  color: lightgrey;
+margin-left: 90px;
+}
+
+#progressbar .active {
+  color: #066a5b;
+}
+
+#progressbar li {
+  list-style-type: none;
+  font-size: 19px;
+  width: 33.33%;
+  float: left;
+  position: relative;
+}
+
+/*Icons in the ProgressBar*/
+#progressbar #account:before {
+  font-family: FontAwesome;
+  content: "\f023";
+}
+
+#progressbar #personal:before {
+  font-family: FontAwesome;
+  content: "\f007";
+}
+
+#progressbar #payment:before {
+  font-family: FontAwesome;
+  content: "\f09d";
+}
+
+#progressbar #confirm:before {
+  font-family: FontAwesome;
+  content: "\f00c";
+}
+
+/*ProgressBar before any progress*/
+#progressbar li:before {
+  width: 30px;
+  height: 30px;
+  line-height: 25px;
+  display: block;
+  font-size: 18px;
+  color: #ffffff;
+  background: lightgray;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
+  padding: 3px;
+  position: relative;
+  z-index: 10;
+}
+
+/*ProgressBar connectors*/
+#progressbar li:after {
+  content: "";
+  width: 100%;
+  height: 5px;
+  background: lightgray;
+  position: absolute;
+  left: 0;
+  top: 15px;
+  z-index: 1;
+}
+
+/*Color number of the step and the connector before it*/
+#progressbar li.active:before,
+#progressbar li.active:after {
+  transition: all 0.4s ease-in;
+  background: #0b8a76;
+}
+.custom-dropdown-button {
+  color: black; /* Set the icon color to black */
+  background: none; /* Remove background */
+  border: none; /* Remove border */
+  padding: 0; /* Remove padding */
+}
+
+.custom-dropdown-button::after {
+  display: none; /* Remove the default down arrow */
+}
+
+.custom-dropdown-button:focus {
+  box-shadow: none; /* Remove focus outline */
+}
+
+.custom-dropdown-button i {
+  font-size: 19px; /* Adjust the icon size if needed */
+}
+/* Modal styling */
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.form-floating {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+.is-invalid {
+  border-color: #dc3545 !important;
+}
+
+.is-valid {
+  border-color: #28a745 !important;
+}
+
+
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+}
+.modalbtn{
+width: 50%;
+height: 55px;
+}

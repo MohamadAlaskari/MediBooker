@@ -1,0 +1,99 @@
+.calendar {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 100%; /* Adjusted to full width for responsiveness */
+  max-width: 600px; /* Max width to maintain readability */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin: 0 auto;
+  min-height: 420px;
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.header {
+  background-color: #0a756a;
+  color: #fff;
+  padding: 12px;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.reset{
+  width: 100%;
+  font-size: 14px;
+  cursor: pointer;
+}
+.header button {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.header button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background-color: #f0f0f0;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.day-name {
+  text-align: center;
+  padding: 10px 0;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  padding: 10px;
+}
+
+.date {
+  padding: 0; /* Adjusted padding */
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-radius 0.3s ease;
+}
+
+.date p {
+  display: inline-block;
+  padding: 12px;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px; /* Adjusted padding /
+  border-radius: 50%; / Rounded shape */
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+
+.date:hover p {
+  background-color: #f0f0f0;
+}
+
+
+
+.date p.selected {
+  background-color: #0a756a;
+  color: #fff;
+}
+
+.date.selected p:hover {
+  background-color: lightcoral; /* Ensure hover state matches selected state */
+}

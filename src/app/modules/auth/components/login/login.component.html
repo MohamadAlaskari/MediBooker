@@ -1,0 +1,85 @@
+<!-- Modal -->
+<div class="modal fade" id="loginmodal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginmodal"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="loginmodal">Login Form</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form class="row g-3" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <!-- Display errors -->
+          <div *ngIf="loginForm.invalid && loginFormSubmitted" class="alert alert-danger">
+            Please correct the errors in the form before submitting.
+          </div>
+
+
+          <!-- Radio buttons -->
+          <div class="col-md-12">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="userType" id="patientRadio" value="patient"
+                formControlName="userType">
+              <label class="form-check-label" for="patientRadio">Login as Patient</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="userType" id="adminRadio" value="admin"
+                formControlName="userType">
+              <label class="form-check-label" for="adminRadio">Login as Administrator</label>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="col-md-12">
+            <div class="form-floating">
+              <input type="email" class="form-control" id="loginEmail" placeholder="Email" formControlName="loginEmail"
+                autocomplete="current-email"
+                [class.is-invalid]="loginForm.get('loginEmail')!.invalid && loginForm.get('loginEmail')!.touched"
+                [class.is-valid]="loginForm.get('loginEmail')!.valid && loginForm.get('loginEmail')!.touched">
+              <label for="loginEmail" class="form-label">Email*</label>
+              <div *ngIf="(loginForm.get('loginEmail')!.invalid && loginForm.get('loginEmail')!.touched)"
+                class="invalid-feedback">
+                Please provide a valid email.
+              </div>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="col-md-12">
+            <div class="form-floating">
+              <input type="password" class="form-control" id="loginPassword" placeholder="Password"
+                formControlName="loginPassword" autocomplete="current-password"
+                [class.is-invalid]="loginForm.get('loginPassword')!.invalid && loginForm.get('loginPassword')!.touched"
+                [class.is-valid]="loginForm.get('loginPassword')!.valid && loginForm.get('loginPassword')!.touched">
+              <label for="loginPassword" class="form-label">Password*</label>
+              <div *ngIf="(loginForm.get('loginPassword')!.invalid && loginForm.get('loginPassword')!.touched)"
+                class="invalid-feedback">
+                Please provide a valid password.
+              </div>
+            </div>
+          </div>
+          <p class="mt-3">Don't have an account? <a class="link-primary" data-bs-toggle="modal"
+              data-bs-target="#signupModal">Register here</a>
+          </p>
+
+          <!-- Buttons -->
+          <div class="modal-footer  ">
+            <button type="reset" role="button" (click)="onCancel()" class="btn btn-outline-secondary "
+              data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+
+
+
+        </form>
+      </div>
+      <!--
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+      -->
+    </div>
+  </div>
+</div>

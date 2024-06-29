@@ -1,0 +1,25 @@
+<div class="calendar">
+  <div class="header">
+      <a (click)="resetToToday()" class="reset" > Reset</a>
+      <br>
+      <div style="text-align: center;">
+        <button (click)="prevMonth()">&lt;</button>
+        <span style="margin: 0 130px; font-size: 19px;" >{{ monthNames[currentMonth] }} {{ currentYear }}</span>
+        <button (click)="nextMonth()">&gt;</button>
+    </div>
+
+  </div>
+  <div class="days">
+    <div class="day-name" *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">{{ day }}</div>
+  </div>
+  <div class="dates">
+    <ng-container *ngFor="let blank of [].constructor(startingDay)">
+      <div class="date">-</div>
+    </ng-container>
+    <div class="date" *ngFor="let day of daysOfMonth">
+      <p (click)="onSelectDate(day)" [class.today]="isToday(day)" [class.selected]="isSelected(day)">
+        {{ day }}
+      </p>
+    </div>
+  </div>
+</div>
