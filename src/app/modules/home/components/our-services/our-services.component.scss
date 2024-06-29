@@ -20,7 +20,6 @@
   box-shadow: 0 12px 20px 1px rgba(64, 64, 64, 0.09);
   transition: transform 0.3s, box-shadow 0.3s;
   overflow: hidden;
-  cursor: pointer;
 }
 .card:hover {
   transform: translateY(-10px);
@@ -105,3 +104,6 @@ a.card {
 .card-body p {
   flex-grow: 1;
 }
+
+
+

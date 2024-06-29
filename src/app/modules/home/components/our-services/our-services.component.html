@@ -14,11 +14,15 @@
         <div class="card-body text-center d-flex flex-column">
           <h3 class="card-title pt-1">{{ service.type }}</h3>
           <p class="card-text text-sm flex-grow-1">{{ service.description }}</p>
-          <span class="text-sm text-uppercase font-weight-bold">read more&nbsp;<i class="fa fa-arrow-right"></i></span>
         </div>
       </a>
     </div>
+    }@empty {
+      <p class="alert alert-warning">No Services vorhanden</p>
+
     }
 
   </div>
 </section>
+
+

@@ -17,7 +17,7 @@ export class ServicesManagmentComponent {
   searchTerm: string = '';
   @ViewChild('Modal') Modal!: ElementRef;
   form: FormGroup;
-  types = ['Allergietests', 'Gesundheitsuntersuchung', 'Impfungen', 'Ultraschall', 'Röntgen', 'Chiropraktik'];
+  types = ['Health Check-ups', 'X-rays', 'Vaccinations', 'Blood Tests', 'Allergy Testing', 'Ultrasound'];
 
 
   EditMode = false;

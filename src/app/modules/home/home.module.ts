@@ -6,6 +6,7 @@ import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { SharedModule } from '../../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
+import { OurTeamComponent } from './components/our-team/our-team.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { HomeRoutingModule } from './home-routing.module';
     OurServicesComponent,
     AboutUsComponent,
     ContactUsComponent,
+    OurTeamComponent,
   ],
   imports: [CommonModule, HomeRoutingModule, SharedModule],
 })

@@ -9,6 +9,8 @@ import { RouterModule } from '@angular/router';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { ToastNotificationsComponent } from './components/toast-notifications/toast-notifications.component';
+import { TabsComponent } from './components/tabs/tabs.component';
 @NgModule({
   declarations: [
     MainHeaderComponent,
@@ -16,7 +18,9 @@ import { DatePipe } from '@angular/common';
     BannerComponent,
     CountdownTimerComponent,
     SubHeaderComponent,
-    ProfileComponent
+    ProfileComponent,
+    ToastNotificationsComponent,
+    TabsComponent
   ],
   imports: [CommonModule, RouterModule, FormsModule,
     ReactiveFormsModule],
@@ -26,6 +30,8 @@ import { DatePipe } from '@angular/common';
     SubHeaderComponent,
     FooterComponent,
     CountdownTimerComponent,
+    ToastNotificationsComponent,
+    TabsComponent
   ],
   providers: [ DatePipe],
 })
