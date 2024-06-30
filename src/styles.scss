@@ -1,12 +1,10 @@
 :root {
---primary-color:var(--color-success1);
---secondary-color:var(--color-help1);
+  --primary-color: #fff;
+  --secondary-color: #0a756a;
+  ----secondary-color: #086a56;
 
-//Colors
-// font colors
-
-
-
+  //Colors
+  // font colors
 
   //toast-colors
   --color-help1: #05478a;
@@ -51,4 +49,10 @@
   background-color: white;
   border-radius: 50%;
   border: none;
+}
+
+.line {
+  width: 100px;
+  height: 2px;
+  border-radius: 50px;
 }

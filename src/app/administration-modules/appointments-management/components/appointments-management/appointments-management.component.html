@@ -1,0 +1,265 @@
+<h4 class="text-success">Appointments Management</h4>
+<div class="line bg-success"></div>
+
+<button data-bs-toggle="modal" data-bs-target="#createAppointmentModal" class="add-appointment btn mt-3 ">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-plus"
+    viewBox="0 0 16 16">
+    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+  </svg> Add Free Appointment
+</button>
+
+
+<!--modal-->
+<!-- Modal -->
+<div #createAppointmentModal class="modal fade" id="createAppointmentModal" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="createAppointmentModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="createAppointmentModal">Create Free Appointments</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <!--create appointment-->
+        <div class="form-container">
+          <div class="header">
+            <a *ngIf="!showAppointmentsForm" (click)="showAppointmentsForm = true">create appointments for selected
+              Dates ? </a>
+            <a *ngIf="showAppointmentsForm" (click)="showAppointmentsForm = false">create appointments for a Date Range
+              ? </a>
+
+          </div>
+
+
+          <div *ngIf="showAppointmentsForm">
+            <form (ngSubmit)="onSubmit()" #appointmentForm="ngForm">
+
+              <div *ngFor="let appointment of appointmentsData; let i = index" class="form-group">
+                <div class="form-row">
+                  <div class="col-md-3">
+                    <label>Date:</label>
+                    <input type="text" placeholder="Select date" class="form-control" bsDatepicker required
+                      name="date{{i}}" [(ngModel)]="appointment.date" #date="ngModel"
+                      [class.is-invalid]="date.invalid && date.touched" [bsValue]="bsValue" [minDate]="minDate"
+                      [datesDisabled]="disabledDates" [daysDisabled]="[7,0]" [bsConfig]="bsConfig">
+
+                  </div>
+                  <div *ngIf="date.invalid && date.touched" class="invalid-feedback">
+                    Date is required.
+                  </div>
+
+                  <div *ngIf="start.invalid && start.touched" class="invalid-feedback">
+                    Start time is required.
+                  </div>
+
+                  <div *ngIf="end.invalid && end.touched" class="invalid-feedback">
+                    End time is required.
+                  </div>
+
+                  <div *ngIf="min.invalid && min.touched" class="invalid-feedback">
+                    Duration is required.
+                  </div>
+                  <div class="col-md-3">
+                    <label>Start Time:</label>
+                    <select [(ngModel)]="appointment.start" name="start{{i}}" class="form-control" required
+                      #start="ngModel" [class.is-invalid]="start.invalid && start.touched">
+                      <option value="" disabled selected>Select start time</option>
+                      <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
+                    </select>
+
+                  </div>
+                  <div class="col-md-3">
+                    <label>End Time:</label>
+                    <select [(ngModel)]="appointment.end" name="end{{i}}" class="form-control" required #end="ngModel"
+                      [class.is-invalid]="end.invalid && end.touched">
+                      <option value="" disabled selected>Select end time</option>
+                      <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
+                    </select>
+
+                  </div>
+                  <div class="col-md-2">
+                    <label>Duration:</label>
+                    <input type="number" [(ngModel)]="appointment.min" name="min{{i}}" class="form-control"
+                      (change)="enforceMinimumValue(appointment)" required #min="ngModel"
+                      [class.is-invalid]="min.invalid && min.touched">
+
+                  </div>
+
+                  <div class="col-md-1">
+                    <button type="button" class="btn remv-btn" (click)="removeAppointment(i)">-</button>
+                  </div>
+                </div>
+
+
+
+              </div>
+
+              <button type="button" class="btn add-btn" (click)="addAppointment()">+</button>
+              <button type="submit" class="btn submit-btn" [disabled]="appointmentForm.invalid">Submit</button>
+            </form>
+
+          </div>
+          <div *ngIf="!showAppointmentsForm">
+            <form (ngSubmit)=" createForDateRange()" #appointmentForm="ngForm">
+              <div class="form-row">
+                <div class="col-md-4">
+                  <label for="dateRange">Select Range:</label>
+                  <input type="text" class="form-control" [minDate]="minDate" bsDaterangepicker
+                    [datesDisabled]="disabledDates" [daysDisabled]="[7,0]" [(bsValue)]="dateRange"
+                    [placement]="'bottom'" [bsConfig]="{
+            showWeekNumbers: false
+          }" placeholder="Select date range" style="font-size: 15px;">
+
+                </div>
+
+                <div class="col-md-3">
+                  <label>Start Time:</label>
+                  <select [(ngModel)]="starttime" name="starttime" class="form-control" required #start="ngModel"
+                    [class.is-invalid]="start.invalid && start.touched">
+                    <option value="" disabled selected>Select start time</option>
+                    <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
+                  </select>
+                  <div *ngIf="start.invalid && start.touched" class="invalid-feedback">
+                    Start time is required.
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label>End Time:</label>
+                  <select [(ngModel)]="endtime" name="endtime" class="form-control" required #end="ngModel"
+                    [class.is-invalid]="end.invalid && end.touched">
+                    <option value="" disabled selected>Select end time</option>
+                    <option *ngFor="let time of availableTimes" [value]="time">{{ time }}</option>
+                  </select>
+                  <div *ngIf="end.invalid && end.touched" class="invalid-feedback">
+                    End time is required.
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <label>Duration:</label>
+                  <input type="number" [(ngModel)]="Duration" name="Duration" class="form-control" required
+                    #min="ngModel" [class.is-invalid]="min.invalid && min.touched" min="10">
+
+                </div>
+
+
+              </div>
+              <div *ngIf="checkDisabledDates(dateRange)" class="error-message">
+                Selected date range includes a date that already have appointments.
+              </div>
+              <div *ngIf="min.invalid && min.touched" class="error-message">
+                Duration is required.
+              </div>
+              <button type="submit" class="btn submit-btn"
+                [disabled]="appointmentForm.invalid && checkDisabledDates(dateRange) ">Submit</button>
+            </form>
+
+
+          </div>
+        </div>
+
+      </div>
+      <!--
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+      -->
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="row">
+
+
+
+  <h6>select date</h6>
+  <input type="date">
+
+  <!--Calender-->
+  @if(selectedDate){
+
+  <div class="col-md-12" *ngIf="usertype === 'admin'">
+    <div class="filter-sort-controls mb-3">
+      <div class="form-inline">
+        <label class="mr-2" for="statusFilter">Status:</label>
+        <select id="statusFilter" class="form-control" [(ngModel)]="statusFilter"
+          (ngModelChange)="applyFilterAndSort()">
+          <option value="">All</option>
+          <option value="reserviert">Reserviert</option>
+          <option value="nicht reserviert">Nicht Reserviert</option>
+        </select>
+        <label class="mr-2" for="sortOrder">Sort by Time:</label>
+        <select id="sortOrder" class="form-control" [(ngModel)]="sortOrder" (ngModelChange)="applyFilterAndSort()">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Hour</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="paginatedAppointments.length === 0">
+            <td colspan="5" class="text-center">No appointments found.</td>
+          </tr>
+          <tr *ngFor="let appointment of paginatedAppointments; let i = index"
+            [class.table-success]="appointment.status">
+            <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+            <td>{{ appointment.date | date: 'dd-MM-yyyy' }}</td>
+            <td>{{ formatHour(appointment.hour) }}</td>
+            <td (click)="openModal(appointment)" [style.cursor]="appointment.status ? 'pointer' : 'default'">
+              {{ appointment.status ? 'reserviert' : 'nicht reserviert' }}
+            </td>
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle custom-dropdown-button" type="button"
+                  id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" (click)="removeappointment(appointment.id)">Remove</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="isFirstPage()">
+          <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item" [class.active]="currentPage === page" *ngFor="let page of pages">
+          <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="isLastPage()">
+          <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+
+
+  }
+</div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../../../../core/services/api.service';
+import { ApiService } from '../../../../core/services/api-service/api.service';
 import { environment } from '../../../../../enviroments/enviroment';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { Patient } from '../../../../core/models/Patient.model';
@@ -14,11 +14,10 @@ export class AuthService {
   constructor(private apiService: ApiService) {}
 
   logout(): Observable<string> {
-    return this.apiService.post<string>(`${this.patientEndpoints.logout}`);
     localStorage.removeItem('usertype');
     localStorage.removeItem('token');
+    return this.apiService.post<string>(`${this.patientEndpoints.logout}`);
   }
-
 
   isAuthenticated(): boolean {
     return localStorage.getItem('status') === 'loggedin';

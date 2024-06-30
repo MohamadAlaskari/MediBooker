@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../../../../core/services/api.service';
+import { ApiService } from '../../../../core/services/api-service/api.service';
 import { environment } from '../../../../../enviroments/enviroment';
 import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { Patient } from '../../../../core/models/Patient.model';
@@ -9,57 +9,61 @@ import { Employee } from '../../../../core/models/Employee.model';
   providedIn: 'root',
 })
 export class LoginService {
-
   public isAuthenticatedSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(this.hasToken());
 
   patientEndpoints = environment.endpoints.patient;
 
   employeeEndpoints = environment.endpoints.employee;
-  constructor(private apiService: ApiService) { }
-
+  constructor(private apiService: ApiService) {}
 
   login(email: string, password: string, usertype: string): Observable<string> {
     const body = { email: email, password: password };
-    if (usertype == "patient") {
-      return this.apiService.post<{ token: string }>(`${this.patientEndpoints.login}`, body).pipe(map((response) => {
-        if (response) {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('status', 'logedin');
-          localStorage.setItem('usertype', 'patient');
-          this.isAuthenticatedSubject.next(true);
-          console.log('token', response.token);
-          return response.token;
-        }
-        throw new Error('No user data received');
-      }),
-      catchError((error) => {
-        console.error('Login error:', error);
-        return throwError(() => new Error(`Login failed: ${error.message}`));
-      })
-    );
+    if (usertype == 'patient') {
+      return this.apiService
+        .post<{ token: string }>(`${this.patientEndpoints.login}`, body)
+        .pipe(
+          map((response) => {
+            if (response) {
+              localStorage.setItem('token', response.token);
+              localStorage.setItem('status', 'logedin');
+              localStorage.setItem('usertype', 'patient');
+              this.isAuthenticatedSubject.next(true);
+              console.log('token', response.token);
+              return response.token;
+            }
+            throw new Error('No user data received');
+          }),
+          catchError((error) => {
+            console.error('Login error:', error);
+            return throwError(
+              () => new Error(`Login failed: ${error.message}`)
+            );
+          })
+        );
+    } else {
+      return this.apiService
+        .post<{ token: string }>(`${this.employeeEndpoints.login}`, body)
+        .pipe(
+          map((response) => {
+            if (response) {
+              localStorage.setItem('token', response.token);
+              localStorage.setItem('status', 'logedin');
+              localStorage.setItem('usertype', 'employee');
+              this.isAuthenticatedSubject.next(true);
+              console.log('token', response.token);
+              return response.token;
+            }
+            throw new Error('No user data received');
+          }),
+          catchError((error) => {
+            console.error('Login error:', error);
+            return throwError(
+              () => new Error(`Login failed: ${error.message}`)
+            );
+          })
+        );
     }
-    else {
-      return this.apiService.post<{ token: string }>(`${this.employeeEndpoints.login}`, body).pipe(map((response) => {
-        if (response) {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('status', 'logedin');
-          localStorage.setItem('usertype', 'employee');
-          this.isAuthenticatedSubject.next(true);
-          console.log('token', response.token);
-          return response.token;
-        }
-        throw new Error('No user data received');
-      }),
-      catchError((error) => {
-        console.error('Login error:', error);
-        return throwError(() => new Error(`Login failed: ${error.message}`));
-      })
-    );
-    }
-
-
-
   }
 
   private isLocalStorageAvailable(): boolean {
@@ -90,7 +94,7 @@ export class LoginService {
       `${this.patientEndpoints.getpatientByToken}`
     );
   }
-  getEmployeeByToken() : Observable<Employee> {
+  getEmployeeByToken(): Observable<Employee> {
     return this.apiService.get<Employee>(
       `${this.employeeEndpoints.getemployeeByToken}`
     );
@@ -100,7 +104,9 @@ export class LoginService {
       map((response) => {
         localStorage.removeItem('token');
         this.isAuthenticatedSubject.next(false);
-        console.log('Logout: user logged out, token removed, isAuthenticatedSubject set to false');
+        console.log(
+          'Logout: user logged out, token removed, isAuthenticatedSubject set to false'
+        );
         return response;
       }),
       catchError((error) => {
@@ -114,9 +120,11 @@ export class LoginService {
     return localStorage.getItem('usertype');
   }
 
-
   isAuthenticated(): Observable<boolean> {
-    console.log('LoginService: isAuthenticatedSubject value =', this.isAuthenticatedSubject.value); // Log current value
+    console.log(
+      'LoginService: isAuthenticatedSubject value =',
+      this.isAuthenticatedSubject.value
+    ); // Log current value
     return this.isAuthenticatedSubject.asObservable();
   }
   logoutemp(): Observable<string> {

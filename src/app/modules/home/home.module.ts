@@ -7,6 +7,7 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { SharedModule } from '../../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { OurTeamComponent } from './components/our-team/our-team.component';
+import { ServiceService } from '../../core/services/service-service/service.service';
 
 @NgModule({
   declarations: [
@@ -17,5 +18,6 @@ import { OurTeamComponent } from './components/our-team/our-team.component';
     OurTeamComponent,
   ],
   imports: [CommonModule, HomeRoutingModule, SharedModule],
+  providers: [ServiceService],
 })
 export class HomeModule {}

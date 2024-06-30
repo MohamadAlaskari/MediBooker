@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../../../enviroments/enviroment';
-import { ApiService } from '../../../../core/services/api.service';
+import { ApiService } from '../../../../core/services/api-service/api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SignupService {
   patientEndpoints = environment.endpoints.patient;
-  constructor(private apiService: ApiService) { }
-
-
+  constructor(private apiService: ApiService) {}
 
   signUp(
     name: string,
@@ -26,7 +23,7 @@ export class SignupService {
     city: string,
     healthInsurance: string,
     insuranceNr: string,
-    insuranceType: 'private' | 'gesetzlich',
+    insuranceType: 'private' | 'gesetzlich'
   ): Observable<string> {
     const body = {
       name: name,
@@ -41,11 +38,12 @@ export class SignupService {
       city: city,
       healthInsurance: healthInsurance,
       insuranceNr: insuranceNr,
-      insuranceType: insuranceType
+      insuranceType: insuranceType,
     };
-    return this.apiService.post<{
-      token: string
-    }>(`${this.patientEndpoints.signup}`, body)
+    return this.apiService
+      .post<{
+        token: string;
+      }>(`${this.patientEndpoints.signup}`, body)
       .pipe(
         map((response) => {
           if (response) {
@@ -59,9 +57,10 @@ export class SignupService {
         }),
         catchError((error) => {
           console.error('Sign up error:', error);
-          return throwError(() => new Error(`Sign up failed: ${error.message}`));
+          return throwError(
+            () => new Error(`Sign up failed: ${error.message}`)
+          );
         })
       );
-
   }
 }

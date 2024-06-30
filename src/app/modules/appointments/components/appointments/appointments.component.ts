@@ -16,22 +16,19 @@ declare var bootstrap: any;
   styleUrl: './appointments.component.scss',
 })
 export class AppointmentsComponent {
-
-
   @ViewChild('Modal') Modal!: ElementRef;
-
 
   appointments: Appointment[] = [];
   availableappointments: Appointment[] = [];
   appointment: Appointment | null = null;
-  countdown: string = "";
+  countdown: string = '';
   subscription = new Subscription();
   reservations: Reservation[] = [];
   appointmentsbydate: Appointment[] = [];
 
   selectedDate: string;
   selectedtime: string | null = null;
-  reservationdetails : Reservation | null = null;
+  reservationdetails: Reservation | null = null;
 
   selectedService: any;
   description: string | null = null;
@@ -48,9 +45,14 @@ export class AppointmentsComponent {
   filteredAppointments: Appointment[] = [];
   paginatedAppointments: Appointment[] = [];
 
-  constructor(private appointmentsService: AppointmentsService, private ourservices: OurservicesService, private datePipe: DatePipe, private loginService: LoginService,) {
+  constructor(
+    private appointmentsService: AppointmentsService,
+    private ourservices: OurservicesService,
+    private datePipe: DatePipe,
+    private loginService: LoginService
+  ) {
     this.selectedDate = this.getCurrentDate();
-    this.selectedAppointments = this.availableappointments.map(_ => false);
+    this.selectedAppointments = this.availableappointments.map((_) => false);
   }
 
   ngOnInit() {
@@ -60,36 +62,39 @@ export class AppointmentsComponent {
     if (this.usertype == 'patient') {
       this.loadPatientReservations();
       this.loadservices();
-    } else if (this.usertype == 'employee') {
+    } else if (this.usertype == 'admin') {
       // Apply filter and sort for employees
       this.applyFilterAndSort();
     }
   }
   private loadAppointmentbydate(date: Date) {
-    console.log("final", date);
+    console.log('final', date);
     this.appointmentsService.getAppointmentByDate(date).subscribe({
       next: (availableappointments: Appointment[]) => {
         this.availableappointments = availableappointments;
-        console.log('Loading Appointments successfully', this.availableappointments);
+        console.log(
+          'Loading Appointments successfully',
+          this.availableappointments
+        );
         this.applyFilterAndSort(); // Call applyFilterAndSort here
       },
       error: (error) => {
         this.availableappointments = [];
-        this.paginatedAppointments= [];
-        this.filteredAppointments= [];
+        this.paginatedAppointments = [];
+        this.filteredAppointments = [];
         console.error('An error occurred while loading Appointments', error);
       },
     });
   }
 
-
   applyFilterAndSort() {
     this.filteredAppointments = this.availableappointments;
 
     if (this.statusFilter) {
-      this.filteredAppointments = this.filteredAppointments.filter(appointment =>
-        (this.statusFilter === 'reserviert' && appointment.status) ||
-        (this.statusFilter === 'nicht reserviert' && !appointment.status)
+      this.filteredAppointments = this.filteredAppointments.filter(
+        (appointment) =>
+          (this.statusFilter === 'reserviert' && appointment.status) ||
+          (this.statusFilter === 'nicht reserviert' && !appointment.status)
       );
     }
 
@@ -107,7 +112,10 @@ export class AppointmentsComponent {
   paginateAppointments() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedAppointments = this.filteredAppointments.slice(startIndex, endIndex);
+    this.paginatedAppointments = this.filteredAppointments.slice(
+      startIndex,
+      endIndex
+    );
   }
 
   changePage(page: number) {
@@ -123,7 +131,9 @@ export class AppointmentsComponent {
   }
 
   get pages() {
-    return Array(this.totalPages).fill(0).map((x, i) => i + 1);
+    return Array(this.totalPages)
+      .fill(0)
+      .map((x, i) => i + 1);
   }
 
   isFirstPage() {
@@ -134,14 +144,11 @@ export class AppointmentsComponent {
     return this.currentPage === this.totalPages;
   }
 
-
-
   enforceMinimumValue(appointment: any) {
     if (appointment.min < 10) {
       appointment.min = 10; // Set it to 10 if it's less than 10
     }
   }
-
 
   handleDateSelected(selectedDate: Date) {
     if (!(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
@@ -150,7 +157,7 @@ export class AppointmentsComponent {
     }
 
     this.selectedDate = this.formatDate(selectedDate);
-    console.log(this.selectedDate)
+    console.log(this.selectedDate);
     // Assuming this method formats the date for display purposes
     this.loadAppointmentbydate(selectedDate); // Pass the valid Date object
   }
@@ -162,10 +169,7 @@ export class AppointmentsComponent {
           console.log('Loading services  was successful', this.services);
         },
         error: (err) => {
-          console.error(
-            'An error occurred while fetching services',
-            err
-          );
+          console.error('An error occurred while fetching services', err);
         },
       })
     );
@@ -181,15 +185,17 @@ export class AppointmentsComponent {
   }
   handleCheckboxClick(appointment: Appointment) {
     if (!appointment.status) {
-      const index = this.availableappointments.findIndex(appt => appt === appointment);
+      const index = this.availableappointments.findIndex(
+        (appt) => appt === appointment
+      );
       if (this.selcAppointment === appointment) {
         // If the clicked appointment is already selected, deselect it
         this.selcAppointment = null;
-        console.log("Time deselected:", appointment.hour);
+        console.log('Time deselected:', appointment.hour);
       } else {
         // Deselect the previously selected appointment
         this.selcAppointment = appointment;
-        console.log("Time selected:", this.selcAppointment.hour);
+        console.log('Time selected:', this.selcAppointment.hour);
       }
       // Update the selectedAppointments array based on the checkbox state
       this.selectedAppointments[index] = !this.selectedAppointments[index];
@@ -215,7 +221,6 @@ export class AppointmentsComponent {
       })
     );
   }
-
 
   private loadAppointment(id: string) {
     this.appointmentsService.getAppointmentByID(id).subscribe({
@@ -247,7 +252,8 @@ export class AppointmentsComponent {
 
     const today = new Date();
 
-    const isSameDay = appointmentDate.getFullYear() === today.getFullYear() &&
+    const isSameDay =
+      appointmentDate.getFullYear() === today.getFullYear() &&
       appointmentDate.getMonth() === today.getMonth() &&
       appointmentDate.getDate() === today.getDate();
 
@@ -272,7 +278,7 @@ export class AppointmentsComponent {
     const [hour, minute] = hourString.split(':').slice(0, 2);
     return `${hour}:${minute}`;
   }
-   formatDate(date: Date): string {
+  formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
@@ -280,9 +286,9 @@ export class AppointmentsComponent {
   }
 
   makeappointment() {
-    console.log("", this.selcAppointment?.id, this.selectedDate);
+    console.log('', this.selcAppointment?.id, this.selectedDate);
     console.log('Selected Service:', this.selectedService);
-    console.log('Description:', this.description)
+    console.log('Description:', this.description);
 
     let id: number | undefined;
 
@@ -293,26 +299,27 @@ export class AppointmentsComponent {
       return; // or handle the error in an appropriate way
     }
 
-    this.appointmentsService.createreservation(id, this.selectedService).subscribe({
-      next: (response) => {
-        console.log(' success', response);
-        window.location.reload();
-      },
-      error(error) {
-        console.log('error', error);
-      },
-    });
-
+    this.appointmentsService
+      .createreservation(id, this.selectedService)
+      .subscribe({
+        next: (response) => {
+          console.log(' success', response);
+          window.location.reload();
+        },
+        error(error) {
+          console.log('error', error);
+        },
+      });
   }
   deletereservation(id: string) {
     Swal.fire({
-      title: "Are you sure?",
+      title: 'Are you sure?',
       text: "You won't be able to revert this!",
-      icon: "warning",
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
         this.cancelreservation(id);
@@ -321,13 +328,12 @@ export class AppointmentsComponent {
   }
 
   cancelreservation(id: string) {
-
     this.appointmentsService.deletereservation(id).subscribe({
       next: (response) => {
         Swal.fire({
-          title: "Deleted!",
-          text: "Your Appointment has been cancled.",
-          icon: "success"
+          title: 'Deleted!',
+          text: 'Your Appointment has been cancled.',
+          icon: 'success',
         });
         window.location.reload();
       },
@@ -335,34 +341,48 @@ export class AppointmentsComponent {
         console.log('error', error);
       },
     });
-
-
   }
   openModal(appointment: Appointment): void {
     if (appointment.status === true) {
-      this.appointmentsService.getreservationByAppointment(appointment.id).subscribe({
-        next: (reservationdetails: Reservation) => {
-          this.reservationdetails = reservationdetails;
-          console.log('Loading reservation details successfully', this.reservationdetails);
+      this.appointmentsService
+        .getreservationByAppointment(appointment.id)
+        .subscribe({
+          next: (reservationdetails: Reservation) => {
+            this.reservationdetails = reservationdetails;
+            console.log(
+              'Loading reservation details successfully',
+              this.reservationdetails
+            );
 
-          if (this.reservationdetails?.Appointment?.date && this.reservationdetails?.Appointment?.hour) {
-            this.startCountdown(this.reservationdetails.Appointment.date, this.reservationdetails.Appointment.hour);
-            this.intervalId = setInterval(() => {
-              this.startCountdown(this.reservationdetails!.Appointment!.date, this.reservationdetails!.Appointment!.hour);
-            }, 1000);
-          }
+            if (
+              this.reservationdetails?.Appointment?.date &&
+              this.reservationdetails?.Appointment?.hour
+            ) {
+              this.startCountdown(
+                this.reservationdetails.Appointment.date,
+                this.reservationdetails.Appointment.hour
+              );
+              this.intervalId = setInterval(() => {
+                this.startCountdown(
+                  this.reservationdetails!.Appointment!.date,
+                  this.reservationdetails!.Appointment!.hour
+                );
+              }, 1000);
+            }
 
-          const modalElement = this.Modal.nativeElement;
-          const bootstrapModal = new bootstrap.Modal(modalElement);
-          bootstrapModal.show();
-        },
-        error: (error) => {
-          console.log('An error occurred while loading appointment', error.error.error);
-        }
-      });
+            const modalElement = this.Modal.nativeElement;
+            const bootstrapModal = new bootstrap.Modal(modalElement);
+            bootstrapModal.show();
+          },
+          error: (error) => {
+            console.log(
+              'An error occurred while loading appointment',
+              error.error.error
+            );
+          },
+        });
     }
   }
-
 
   startCountdown(date: Date, hour: string): void {
     if (!date || !hour) {
@@ -382,21 +402,25 @@ export class AppointmentsComponent {
       clearInterval(this.intervalId);
     } else {
       const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      const hours = Math.floor(
+        (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+      );
       const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
       this.countdown = `Appointment after: ${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
   }
   removeappointment(index: any): void {
     Swal.fire({
-      title: "Are you sure?",
+      title: 'Are you sure?',
       text: "You won't be able to revert this!",
-      icon: "warning",
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
         this.deleteappointment(index);
@@ -407,17 +431,17 @@ export class AppointmentsComponent {
     this.appointmentsService.deleteappointment(id).subscribe({
       next: () => {
         Swal.fire({
-          title: "Deleted!",
-          text: "Appointment has been deleted.",
-          icon: "success"
+          title: 'Deleted!',
+          text: 'Appointment has been deleted.',
+          icon: 'success',
         });
         this.ngOnInit();
       },
       error: (err) => {
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!"
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
         });
       },
     });

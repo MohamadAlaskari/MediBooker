@@ -34,9 +34,12 @@ export class AddAppointmentComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    this.loadAppointmentbydate(new Date()); // Load appointments for today on init
     this.loadservices();
-    this.toastService.showInfo('Please Select the DATE')
-
+  }
+  getServiceType(serviceId: any): string {
+    const service = this.services.find((s) => s.id === serviceId);
+    return service ? service.type : '';
   }
   handleDateSelected(selectedDate: Date) {
     if (!(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
@@ -54,6 +57,11 @@ export class AddAppointmentComponent {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
     return `${day}.${month}.${year}`;
+  }
+  formatHour(hourString: string): string {
+    // Split the hourString by ':' and take the first two elements
+    const [hour, minute] = hourString.split(':').slice(0, 2);
+    return `${hour}:${minute}`;
   }
   private getCurrentDate(): string {
     const today = new Date();
@@ -131,11 +139,7 @@ export class AddAppointmentComponent {
       this.selectedAppointments[index] = !this.selectedAppointments[index];
     }
   }
-  formatHour(hourString: string): string {
-    // Split the hourString by ':' and take the first two elements
-    const [hour, minute] = hourString.split(':').slice(0, 2);
-    return `${hour}:${minute}`;
-  }
+
   makeappointment() {
     console.log('', this.selcAppointment?.id, this.selectedDate);
     console.log('Selected Service:', this.selectedService);
@@ -159,7 +163,7 @@ export class AddAppointmentComponent {
           this.router.navigate(['/appointments']);
         },
         error: (err) => {
-          this.toastService.showError('Error creating appointment')
+          this.toastService.showError('Error creating appointment');
 
           console.error('Error creating appointment:', err);
         },

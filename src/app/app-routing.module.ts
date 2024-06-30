@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './core/services/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -11,25 +10,33 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'Employees',
+    path: 'appointments-management',
     loadChildren: () =>
-      import('./modules/employees/employees.module').then(
-        (m) => m.EmployeesModule
-      ),
+      import(
+        './administration-modules/appointments-management/appointments-management.module'
+      ).then((m) => m.AppointmentsManagementModule),
+  },
+
+  {
+    path: 'employees-management',
+    loadChildren: () =>
+      import(
+        './administration-modules/employees-management/employees-management.module'
+      ).then((m) => m.EmployeesManagementModule),
   },
   {
-    path: 'Services',
+    path: 'services-management',
     loadChildren: () =>
-      import('./modules/services/services.module').then(
-        (m) => m.ServicesModule
-      ),
+      import(
+        './administration-modules/services-management/services-management.module'
+      ).then((m) => m.ServicesManagementModule),
   },
   {
-    path: 'Patients',
+    path: 'patients-management',
     loadChildren: () =>
-      import('./modules/patients/patients.module').then(
-        (m) => m.PatientsModule
-      ),
+      import(
+        './administration-modules/patients-management/patients-management.module'
+      ).then((m) => m.PatientsManagementModule),
   },
   {
     path: 'home',

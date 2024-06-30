@@ -1,6 +1,6 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiService } from './services/api.service';
+import { ApiService } from './services/api-service/api.service';
 import {
   HTTP_INTERCEPTORS,
   HttpClientModule,
@@ -8,10 +8,12 @@ import {
   withFetch,
 } from '@angular/common/http';
 import { AuthInterceptor } from './services/interceptors/auth.interceptor';
+import { ServiceService } from './services/service-service/service.service';
 
 @NgModule({
   declarations: [],
   imports: [CommonModule, HttpClientModule],
+
   providers: [
     ApiService,
     provideHttpClient(withFetch()),

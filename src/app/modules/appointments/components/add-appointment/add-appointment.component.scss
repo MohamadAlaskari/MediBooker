@@ -1,8 +1,12 @@
 .calender-container {
  //  transform: scale(0.8);
 //  transform-origin: top left;
-}
 
+}
+.times-container{
+  max-height: 530px;
+  overflow-y: auto;
+}
 //checkbox
 .checkbox-button input[type="checkbox"] {
   display: none;
@@ -17,47 +21,41 @@
   display: inline-block;
   padding: 10px;
   margin: 5px;
-  background-color: #0a756a; /* Blue color */
-  color: #fff; /* White text color */
-  border: none;
+//  background-color: #0a756a; /* Blue color */
+  color:  #0a756a; /* White text color */
+  border: 1px solid  #0a756a;
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
-  width: 100px; /* Set a consistent width for the label buttons */
+  width: 100px;
 }
 
-/* Style the label as a button */
-.checkbox-button label {
-  display: inline-block;
-  padding: 10px;
-  margin: 5px;
-  background-color: #0a756a; /* Blue color */
-  color: #fff; /* White text color */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: center;
-  width: 100px; /* Set a consistent width for the label buttons */
-}
+
 .selected {
   /* Your styles for selected appointments */
-  background-color: rgb(98, 182, 98) !important;
-  border-radius: 10%;
-  color: #000; /* For example */
+  transition: all 0.2s ease-in;
+  background-color:  #0a756a !important;
+  color: #fff;
+  border-radius: 5px;
 }
 .selected label {
-  /* Your styles for selected appointments */
-  background-color: rgb(98, 182, 98) !important;
-  border-radius: 10%;
-  color: #000; /* For example */
+  transition: all 0.2s ease-in;
+  background-color:  #0a756a !important;
+  color: #fff;
+  border-radius: 5px;
+
 }
 .checkbox-button input[type="checkbox"].selected {
-  background-color: #28a745; /* Green color */
-}
+  transition: all 0.2s ease-in;
+
+  background-color:  #0a756a !important;
+  color: #fff;
+  border-radius: 5px;}
 
 .checkbox-button input[type="checkbox"]:disabled + label {
-  color: #000000; /* Change label text color for disabled checkboxes */
+  color: rgba(255, 0, 0, 0.246); /* Change label text color for disabled checkboxes */
   cursor: not-allowed; /* Change cursor style for disabled checkboxes */
   /* Add any additional styles for disabled checkboxes */
   background-color: #eceaea;
+  border: 1px solid rgba(255, 0, 0, 0.043);
 }
