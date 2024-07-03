@@ -55,6 +55,7 @@ export class LoginComponent {
             'Login Successful'
           );
           this.closeModal();
+          window.location.reload();
         },
         error: (error) => {
           console.error('Login error', error);
