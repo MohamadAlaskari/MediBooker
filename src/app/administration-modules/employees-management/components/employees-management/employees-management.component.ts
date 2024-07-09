@@ -3,6 +3,9 @@ import { Employee } from '../../../../core/models/Employee.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from '../../../../core/services/employee-service/employee.service';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
+import { WebSocketService } from '../../../../core/services/WebSocket/web-socketservice.service';
+
 declare var bootstrap: any;
 @Component({
   selector: 'app-employees-management',
@@ -17,13 +20,14 @@ export class EmployeesManagementComponent {
   signUpForm: FormGroup;
   currentStep: number = 1;
   loginFormSubmitted: boolean = false;
-
+  private userdeletedsubj!: Subscription;
   EditMode = false;
   selectedEmployeeId: number | null = null;
 
   constructor(
     private employeeService: EmployeeService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private webSocketService: WebSocketService
   ) {
     this.signUpForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -40,9 +44,23 @@ export class EmployeesManagementComponent {
     });
   }
 
+
   ngOnInit(): void {
+    this.webSocketService.waitForConnection().then(() => {
+      this.userdeletedsubj = this.webSocketService.onuserdeleted().subscribe(() => {
+        console.log('Received user deleted notification in component');
+      });
+    });
     this.getEmployees();
   }
+
+  ngOnDestroy(): void {
+    if (this.userdeletedsubj) {
+      this.userdeletedsubj.unsubscribe();
+    }
+  }
+
+
   openModal(): void {
     const modalElement = this.Modal.nativeElement;
     const bootstrapModal = new bootstrap.Modal(modalElement);
@@ -93,7 +111,7 @@ export class EmployeesManagementComponent {
           text: 'Employee has been deleted.',
           icon: 'success',
         });
-        this.ngOnInit();
+
       },
       error: (err) => {
         Swal.fire({

@@ -29,13 +29,11 @@ export class LoginService {
               localStorage.setItem('status', 'logedin');
               localStorage.setItem('usertype', 'patient');
               this.isAuthenticatedSubject.next(true);
-              console.log('token', response.token);
               return response.token;
             }
             throw new Error('No user data received');
           }),
           catchError((error) => {
-            console.error('Login error:', error);
             return throwError(
               () => new Error(`Login failed: ${error.message}`)
             );
@@ -51,13 +49,11 @@ export class LoginService {
               localStorage.setItem('status', 'logedin');
               localStorage.setItem('usertype', 'employee');
               this.isAuthenticatedSubject.next(true);
-              console.log('token', response.token);
               return response.token;
             }
             throw new Error('No user data received');
           }),
           catchError((error) => {
-            console.error('Login error:', error);
             return throwError(
               () => new Error(`Login failed: ${error.message}`)
             );
@@ -104,13 +100,10 @@ export class LoginService {
       map((response) => {
         localStorage.removeItem('token');
         this.isAuthenticatedSubject.next(false);
-        console.log(
-          'Logout: user logged out, token removed, isAuthenticatedSubject set to false'
-        );
+
         return response;
       }),
       catchError((error) => {
-        console.error('Logout error:', error);
         return throwError(() => new Error(`Logout failed: ${error.message}`));
       })
     );
@@ -121,10 +114,7 @@ export class LoginService {
   }
 
   isAuthenticated(): Observable<boolean> {
-    console.log(
-      'LoginService: isAuthenticatedSubject value =',
-      this.isAuthenticatedSubject.value
-    ); // Log current value
+ // Log current value
     return this.isAuthenticatedSubject.asObservable();
   }
   logoutemp(): Observable<string> {
