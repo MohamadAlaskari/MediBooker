@@ -177,15 +177,16 @@
 
 
 
-  <h6>select date</h6>
-  <input type="date">
 
-  <!--Calender-->
-  @if(selectedDate){
 
   <div class="col-md-12" *ngIf="usertype === 'admin'">
     <div class="filter-sort-controls mb-3">
+
       <div class="form-inline">
+        <label class="mr-2" for="statusFilter">select date:</label>
+        <input type="date" class="form-control"  [(ngModel)]="Dateselect"  (change)="onDateChange($event)">
+
+
         <label class="mr-2" for="statusFilter">Status:</label>
         <select id="statusFilter" class="form-control" [(ngModel)]="statusFilter"
           (ngModelChange)="applyFilterAndSort()">
@@ -226,7 +227,7 @@
             </td>
             <td>
               <div class="dropdown">
-                <button class="btn btn-link dropdown-toggle custom-dropdown-button" type="button"
+                <button class=" btn-link dropdown-toggle custom-dropdown-button" type="button"
                   id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                   <i class="fas fa-ellipsis-v"></i>
                 </button>
@@ -261,5 +262,5 @@
 
 
 
-  }
+
 </div>

@@ -2,6 +2,25 @@ button {
   padding: 10px;
   margin: 5px;
 }
+.custom-dropdown-button {
+  color: black; /* Set the icon color to black */
+  background: none; /* Remove background */
+  border: none; /* Remove border */
+  padding: 0; /* Remove padding */
+}
+
+.custom-dropdown-button::after {
+  display: none; /* Remove the default down arrow */
+}
+
+.custom-dropdown-button:focus {
+  box-shadow: none; /* Remove focus outline */
+}
+
+.custom-dropdown-button i {
+  font-size: 19px; /* Adjust the icon size if needed */
+}
+
 
 
 .selected {
@@ -231,3 +250,22 @@ cursor: pointer;}
 .error-message{
   color: red;
 }
+.table {
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.thead-dark th {
+  background-color: #343a40;
+  color: white;
+}
+

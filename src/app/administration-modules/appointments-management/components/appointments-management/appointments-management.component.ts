@@ -28,7 +28,7 @@ export class AppointmentsManagementComponent {
   disabledDates: Date[] = [];
   appointmentsData: any[] = [{ date: '', start: '', end: '', min: 10 }];
   dateRange: Date[];
-
+  Dateselect: string| null = null;
   //tabele sachen
   selectedDate: string;
   usertype: string | null = null;
@@ -63,6 +63,7 @@ export class AppointmentsManagementComponent {
     this.selectedDate = this.getCurrentDate();
   }
   ngOnInit() {
+
     const startHour = 7;
     const endHour = 21;
     for (let hour = startHour; hour <= endHour; hour++) {
@@ -70,7 +71,9 @@ export class AppointmentsManagementComponent {
       this.availableTimes.push(`${this.padTime(hour)}:30`);
     }
     this.getAppointments();
-
+    const today = new Date();
+    this.Dateselect = today.toISOString().split('T')[0];
+    this.loadAppointmentbydate(today);
     //table sachen
     this.usertype = localStorage.getItem('usertype');
     if (this.usertype == 'patient') {
@@ -300,6 +303,38 @@ export class AppointmentsManagementComponent {
       startIndex,
       endIndex
     );
+  }
+  onDateChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const selectedDate = new Date(inputElement.value);
+    this.handleDateSelected(selectedDate);
+  }
+  handleDateSelected(selectedDate: Date) {
+    if (!(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
+      console.error('Invalid date selected:', selectedDate);
+      return;
+    }
+
+    this.selectedDate = this.formatDate(selectedDate);
+    console.log(this.selectedDate)
+    // Assuming this method formats the date for display purposes
+    this.loadAppointmentbydate(selectedDate); // Pass the valid Date object
+  }
+  private loadAppointmentbydate(date: Date) {
+    console.log("final", date);
+    this.appointmentsService.getAppointmentByDate(date).subscribe({
+      next: (availableappointments: Appointment[]) => {
+        this.availableappointments = availableappointments;
+        console.log('Loading Appointments successfully', this.availableappointments);
+        this.applyFilterAndSort(); // Call applyFilterAndSort here
+      },
+      error: (error) => {
+        this.availableappointments = [];
+        this.paginatedAppointments= [];
+        this.filteredAppointments= [];
+        console.error('An error occurred while loading Appointments', error);
+      },
+    });
   }
   openModal(appointment: Appointment): void {
     if (appointment.status === true) {
