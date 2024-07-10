@@ -8,6 +8,7 @@ import { AppointmentService } from '../../core/services/appointment-service/appo
 import { ServiceService } from '../../core/services/service-service/service.service';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [AppointmentsManagementComponent],
@@ -15,6 +16,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot(),
     PaginationModule.forRoot(),
     BsDatepickerModule.forRoot(),
     AppointmentsManagementRoutingModule,

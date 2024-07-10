@@ -13,6 +13,7 @@ export class WebSocketService {
   private patientsubject = new Subject<void>();
   private servicesubject = new Subject<void>();
   private appointmentsubject = new Subject<void>();
+  private newreservationsubj = new Subject<string>();
 
   constructor() {
 
@@ -58,6 +59,11 @@ export class WebSocketService {
     if (message === 'appointmentsarrayupdate') {
       this.appointmentsubject.next();
     }
+    if (message.startsWith('newreservation:')) {
+      console.log("New reservation notification received from server:", message);
+      const reservationDetails = message.substring('newreservation:'.length).trim();
+      this.newreservationsubj.next(reservationDetails);
+    }
   }
 
 
@@ -75,6 +81,10 @@ export class WebSocketService {
 
   public onappointmentupdate(): Observable<void> {
     return this.appointmentsubject.asObservable();
+  }
+
+  public onNewReservation(): Observable<string> {
+    return this.newreservationsubj.asObservable();
   }
 
   public sendMessage(message: string): void {

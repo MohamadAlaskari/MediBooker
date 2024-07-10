@@ -16,13 +16,14 @@ import { PatientsManagementModule } from './administration-modules/patients-mana
 import { ServicesManagementModule } from './administration-modules/services-management/services-management.module';
 import { EmployeesManagementModule } from './administration-modules/employees-management/employees-management.module';
 import { AppointmentsManagementModule } from './administration-modules/appointments-management/appointments-management.module';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     SweetAlert2Module.forRoot(),
     CoreModule,
-
+    ToastrModule.forRoot(),
     AppointmentsModule,
     ModulesModule,
     SharedModule,

@@ -9,6 +9,7 @@ import { Service } from '../../../../core/models/Service.model';
 import { WebSocketService } from '../../../../core/services/WebSocket/web-socketservice.service';
 
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 declare var bootstrap: any;
 
 @Component({
@@ -19,6 +20,8 @@ declare var bootstrap: any;
 export class AppointmentsManagementComponent {
 
   private appointmentarrayupdate: Subscription | null = null;
+
+  private newreservation: Subscription | null = null;
 
   bsValue = new Date();
   bsConfig: Partial<BsDatepickerConfig>;
@@ -58,6 +61,7 @@ export class AppointmentsManagementComponent {
   constructor(
     private appointmentsService: AppointmentService,
     private ourservices: ServiceService,
+    private toastr: ToastrService,
     private webSocketService: WebSocketService
   ) {
     this.dateRange = [new Date(), new Date()];
@@ -96,6 +100,11 @@ export class AppointmentsManagementComponent {
         this.handleDateSelected(this.savedate);
       }
 
+    });
+
+    this.newreservation = this.webSocketService.onNewReservation()
+    .subscribe((message: string) => {
+      this.handleNewReservation(message);
 
     });
 
@@ -111,9 +120,31 @@ export class AppointmentsManagementComponent {
     }
   }
 
+
+  handleNewReservation(data: string): void {
+    let audio: HTMLAudioElement = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/descent/gotitem.mp3');
+    audio.play();
+    this.toastr.success(data, 'New Reservation', {
+      timeOut: 10000, // Example: toast stays visible for 10 seconds
+      progressBar: true,
+      closeButton: true,
+      tapToDismiss: true,
+      enableHtml: true,
+      positionClass: 'toast-top-right', // Example: toast appears at the center
+      onActivateTick: true, // activate ticking
+      toastClass: 'ngx-toastr', // custom class for the toast
+      titleClass: 'ngx-toastr-title', // custom class for the title
+      messageClass: 'ngx-toastr-message', // custom class for the message
+      extendedTimeOut: 5000, // Example: additional 5 seconds after mouse hover
+      easeTime: 300, // Example: 0.3 seconds
+   });
+  }
   ngOnDestroy(): void {
     if (this.appointmentarrayupdate) {
       this.appointmentarrayupdate.unsubscribe();
+    }
+    if (this.newreservation) {
+      this.newreservation.unsubscribe();
     }
   }
 
@@ -482,11 +513,8 @@ export class AppointmentsManagementComponent {
   deleteappointment(id: string): void {
     this.appointmentsService.deleteappointment(id).subscribe({
       next: () => {
-        Swal.fire({
-          title: 'Deleted!',
-          text: 'Appointment has been deleted.',
-          icon: 'success',
-        });
+        this.toastr.success('Hello world!', 'Toastr fun!');
+
       },
       error: (err) => {
         Swal.fire({
