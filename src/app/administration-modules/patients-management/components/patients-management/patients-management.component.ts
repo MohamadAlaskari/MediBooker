@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { PatientService } from '../../../../core/services/patient-service/patient.service';
 import Swal from 'sweetalert2';
 import { AppointmentService } from '../../../../core/services/appointment-service/appointment.service';
-
+import { WebSocketService } from '../../../../core/services/WebSocket/web-socketservice.service';
 declare var bootstrap: any;
 
 @Component({
@@ -20,15 +20,31 @@ export class PatientsManagementComponent {
   subscription = new Subscription();
   @ViewChild('Modal') Modal!: ElementRef;
   patientdetails: Patient | null = null;
+
+  private patientarrayupdate: Subscription | null = null;
+
+
   constructor(
     private patientService: PatientService,
     private appointmentsService: AppointmentService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private webSocketService: WebSocketService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getPatients();
+
+    this.patientarrayupdate = this.webSocketService.onpatientupdate().subscribe(() => {
+      this.getPatients();
+    });
   }
+
+  ngOnDestroy(): void {
+    if (this.patientarrayupdate) {
+      this.patientarrayupdate.unsubscribe();
+    }
+  }
+
 
   getPatients() {
     this.patientService.getPatients().subscribe({

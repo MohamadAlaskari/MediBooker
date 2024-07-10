@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { Reservation } from '../../../../core/models/Reservation.model';
 import { ServiceService } from '../../../../core/services/service-service/service.service';
 import { Service } from '../../../../core/models/Service.model';
+import { WebSocketService } from '../../../../core/services/WebSocket/web-socketservice.service';
+
 import Swal from 'sweetalert2';
 declare var bootstrap: any;
 
@@ -15,6 +17,9 @@ declare var bootstrap: any;
   styleUrl: './appointments-management.component.scss',
 })
 export class AppointmentsManagementComponent {
+
+  private appointmentarrayupdate: Subscription | null = null;
+
   bsValue = new Date();
   bsConfig: Partial<BsDatepickerConfig>;
   minDate = new Date();
@@ -28,9 +33,8 @@ export class AppointmentsManagementComponent {
   disabledDates: Date[] = [];
   appointmentsData: any[] = [{ date: '', start: '', end: '', min: 10 }];
   dateRange: Date[];
-  Dateselect: string| null = null;
+  Dateselect: string | null = null;
   //tabele sachen
-  selectedDate: string;
   usertype: string | null = null;
   subscription = new Subscription();
   reservations: Reservation[] = [];
@@ -42,6 +46,10 @@ export class AppointmentsManagementComponent {
   filteredAppointments: Appointment[] = [];
   paginatedAppointments: Appointment[] = [];
   availableappointments: Appointment[] = [];
+
+  savedate: Date | null = null;
+
+
   @ViewChild('Modal') Modal!: ElementRef;
   reservationdetails: Reservation | null = null;
   private intervalId: any;
@@ -49,7 +57,8 @@ export class AppointmentsManagementComponent {
 
   constructor(
     private appointmentsService: AppointmentService,
-    private ourservices: ServiceService
+    private ourservices: ServiceService,
+    private webSocketService: WebSocketService
   ) {
     this.dateRange = [new Date(), new Date()];
     this.bsConfig = {
@@ -60,9 +69,14 @@ export class AppointmentsManagementComponent {
 
     this.minDate.setDate(this.minDate.getDate());
 
-    this.selectedDate = this.getCurrentDate();
+
   }
-  ngOnInit() {
+
+
+
+
+
+  ngOnInit(): void {
 
     const startHour = 7;
     const endHour = 21;
@@ -70,10 +84,22 @@ export class AppointmentsManagementComponent {
       this.availableTimes.push(`${this.padTime(hour)}:00`);
       this.availableTimes.push(`${this.padTime(hour)}:30`);
     }
+
     this.getAppointments();
     const today = new Date();
     this.Dateselect = today.toISOString().split('T')[0];
-    this.loadAppointmentbydate(today);
+    this.savedate = today;
+    this.handleDateSelected(this.savedate);
+
+    this.appointmentarrayupdate = this.webSocketService.onappointmentupdate().subscribe(() => {
+      if (this.savedate) {
+        this.handleDateSelected(this.savedate);
+      }
+
+
+    });
+
+
     //table sachen
     this.usertype = localStorage.getItem('usertype');
     if (this.usertype == 'patient') {
@@ -84,6 +110,15 @@ export class AppointmentsManagementComponent {
       this.applyFilterAndSort();
     }
   }
+
+  ngOnDestroy(): void {
+    if (this.appointmentarrayupdate) {
+      this.appointmentarrayupdate.unsubscribe();
+    }
+  }
+
+
+
   padTime(value: number): string {
     return value < 10 ? '0' + value : value.toString();
   }
@@ -309,16 +344,13 @@ export class AppointmentsManagementComponent {
     const selectedDate = new Date(inputElement.value);
     this.handleDateSelected(selectedDate);
   }
-  handleDateSelected(selectedDate: Date) {
-    if (!(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
-      console.error('Invalid date selected:', selectedDate);
+  handleDateSelected(selcted: Date) {
+    if (!(selcted instanceof Date) || isNaN(selcted.getTime())) {
+      console.error('Invalid date selected:', selcted);
       return;
     }
-
-    this.selectedDate = this.formatDate(selectedDate);
-    console.log(this.selectedDate)
-    // Assuming this method formats the date for display purposes
-    this.loadAppointmentbydate(selectedDate); // Pass the valid Date object
+    this.savedate = selcted;
+    this.loadAppointmentbydate(this.savedate);
   }
   private loadAppointmentbydate(date: Date) {
     console.log("final", date);
@@ -330,8 +362,8 @@ export class AppointmentsManagementComponent {
       },
       error: (error) => {
         this.availableappointments = [];
-        this.paginatedAppointments= [];
-        this.filteredAppointments= [];
+        this.paginatedAppointments = [];
+        this.filteredAppointments = [];
         console.error('An error occurred while loading Appointments', error);
       },
     });
@@ -455,7 +487,6 @@ export class AppointmentsManagementComponent {
           text: 'Appointment has been deleted.',
           icon: 'success',
         });
-        this.ngOnInit();
       },
       error: (err) => {
         Swal.fire({

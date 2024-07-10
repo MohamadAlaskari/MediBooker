@@ -6,6 +6,7 @@ import { Service } from '../../../../core/models/Service.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastNotificationsService } from '../../../../shared/services/toast-notifications/toast-notifications.service';
+import { WebSocketService } from '../../../../core/services/WebSocket/web-socketservice.service';
 
 @Component({
   selector: 'app-add-appointment',
@@ -13,6 +14,8 @@ import { ToastNotificationsService } from '../../../../shared/services/toast-not
   styleUrl: './add-appointment.component.scss',
 })
 export class AddAppointmentComponent {
+  private appointmentarrayupdate: Subscription | null = null;
+
   selectedDate: string;
   availableappointments: Appointment[] = [];
   selectedAppointments: boolean[] = [];
@@ -21,21 +24,37 @@ export class AddAppointmentComponent {
   description: string | null = null;
   services: Service[] = [];
   subscription = new Subscription();
+  savedate: Date | null = null;
 
   constructor(
     private appointmentsService: AppointmentsService,
     private ourservices: OurservicesService,
     private router: Router,
-    private toastService: ToastNotificationsService
+    private toastService: ToastNotificationsService,
+    private webSocketService: WebSocketService
   ) {
     this.selectedDate = this.getCurrentDate();
     this.selectedAppointments = this.availableappointments.map((_) => false);
   }
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.loadAppointmentbydate(new Date()); // Load appointments for today on init
+
+
+    const today = new Date();
+    this.savedate = today;
+
+    this.loadAppointmentbydate(this.savedate);
+
     this.loadservices();
+    this.appointmentarrayupdate = this.webSocketService.onappointmentupdate().subscribe(() => {
+      if (this.savedate) {
+        this.handleDateSelected(this.savedate);
+      }
+
+
+    });
+
+
+
   }
   getServiceType(serviceId: any): string {
     const service = this.services.find((s) => s.id === serviceId);
@@ -43,12 +62,15 @@ export class AddAppointmentComponent {
   }
   handleDateSelected(selectedDate: Date) {
     if (!(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
+      this.savedate = selectedDate;
       console.error('Invalid date selected:', selectedDate);
       return;
     }
-
+    this.savedate = selectedDate;
     this.selectedDate = this.formatDate(selectedDate);
     console.log(this.selectedDate);
+
+
     // Assuming this method formats the date for display purposes
     this.loadAppointmentbydate(selectedDate); // Pass the valid Date object
   }

@@ -13,5 +13,9 @@ export class AppComponent  {
 
   constructor(private webSocketService: WebSocketService) {}
 
+  ngOnInit(): void {
+  this.webSocketService.initiateSocket();
+
+  }
 
 }

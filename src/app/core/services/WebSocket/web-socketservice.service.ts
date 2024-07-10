@@ -7,13 +7,18 @@ import { Observable, Subject } from 'rxjs';
 export class WebSocketService {
   private socket!: WebSocket;
   private readonly url: string = 'ws://localhost:3000';
-  private userDeletedSubject = new Subject<void>();
+
+
+  private employeesubject = new Subject<void>();
+  private patientsubject = new Subject<void>();
+  private servicesubject = new Subject<void>();
+  private appointmentsubject = new Subject<void>();
 
   constructor() {
-    this.initiateSocket();
+
   }
 
-  private initiateSocket(): void {
+  public initiateSocket(): void {
     if (typeof WebSocket !== 'undefined') {
       this.socket = new WebSocket(this.url);
 
@@ -30,43 +35,49 @@ export class WebSocketService {
       };
 
       this.socket.onmessage = (event) => {
-        let message;
-        try {
-          message = JSON.parse(event.data);
-        } catch (e) {
-          console.error('Error parsing message:', e);
-          return;
-        }
-        console.log('Received message:', message);
-        if (message.event === 'userdeleted') {
-          console.log('User deleted event received!');
-          this.userDeletedSubject.next(); // Notify the subject
-        }
+        this.handleWebSocketMessage(event);
       };
     } else {
       console.error('WebSocket is not supported by your browser or server environment');
     }
   }
+  private handleWebSocketMessage(event: MessageEvent): void {
+    const message = event.data;
 
-  public waitForConnection(): Promise<void> {
-    return new Promise((resolve) => {
-      if (this.socket.readyState === WebSocket.OPEN) {
-        console.log('Already connected to server');
-        resolve();
-      } else {
-        this.socket.onopen = () => {
-          console.log('Connected to server');
-          resolve();
-        };
-      }
-    });
+    console.log('Received message:', message);
+
+    if (message === 'employeearrayupdate') {
+      this.employeesubject.next();
+    }
+    if (message === 'patientarrayupdate') {
+      this.patientsubject.next();
+    }
+    if (message === 'servicesarrayupdate') {
+      this.servicesubject.next();
+    }
+    if (message === 'appointmentsarrayupdate') {
+      this.appointmentsubject.next();
+    }
   }
 
-  onuserdeleted(): Observable<void> {
-    return this.userDeletedSubject.asObservable();
+
+  public onemployeeupdate(): Observable<void> {
+    return this.employeesubject.asObservable();
   }
 
-  sendMessage(message: string): void {
+  public onpatientupdate(): Observable<void> {
+    return this.patientsubject.asObservable();
+  }
+
+  public onserviceupdate(): Observable<void> {
+    return this.servicesubject.asObservable();
+  }
+
+  public onappointmentupdate(): Observable<void> {
+    return this.appointmentsubject.asObservable();
+  }
+
+  public sendMessage(message: string): void {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(message);
     }

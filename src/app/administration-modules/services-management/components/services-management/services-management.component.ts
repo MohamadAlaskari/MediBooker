@@ -3,6 +3,8 @@ import { Service } from '../../../../core/models/Service.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServiceService } from '../../../../core/services/service-service/service.service';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
+import { WebSocketService } from '../../../../core/services/WebSocket/web-socketservice.service';
 declare var bootstrap: any;
 @Component({
   selector: 'app-services-management',
@@ -26,19 +28,34 @@ export class ServicesManagementComponent {
   EditMode = false;
   selectedserviceId: number | null = null;
 
+  private servicearrayupdate: Subscription | null = null;
+
+
   constructor(
     private Servicemanagment: ServiceService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private webSocketService: WebSocketService
   ) {
     this.form = this.fb.group({
       type: ['', Validators.required],
       description: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.getServices();
+
+    this.servicearrayupdate = this.webSocketService.onserviceupdate().subscribe(() => {
+      this.getServices();
+    });
   }
+
+  ngOnDestroy(): void {
+    if (this.servicearrayupdate) {
+      this.servicearrayupdate.unsubscribe();
+    }
+  }
+
+
   openModal(): void {
     const modalElement = this.Modal.nativeElement;
     const bootstrapModal = new bootstrap.Modal(modalElement);

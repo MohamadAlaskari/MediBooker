@@ -20,9 +20,11 @@ export class EmployeesManagementComponent {
   signUpForm: FormGroup;
   currentStep: number = 1;
   loginFormSubmitted: boolean = false;
-  private userdeletedsubj!: Subscription;
   EditMode = false;
   selectedEmployeeId: number | null = null;
+
+
+  private employeearrayupdate: Subscription | null = null;
 
   constructor(
     private employeeService: EmployeeService,
@@ -44,34 +46,18 @@ export class EmployeesManagementComponent {
     });
   }
 
-
   ngOnInit(): void {
-    this.webSocketService.waitForConnection().then(() => {
-      this.userdeletedsubj = this.webSocketService.onuserdeleted().subscribe(() => {
-        console.log('Received user deleted notification in component');
-      });
-    });
     this.getEmployees();
+
+    this.employeearrayupdate = this.webSocketService.onemployeeupdate().subscribe(() => {
+      this.getEmployees();
+    });
   }
 
   ngOnDestroy(): void {
-    if (this.userdeletedsubj) {
-      this.userdeletedsubj.unsubscribe();
+    if (this.employeearrayupdate) {
+      this.employeearrayupdate.unsubscribe();
     }
-  }
-
-
-  openModal(): void {
-    const modalElement = this.Modal.nativeElement;
-    const bootstrapModal = new bootstrap.Modal(modalElement);
-    bootstrapModal.show();
-  }
-  hideModal(): void {
-    const modalElement = this.Modal.nativeElement;
-
-    const bootstrapModal = new bootstrap.Modal(modalElement);
-
-    bootstrapModal.hide();
   }
 
   getEmployees(): void {
@@ -86,6 +72,21 @@ export class EmployeesManagementComponent {
       },
     });
   }
+
+  openModal(): void {
+    const modalElement = this.Modal.nativeElement;
+    const bootstrapModal = new bootstrap.Modal(modalElement);
+    bootstrapModal.show();
+  }
+  hideModal(): void {
+    const modalElement = this.Modal.nativeElement;
+
+    const bootstrapModal = new bootstrap.Modal(modalElement);
+
+    bootstrapModal.hide();
+  }
+
+
 
   removeEmployee(index: any): void {
     Swal.fire({
