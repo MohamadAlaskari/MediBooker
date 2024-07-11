@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 })
 export class WebSocketService {
   private socket!: WebSocket;
-  private readonly url: string = 'ws://localhost:3000';
+  private readonly url: string = 'ws://localhost:3001';
 
 
   private employeesubject = new Subject<void>();
